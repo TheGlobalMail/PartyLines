@@ -1,0 +1,104 @@
+.navbar {
+    .box-shadow(0 1px 0 rgba(255,255,255,0.1));
+    border-bottom: 1px solid black;
+}
+
+.navbar-fixed-top .container {
+    width: 95%;
+    height: 48px;
+}
+
+.tgm-strip {
+    background-color: #1b1b1b;
+
+    .tgm {
+        .hide-text();
+        height: 24px;
+        display: inline-block;
+        background: transparent url(/images/tgm-strip-logo.png) 0 0 no-repeat;
+        background-size: auto 19px;
+        width: 390px;
+        margin: 14px auto 0;
+    }
+
+    .icons {
+        margin: 10px 0;
+        float: right;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        .border-radius(5px);
+    }
+
+
+    .icons .about, .icons .share {
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        text-transform: uppercase;
+        font-weight: normal;
+        font-size: 11px;
+        padding: 6px 10px;
+        float: left;
+        color: white;
+        margin: 0;
+        line-height: 1.0;
+
+        &:hover, &:focus, &:active {
+            .opacity(60);
+            text-decoration: none;
+        }
+    }
+
+    .icons .about {
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        margin-right: 4px;
+    }
+
+    .icons .share {
+        padding-left: 22px;
+        background: transparent url(/images/icon-share.svg) 0 49% no-repeat;
+        background-size: 15px 15px;
+    }
+
+}
+
+// Large tablet
+@media only screen and (max-width: 1050px) {
+
+}
+
+
+// Smaller tablet
+@media only screen and (max-width: 950px) {
+
+}
+
+// Small tablet
+@media only screen and (max-width: 750px) {
+    .navbar {
+        .tgm-strip {
+            padding: 0 20px;
+
+            .tgm {
+                width: 195px;
+                height: 28px;
+            }
+        }
+
+
+    }
+}
+
+
+// Phones
+@media only screen and (max-width: 550px) {
+
+    .navbar {
+        .tgm-strip {
+            text-align: center;
+
+            .icons {
+                display: none;
+            }
+        }
+
+
+    }
+}

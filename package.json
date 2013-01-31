@@ -1,0 +1,9 @@
+{
+  "author": "The Global Mail",
+  "name": "MurrayDarlingPrimer",
+  "version": "0.0.1",
+  "dependencies": {
+    "grunt-recess": "~0.2.0"
+  },
+  "devDependencies": {}
+}
