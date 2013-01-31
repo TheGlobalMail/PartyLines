@@ -95,6 +95,8 @@ function renderCharts(){
   renderLegend();
 
   renderSnippets();
+
+  renderSlider(svg, options);
 }
 
 function renderLegend(){
@@ -322,3 +324,31 @@ Chart.prototype.renderTitle = function(){
     .attr("transform", "translate(15,25)")
     .text(this.options.term);
 };
+
+function renderSlider(svg, options){
+  var fullHeight = app.data.length * (options.height) + (app.data.length - 1) * (options.margin.top + options.margin.bottom) - options.margin.bottom;
+  var data = _.map(app.weeks, function(){ return fullHeight; });
+  var xScale = d3.scale.ordinal()
+    .rangeBands([0, options.width])
+    .domain(app.weeks);
+  var yScale = d3.scale.linear()
+    .range([fullHeight, 0])
+    .domain([0, fullHeight]);
+  var sliderContainer = svg.append("g")
+    .attr('id','slider-container')
+    .attr("transform", "translate(" + options.margin.left + ",0)");
+  sliderContainer.selectAll("rect")
+    .data(data)
+    .enter().append("rect")
+    .attr("x", function(d, i){ return xScale(i); })
+    .attr("y", 0)
+    .attr('class','slider-blind')
+    .attr("width", xScale.rangeBand())
+    .attr('data-week-index', function(d, i){
+      return i;
+    })
+    .attr("height", fullHeight);
+  $('rect.slider-blind').mouseover(function(e){
+    var weekIndex = parseInt($(this).data('week-index'), 10);
+  });
+}
