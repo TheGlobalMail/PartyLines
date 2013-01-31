@@ -76,23 +76,13 @@ html {
   }
 }
 
-#legend{
-  width: 100%;
-  margin-top: 40px;
-  font-size: 11px;
-  line-height: 1;
-  float:left;
-  tr {
-    border-top: 4px solid white;
-  }
-}
-
 
 .form{
   padding: 0;
   input[type="text"] {
-    width: 95%;
+    width: 92%;
     margin: 6px 0 2px;
+    padding: 8px;
     color: #333;
     font-weight: bold;
   }
@@ -133,9 +123,9 @@ html {
 }
 
 #chart-container {
-  width: 900px;
+  width: auto;
   background: rgba(255,255,255,0.5);
-  padding: 40px 0;
+  padding: 40px 0 10px;
   float:left;
   .graph-title {
     font-size: 20px;
@@ -201,6 +191,20 @@ html {
 
   #week{
     width: 400px;
+  }
+}
+
+#legend{
+  width: auto;
+  margin: 40px auto 0;
+  font-size: 11px;
+  line-height: 1;
+  tr {
+    border-top: 4px solid white;
+    td {
+      border-spacing: 0;
+      border: none;
+    }
   }
 }
 

@@ -4,15 +4,15 @@ var url = "http://politalk-api.theglobalmail.org";
 
 // TODO: style svg paths with css
 var parties = [
-  {abbrev: 'Democrats', name: 'Australian Democrats', colour: '#fd8d3c'},
-  {abbrev: 'Greens', name: 'Australian Greens', colour: '#31a354'},
-  {abbrev: 'Labor', name: 'Australian Labor Party', colour: '#d62728'},
-  {abbrev: 'Country Liberal', name: 'Country Liberal Party', colour: '#9ecae1'},
-  {abbrev: 'Democratic Labor', name: 'Democratic Labor Party', colour: '#ff9896'},
+  {abbrev: 'DEM', name: 'Australian Democrats', colour: '#fd8d3c'},
+  {abbrev: 'GRN', name: 'Australian Greens', colour: '#31a354'},
+  {abbrev: 'ALP', name: 'Australian Labor Party', colour: '#d62728'},
+  {abbrev: 'Country Lib', name: 'Country Liberal Party', colour: '#9ecae1'},
+  {abbrev: 'Democratic Lab', name: 'Democratic Labor Party', colour: '#ff9896'},
   {abbrev: 'Family First', name: 'Family First Party', colour: '#fdd0a2'},
-  {abbrev: 'Independent', name: 'Independent', colour: '#d9d9d9'},
-  {abbrev: 'Liberal', name: 'Liberal Party', colour: '#3182bd'},
-  {abbrev: 'National', name: 'National Party', colour: '#bcbddc'}
+  {abbrev: 'IND', name: 'Independent', colour: '#d9d9d9'},
+  {abbrev: 'LIB', name: 'Liberal Party', colour: '#3182bd'},
+  {abbrev: 'NAT', name: 'National Party', colour: '#bcbddc'}
 ];
 
 var partyColours = d3.scale.ordinal()
@@ -98,12 +98,12 @@ function renderCharts(){
 }
 
 function renderLegend(){
-  var $legend = $('#legend tbody');
+  var $legend = $('#legend tbody tr');
   _.each(parties, function(party){
-    $legend.append('<tr>' +
+    $legend.append(
       '<td style="background-color:'+party.colour+';width:12px;height:4px;">&nbsp;</td>' +
-      '<td style="width:auto;padding-left:6px;">' + party.abbrev + '</td>' +
-      '</tr>'
+      '<td style="width:auto;padding:0 10px 0 6px;">' + party.abbrev + '</td>'
+
     );
   });
 }
@@ -319,6 +319,6 @@ Chart.prototype.renderArea = function(){
 Chart.prototype.renderTitle = function(){
   this.chartContainer.append("text")
     .attr("class","graph-title")
-    .attr("transform", "translate(15,15)")
+    .attr("transform", "translate(15,25)")
     .text(this.options.term);
 };
