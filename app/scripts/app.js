@@ -344,11 +344,24 @@ function renderSlider(svg, options){
     .attr("y", 0)
     .attr('class','slider-blind')
     .attr("width", xScale.rangeBand())
-    .attr('data-week-index', function(d, i){
-      return i;
+    .attr('data-week', function(d, i){
+      return app.weeks[i];
     })
     .attr("height", fullHeight);
+  var activeSliderBlind = null;
   $('rect.slider-blind').mouseover(function(e){
-    var weekIndex = parseInt($(this).data('week-index'), 10);
+    if (activeSliderBlind){
+      activeSliderBlind.attr('class', 'slider-blind');
+    }
+    activeSliderBlind = $(this);
+    activeSliderBlind.attr('class', 'slider-blind active');
+    var activeWeek = activeSliderBlind.data('week');
+    _.each(app.data, function(termData, i){
+      _.each(termData.data, function(datum){
+        if (datum.week === activeWeek && datum.freq > 0){
+          //console.error(app.terms[i] + " on " + datum.week + " - " + datum.party + ": " + datum.freq);
+        }
+      });
+    });
   });
 }
