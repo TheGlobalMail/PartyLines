@@ -76,7 +76,7 @@ function renderCharts(){
   app.charts = [];
 
   var svg = d3.select("#chart-container").append("svg")
-    .attr("width", width + margin.left + margin.right)
+    .attr("width", "100%")
     .attr("height", individualChartHeight * app.terms.length);
 
   // set up axis
@@ -102,7 +102,7 @@ function renderLegend(){
   _.each(parties, function(party){
     $legend.append('<tr>' +
       '<td>' + party.name + '</td>' +
-      '<td style="background-color:'+party.colour+';width:60px;height:1.2em;">&nbsp;</td>' +
+      '<td style="background-color:'+party.colour+';width:10px;height:8px;">&nbsp;</td>' +
       '</tr>'
     );
   });

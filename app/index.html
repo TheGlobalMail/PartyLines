@@ -22,49 +22,64 @@
   </head>
   <body>
 
-  <!--
-  <header>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="tgm-strip">
-        <div class="container">
-          <a href="http:///www.theglobalmail.org" class="tgm">The Global Mail - Back to homepage</a>
-          <div class="icons">
-            <a class="about" href="#" data-target="#about-tool-modal" data-toggle="modal">About</a>
-            <a class="share popover-link carousel-sticky-popover-link" href="javascript:void(0)"><span class="text">share</span></a>
-          </div>
+  <header class="navbar" role="banner">
+    <div class="tgm-strip">
+      <a href="http:///www.theglobalmail.org" class="tgm">The Global Mail - Back to homepage</a>
+
+      <div class="till-hoger">
+        <div class="icons" role="navigation">
+          <a class="about" href="#about-modal" data-target="#about-modal" data-toggle="modal" data-bypass>About</a>
         </div>
+
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Talking Heads" data-via="TheGlobalMail" data-hashtags="auspol" data-bypass>Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+        <div class="fb-like" data-send="false" data-layout="button_count" data-width="45" data-show-faces="false" data-colorscheme="light" data-action="like"></div>
       </div>
-    </nav>
+    </div>
   </header>
-  -->
 
   <div id="main" role="main">
+
     <div class="container">
-      <div class="form">
-        <form method="GET">
-          <input name="q1" type="text" size="60"/>
-          <input type="checkbox" name="c1" checked="true" value="1"/><em>Check if you want match the words exactly</em>
-          <br />
-          <input name="q2" type="text" size="60"/>
-          <input type="checkbox" name="c2" checked="true" value="1"/><em>Check if you want match the words exactly</em>
-          <br />
-          <input name="q3" type="text" size="60"/>
-          <input type="checkbox" name="c3" checked="true" value="1"/><em>Check if you want match the words exactly</em>
-          <br />
-          <input name="q4" type="text" size="60"/>
-          <input type="checkbox" name="c4" checked="true" value="1"/><em>Check if you want match the words exactly</em>
-          <br />
-          <input type="submit" value="go!" />
-        </form>
-      </form>
+      <div id="logo">
+        <h1 class="hide-text">Party Lines</h1>
+      </div>
+    </div>
 
-      <table id="legend">
-        <tbody></tbody>
-      </table>
+    <div class="container app">
+      <div class="row">
+        <div class="span2">
+          <div class="form">
+            <form method="GET">
+                <input name="q1" type="text" size="60"/>
+                <input type="checkbox" name="c1" checked="true" value="1"/><em>Exact match</em>
+                <br />
+                <input name="q2" type="text" size="60"/>
+                <input type="checkbox" name="c2" checked="true" value="1"/><em>Exact match</em>
+                <br />
+                <input name="q3" type="text" size="60"/>
+                <input type="checkbox" name="c3" checked="true" value="1"/><em>Exact match</em>
+                <br />
+                <input name="q4" type="text" size="60"/>
+                <input type="checkbox" name="c4" checked="true" value="1"/><em>Exact match</em>
+                <br />
+                <input type="submit" value="go!" />
+              </form>
+          </div>
 
-      <div id="chart-container"></div>
+          <table id="legend">
+            <tbody></tbody>
+          </table>
+        </div>
 
-      <div id="snippet-container">
+        <div class="span10">
+          <div id="chart-container"></div>
+        </div>
+      </div>
+    </div>
+    <div id="snippet-container">
+        <div class="row-fluid">
         <div class="form" id="snippet-form">
           <em>Choose a week. In the future the will be updated with the slider</em>
           <br />
@@ -73,7 +88,7 @@
         <div id="snippets">
         </div>
       </div>
-    </div>
+      </div>
   </div>
 
   <!-- build:js scripts/app.js -->
