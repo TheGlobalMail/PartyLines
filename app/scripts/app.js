@@ -4,15 +4,15 @@ var url = "http://politalk-api.theglobalmail.org";
 
 // TODO: style svg paths with css
 var parties = [
-  {name: 'Australian Democrats', colour: '#fd8d3c'},
-  {name: 'Australian Greens', colour: '#31a354'},
-  {name: 'Australian Labor Party', colour: '#d62728'},
-  {name: 'Country Liberal Party', colour: '#9ecae1'},
-  {name: 'Democratic Labor Party', colour: '#ff9896'},
-  {name: 'Family First Party', colour: '#fdd0a2'},
-  {name: 'Independent', colour: '#d9d9d9'},
-  {name: 'Liberal Party', colour: '#3182bd'},
-  {name: 'National Party', colour: '#bcbddc'}
+  {abbrev: 'Democrats', name: 'Australian Democrats', colour: '#fd8d3c'},
+  {abbrev: 'Greens', name: 'Australian Greens', colour: '#31a354'},
+  {abbrev: 'Labor', name: 'Australian Labor Party', colour: '#d62728'},
+  {abbrev: 'Country Liberal', name: 'Country Liberal Party', colour: '#9ecae1'},
+  {abbrev: 'Democratic Labor', name: 'Democratic Labor Party', colour: '#ff9896'},
+  {abbrev: 'Family First', name: 'Family First Party', colour: '#fdd0a2'},
+  {abbrev: 'Independent', name: 'Independent', colour: '#d9d9d9'},
+  {abbrev: 'Liberal', name: 'Liberal Party', colour: '#3182bd'},
+  {abbrev: 'National', name: 'National Party', colour: '#bcbddc'}
 ];
 
 var partyColours = d3.scale.ordinal()
@@ -76,7 +76,7 @@ function renderCharts(){
   app.charts = [];
 
   var svg = d3.select("#chart-container").append("svg")
-    .attr("width", "100%")
+    .attr("width", width + margin.left + margin.right)
     .attr("height", individualChartHeight * app.terms.length);
 
   // set up axis
@@ -101,8 +101,8 @@ function renderLegend(){
   var $legend = $('#legend tbody');
   _.each(parties, function(party){
     $legend.append('<tr>' +
-      '<td>' + party.name + '</td>' +
-      '<td style="background-color:'+party.colour+';width:10px;height:8px;">&nbsp;</td>' +
+      '<td>' + party.abbrev + '</td>' +
+      '<td style="background-color:'+party.colour+';width:60px;height:1.2em;">&nbsp;</td>' +
       '</tr>'
     );
   });
