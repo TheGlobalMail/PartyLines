@@ -1,6 +1,106 @@
 @import "../components/tgm-bootstrap/less/tgm-bootstrap.less";
 @import "navbar.less";
 
+
+/* Start basic prototype styles */
+.container{
+  font-size: 12px;
+  margin: 20px auto 0 auto;
+  width: 1200px;
+}
+
+#chart-container {
+	width: 900px;
+	background: rgba(255,255,255,0.5);
+	padding: 40px 30px;
+  float:left;
+}
+
+#legend{
+  margin-top: 40px;
+  width:200px;font-size: 12px; float:left;
+}
+
+#snippet-container{
+  clear:left;
+  display:none;
+}
+
+.highlight{
+  font-size: 2em;
+  font-weight: bold;
+}
+
+.form{
+  padding: 1em;
+}
+
+#chart-container h2 {
+	color: #444;
+	margin: 20px 0 10px;
+	font-weight: 300;
+	padding: 10px;
+	font-size: 24px;
+}
+
+svg {
+	font-family: 'Lato', Arial, serif;
+	font-size: 10px;
+	font-weight: 700;
+}
+
+text.country-title {
+	font-size: 20px;
+}
+
+text.instructions {
+	font-size: 16px;
+}
+
+g.context g.brush rect.background {
+	fill: rgba(0,0,0,.1);
+}
+
+g.context g.axis path {
+	stroke-opacity: 0;
+}
+
+g.context g.axis line {
+	stroke-opacity: .1;
+}
+
+g.france path.chart {
+	fill: rgba(127,201,127,0.5);
+}
+
+.axis path, .axis line {
+	fill: none;
+	stroke: #aaa;
+	shape-rendering: crispEdges;
+}
+
+.brush .extent {
+	stroke: #f09f8c;
+	fill-opacity: .125;
+	shape-rendering: crispEdges;
+}
+
+g.context rect.background{
+	fill: rgb(200,200,255);
+	visibility: visible !important;
+}
+
+.x text { display: none; }
+
+#week{
+  width: 400px;
+}
+
+/* end prototype styles */
+
+
+
+
 html {
     -webkit-font-smoothing: subpixel-antialiased;
 }
