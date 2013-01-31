@@ -153,8 +153,7 @@ function renderSnippets(){
     $('#snippets').html('<p>Loading...</p>');
     var endpoint = url + '/api/hansards';
     $.ajax(endpoint, {
-      data : JSON.stringify({ids: ids}),
-      contentType : 'application/json',
+      data : {ids: ids},
       type : 'POST',
       dataType: 'json',
       success: function(json){
