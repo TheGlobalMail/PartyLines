@@ -95,6 +95,8 @@ function renderCharts(){
   renderLegend();
 
   renderSnippets();
+
+  renderSlider(svg, options);
 }
 
 function renderLegend(){
@@ -321,3 +323,44 @@ Chart.prototype.renderTitle = function(){
     .attr("transform", "translate(15,25)")
     .text(this.options.term);
 };
+
+function renderSlider(svg, options){
+  var fullHeight = app.data.length * (options.height) + (app.data.length - 1) * (options.margin.top + options.margin.bottom) - options.margin.bottom;
+  var data = _.map(app.weeks, function(){ return fullHeight; });
+  var xScale = d3.scale.ordinal()
+    .rangeBands([0, options.width])
+    .domain(app.weeks);
+  var yScale = d3.scale.linear()
+    .range([fullHeight, 0])
+    .domain([0, fullHeight]);
+  var sliderContainer = svg.append("g")
+    .attr('id','slider-container')
+    .attr("transform", "translate(" + options.margin.left + ",0)");
+  sliderContainer.selectAll("rect")
+    .data(data)
+    .enter().append("rect")
+    .attr("x", function(d, i){ return xScale(i); })
+    .attr("y", 0)
+    .attr('class','slider-blind')
+    .attr("width", xScale.rangeBand())
+    .attr('data-week', function(d, i){
+      return app.weeks[i];
+    })
+    .attr("height", fullHeight);
+  var activeSliderBlind = null;
+  $('rect.slider-blind').mouseover(function(e){
+    if (activeSliderBlind){
+      activeSliderBlind.attr('class', 'slider-blind');
+    }
+    activeSliderBlind = $(this);
+    activeSliderBlind.attr('class', 'slider-blind active');
+    var activeWeek = activeSliderBlind.data('week');
+    _.each(app.data, function(termData, i){
+      _.each(termData.data, function(datum){
+        if (datum.week === activeWeek && datum.freq > 0){
+          //console.error(app.terms[i] + " on " + datum.week + " - " + datum.party + ": " + datum.freq);
+        }
+      });
+    });
+  });
+}
