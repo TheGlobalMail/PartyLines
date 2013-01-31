@@ -101,8 +101,8 @@ function renderLegend(){
   var $legend = $('#legend tbody');
   _.each(parties, function(party){
     $legend.append('<tr>' +
-      '<td>' + party.abbrev + '</td>' +
-      '<td style="background-color:'+party.colour+';width:60px;height:1.2em;">&nbsp;</td>' +
+      '<td style="background-color:'+party.colour+';width:12px;height:4px;">&nbsp;</td>' +
+      '<td style="width:auto;padding-left:6px;">' + party.abbrev + '</td>' +
       '</tr>'
     );
   });
