@@ -48,7 +48,7 @@ function loadData(){
     app.weeks = data;
     app.weeksIndex = _.object(data, _.range(data.length));
 
-    $('#chart-container').append('<strong id="charts-loading" style="margin-left:40px">loading...</strong>');
+    $('#chart-container').append('<strong id="charts-loading" style="margin:0 auto">Loading charts</strong>');
 
     async.map(_.zip(app.terms, app.complete), function(termInfo, done){
       $.getJSON(url + '/api/wordchoices/term/' + termInfo[0], {c: termInfo[1]}, function(data){
@@ -63,9 +63,9 @@ function loadData(){
 }
 
 function renderCharts(){
-  var margin = {top: 10, right: 10, bottom: 10, left: 60};
+  var margin = {top: 20, right: 10, bottom: 0, left: 30};
   var width = 900 - margin.left - margin.right;
-  var individualChartHeight = 150;
+  var individualChartHeight = 140;
   var height = individualChartHeight - margin.top - margin.bottom;
   var options = {
     margin: margin,
@@ -103,7 +103,6 @@ function renderLegend(){
     $legend.append(
       '<td style="background-color:'+party.colour+';width:12px;height:4px;">&nbsp;</td>' +
       '<td style="width:auto;padding:0 10px 0 6px;">' + party.abbrev + '</td>'
-
     );
   });
 }
@@ -253,7 +252,7 @@ function Chart(options){
   this.id = this.options.id;
   this.chartContainer = this.svg.append("g")
     .attr('class','chart-' + this.options.index)
-    .attr("transform", "translate(" + this.options.margin.left + "," + (this.options.height + 10) * this.options.index + ")");
+    .attr("transform", "translate(" + this.options.margin.left + "," + (this.options.height + 20) * this.options.index + ")");
   this.renderAxes();
   this.renderArea();
   this.renderTitle();
