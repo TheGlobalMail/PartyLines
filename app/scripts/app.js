@@ -84,9 +84,9 @@ function renderCharts(){
   _.each(app.terms, function(term, i){
     options.index = i;
     if (app.data[i].message){
-      $('#chart-container').append('<strong style="margin-left:40px">' + app.data[i].message + ". Please try again and let us know if this message doesn't make sense.</strong><br />");
+      $('#chart-container').append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br />");
     }else if (!app.data[i].data.length){
-      $('#chart-container').append('<strong style="margin-left:40px">No mentions of ' + term + " found. Try again</strong><br />");
+      $('#chart-container').append('<p class="error">No mentions of <strong>' + term + "</strong> found. Try a different term or search openaustralia.org for inspiration.</p><br />");
     }else{
       renderChart(svg, options, term, app.data[i].data);
     }
