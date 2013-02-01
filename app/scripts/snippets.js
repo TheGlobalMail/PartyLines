@@ -3,7 +3,7 @@
   var Snippets = window.Snippets = {};
 
   Snippets.loadSnippets = function(){
-    var ids = app.hansardIds.join(',').slice(0,60);
+    var ids = app.hansardIds.slice(0,60).join(',');
     if (!ids) return;
     var endpoint = app.url + '/api/hansards';
     $.ajax(endpoint, {

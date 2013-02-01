@@ -7,8 +7,8 @@
   var app = window.app = {
 
     url: "http://politalk-api.theglobalmail.org",
-    // app.url = "http://localhost:8080";
-    // app.url = "http://10.211.55.2:8080";
+    //url: "http://localhost:8080",
+    //url: "http://10.211.55.2:8080",
 
     parties: [
       {abbrev: 'DEM', name: 'Australian Democrats', colour: '#f3bf07'},
