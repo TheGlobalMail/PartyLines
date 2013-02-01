@@ -302,7 +302,18 @@ function renderSlider(svg, options){
       return app.weeks[i];
     })
     .attr("height", fullHeight);
+
+  var locked = false;
+
+  $('rect.slider-blind').click(function(e){
+    locked = !locked;
+    if (!locked){
+      $(this).trigger('mouseover');
+    }
+  });
+
   $('rect.slider-blind').mouseover(function(e){
+    if (locked) return;
     var hansardIds = [];
     if (app.activeSliderBlind){
       app.activeSliderBlind.attr('class', 'slider-blind');
