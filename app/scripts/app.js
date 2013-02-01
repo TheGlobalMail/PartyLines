@@ -327,11 +327,11 @@ Chart.prototype.renderTitle = function(){
 
 Chart.prototype.renderLegend = function(){
   this.legendDate = this.chartContainer.append("text")
-    .attr("class","legend-date-" + this.id)
+    .attr("class","legend-date")
     .attr("transform", "translate(" + (this.options.width - 300) + ", 10)")
     .text('');
   this.legendCounts = this.chartContainer.append("text")
-    .attr("class","legend-counts-" + this.id)
+    .attr("class","legend-counts")
     .attr("transform", "translate(" + (this.options.width - 300) + ", 24)")
     .text('');
   this.legendCountsText = [];
