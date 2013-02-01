@@ -125,7 +125,7 @@ html {
 #chart-container {
   width: auto;
   background: rgba(255,255,255,0.5);
-  padding: 0;
+  padding: 40px 0 0 0;
   float:left;
   .graph-title {
     font-size: 20px;
@@ -178,12 +178,17 @@ html {
 
   g.axis text {
     fill: @grayLight;
+    font-size: 9px;
   }
 
   g.axis path, g.axis line {
     fill: none;
     stroke: #ccc;
     shape-rendering: crispEdges;
+  }
+
+  g.x.axis line {
+    stroke:none;
   }
 
   g.y.axis line {
@@ -219,6 +224,14 @@ html {
 
   #week{
     width: 400px;
+  }
+
+  .slider-blind{
+    z-index: 3;
+    .opacity(0);
+  }
+  .active{
+    .opacity(10) !important;
   }
 }
 
@@ -331,12 +344,6 @@ html {
     .opacity(0);
 }
 
-.slider-blind{
-  z-index: 3;
-  .opacity(0);
-}
-.active{
-  .opacity(20) !important;
-}
+
 
 @import "responsive.less";
