@@ -1,7 +1,7 @@
 var app = {};
 
-//var url = "http://politalk-api.theglobalmail.org";
-var url = "http://localhost:8080";
+var url = "http://politalk-api.theglobalmail.org";
+//var url = "http://localhost:8080";
 
 // TODO: style svg paths with css
 var parties = [
@@ -303,6 +303,7 @@ function renderSlider(svg, options){
     })
     .attr("height", fullHeight);
   $('rect.slider-blind').mouseover(function(e){
+    var hansardIds = [];
     if (app.activeSliderBlind){
       app.activeSliderBlind.attr('class', 'slider-blind');
     }
@@ -310,7 +311,6 @@ function renderSlider(svg, options){
     app.activeSliderBlind.attr('class', 'slider-blind active');
 
     app.activeWeek = app.activeSliderBlind.data('week');
-    app.hansardIds = [];
     _.each(app.data, function(termData, i){
       var countData = {
         week: formatWeek(app.activeWeek),
@@ -322,17 +322,19 @@ function renderSlider(svg, options){
           party = findParty(datum.party);
           if (party){
             countData.counts.push({party: party, count: datum.freq});
-            app.hansardIds.push(datum.ids);
+            hansardIds.push(datum.ids);
           }
         }
       });
       app.charts[i].updateLegend(countData);
     });
 
-    if (app.loadTimer) clearTimeout(app.loadTimer);
-    $('#snippets').html('<p>Loading...</p>');
-    app.loadTimer = setTimeout(loadSnippets, 1000);
-
+    if (hansardIds.length){
+      app.hansardIds = hansardIds;
+      $('#snippets').html('<p>Loading...</p>');
+      if (app.loadTimer) clearTimeout(app.loadTimer);
+      app.loadTimer = setTimeout(loadSnippets, 1000);
+    }
   });
 }
 
@@ -353,7 +355,12 @@ function loadSnippets(){
         var partyData = _.detect(parties, function(party){ return party.name === hansard.party; });
         speech = speech.replace(/<a.*?>(.*?)<\/a>/gim, '$1');
         _.each(app.terms, function(term){
-          speech = speech.replace(RegExp('^|[^a-zA-Z](' + term + ')[^a-zA-Z]|$', 'gmi'), '<span style="color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + '">$1</span>');
+          if (term){
+            speech = speech.replace(
+              RegExp('(^|[^a-zA-Z])(' + term + ')([^a-zA-Z]|$)', 'gmi'),
+              '<span style="color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + '">$2</span>'
+            );
+          }
         });
         var highlightedParas = _.select(speech.split('</p>'), function(p){ return p.match(/class="highlight/m); });
         _.each(highlightedParas, function(p){
