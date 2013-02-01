@@ -328,11 +328,11 @@ Chart.prototype.renderTitle = function(){
 Chart.prototype.renderLegend = function(){
   this.legendDate = this.chartContainer.append("text")
     .attr("class","legend-date")
-    .attr("transform", "translate(" + (this.options.width - 300) + ", 10)")
+    .attr("transform", "translate(" + (this.options.width - 300) + ", 14)")
     .text('');
   this.legendCounts = this.chartContainer.append("text")
     .attr("class","legend-counts")
-    .attr("transform", "translate(" + (this.options.width - 300) + ", 24)")
+    .attr("transform", "translate(" + (this.options.width - 300) + ", 25)")
     .text('');
   this.legendCountsText = [];
 };
