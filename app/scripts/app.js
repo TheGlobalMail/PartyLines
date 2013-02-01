@@ -1,7 +1,8 @@
 var app = {};
 
-var url = "http://politalk-api.theglobalmail.org";
+//var url = "http://politalk-api.theglobalmail.org";
 //var url = "http://localhost:8080";
+var url = "http://10.211.55.2:8080";
 
 // TODO: style svg paths with css
 var parties = [
@@ -350,12 +351,12 @@ function renderSlider(svg, options){
 }
 
 function loadSnippets(){
-  var ids = app.hansardIds.join(',');
+  var ids = app.hansardIds.join(',').slice(0,60);
   if (!ids) return;
   var endpoint = url + '/api/hansards';
   $.ajax(endpoint, {
     data : {ids: ids},
-    type : 'POST',
+    type : 'GET',
     dataType: 'json',
     success: function(json){
       var html = '';
