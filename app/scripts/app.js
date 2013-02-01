@@ -295,7 +295,7 @@ Chart.prototype.renderArea = function(){
   var xS = this.xScale;
   var yS = this.yScale;
   var area = this.area = d3.svg.area()
-    .interpolate("monotone")
+    .interpolate("step-after")
     .x(function(d) { return xS(d.x); })
     .y0(function(d){ return yS(d.y0); })
     .y1(function(d) { return yS(d.y0 + d.y); });
