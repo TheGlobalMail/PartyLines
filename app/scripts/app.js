@@ -92,7 +92,7 @@ function renderCharts(){
     }
   });
 
-  renderLegend();
+  //renderLegend();
 
   renderSnippets();
 
@@ -258,6 +258,7 @@ function Chart(options){
   this.renderAxes();
   this.renderArea();
   this.renderTitle();
+  this.renderLegend();
 }
 
 Chart.prototype.renderAxes = function(){
@@ -324,6 +325,29 @@ Chart.prototype.renderTitle = function(){
     .text(this.options.term);
 };
 
+Chart.prototype.renderLegend = function(){
+  this.legendDate = this.chartContainer.append("text")
+    .attr("class","legend-date-" + this.id)
+    .attr("transform", "translate(" + (this.options.width - 300) + ", 10)")
+    .text('');
+  this.legendCounts = this.chartContainer.append("text")
+    .attr("class","legend-counts-" + this.id)
+    .attr("transform", "translate(" + (this.options.width - 300) + ", 24)")
+    .text('');
+  this.legendCountsText = [];
+};
+
+Chart.prototype.updateLegend = function(data){
+  var chart = this;
+  this.legendDate.text(data.week);
+  _.each(this.legendCountsText, function(s){ s.remove(); });
+  _.each(data.counts, function(count, i){
+    chart.legendCountsText.push(chart.legendCounts.append("tspan").style("fill", count.party.colour).text("▇ "));
+    chart.legendCountsText.push(chart.legendCounts.append("tspan").text(count.party.abbrev));
+    chart.legendCountsText.push(chart.legendCounts.append("tspan").text(': ' + count.count + '  '));
+  });
+};
+
 function renderSlider(svg, options){
   var fullHeight = app.data.length * (options.height) + (app.data.length - 1) * (options.margin.top + options.margin.bottom) - options.margin.bottom;
   var data = _.map(app.weeks, function(){ return fullHeight; });
@@ -356,11 +380,25 @@ function renderSlider(svg, options){
     activeSliderBlind.attr('class', 'slider-blind active');
     var activeWeek = activeSliderBlind.data('week');
     _.each(app.data, function(termData, i){
+      var countData = {
+        week: formatWeek(activeWeek),
+        counts: []
+      };
       _.each(termData.data, function(datum){
         if (datum.week === activeWeek && datum.freq > 0){
-          //console.error(app.terms[i] + " on " + datum.week + " - " + datum.party + ": " + datum.freq);
+          countData.counts.push({party: findParty(datum.party), count: datum.freq});
         }
       });
+      app.charts[i].updateLegend(countData);
     });
   });
+}
+
+function formatWeek(activeWeek){
+  var parse = activeWeek.split('-');
+  return 'Week ' + parse[1] + ' ' + parse[0];
+}
+
+function findParty(party){
+  return _.detect(parties, function(p){ return p.name === party });
 }
