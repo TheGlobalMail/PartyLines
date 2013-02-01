@@ -1,6 +1,7 @@
 var app = {};
 
-var url = "http://politalk-api.theglobalmail.org";
+//var url = "http://politalk-api.theglobalmail.org";
+var url = "http://localhost:8080";
 
 // TODO: style svg paths with css
 var parties = [
@@ -21,6 +22,10 @@ var partyColours = d3.scale.ordinal()
 
 app.terms = [];
 app.data = [];
+
+app.activeSliderBlind = null;
+app.loadTimer = null;
+app.activeWeek = null;
 
 $(function(){
   loadData();
@@ -94,8 +99,6 @@ function renderCharts(){
 
   //renderLegend();
 
-  renderSnippets();
-
   renderSlider(svg, options);
 }
 
@@ -107,78 +110,6 @@ function renderLegend(){
       '<td style="width:auto;padding:0 10px 0 6px;">' + party.abbrev + '</td>'
     );
   });
-}
-
-function renderSnippets(){
-  var $week = $('#week');
-  $week.find('option').text('Choose a week');
-  var weekOptions = [];
-  _.each(app.weeks, function(week){
-    var weekOption = {ids: [], stats: {}};
-    var weekInfo = week.split('-');
-    _.each(app.data, function(termData){
-      _.each(termData.data, function(datum){
-        if (datum.week === week && datum.freq > 0){
-          weekOption.ids.push(datum.ids);
-          if (!weekOption.stats[datum.party]){
-            weekOption.stats[datum.party] = 0;
-          }
-          weekOption.stats[datum.party] += datum.freq;
-        }
-      });
-    });
-    var option = '';
-    if (weekOption.ids.length){
-      option += '<option value="' + weekOption.ids.join(',') + '">';
-      option += 'Week ' + weekInfo[1] + ' ' + weekInfo[0];
-      option += " - " + _.chain(parties)
-        .map(function(party){
-          if (weekOption.stats[party.name]){
-            return party.name + ": " + weekOption.stats[party.name] + " mention" + (weekOption.stats[party.name] !== 1 ? 's' : '');
-          }else{
-            return;
-          }
-        })
-        .compact()
-        .value()
-        .join(', ');
-      option += '</option>';
-      $week.append(option);
-    }
-  });
-  $('#week').change(function(e){
-    e.preventDefault();
-    // From the series, get all the ids that match
-    var ids = $('#week').val();
-    if (!ids) return;
-    $('#snippets').html('<p>Loading...</p>');
-    var endpoint = url + '/api/hansards';
-    $.ajax(endpoint, {
-      data : {ids: ids},
-      type : 'POST',
-      dataType: 'json',
-      success: function(json){
-        var html = '';
-        _.each(json, function(hansard){
-          html += '<div id="speech">';
-          html += '<h2>On ' + moment(hansard.date).format('DD/MM/YY HH:MM') + ' ' + hansard.speaker + ' said: </h2>';
-          var speech = hansard.html;
-          var partyData = _.detect(parties, function(party){ return party.name === hansard.party; });
-          speech = speech.replace(/<a.*?>(.*?)<\/a>/gim, '$1');
-          _.each(app.terms, function(term){
-            speech = speech.replace(RegExp('^|[^a-zA-Z](' + term + ')[^a-zA-Z]|$', 'gmi'), '<span style="color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + '">$1</span>');
-          });
-          var highlightedParas = _.select(speech.split('</p>'), function(p){ return p.match(/class="highlight/m); });
-          _.each(highlightedParas, function(p){
-            html += '<blockquote>' + p + '</p></blockquote>';
-          });
-          html += '</div>';
-        });
-        $('#snippets').html(html);
-      }
-    });
-  });
-  $('#snippet-container').show();
 }
 
 function getURLParameter(name){
@@ -371,26 +302,67 @@ function renderSlider(svg, options){
       return app.weeks[i];
     })
     .attr("height", fullHeight);
-  var activeSliderBlind = null;
   $('rect.slider-blind').mouseover(function(e){
-    if (activeSliderBlind){
-      activeSliderBlind.attr('class', 'slider-blind');
+    if (app.activeSliderBlind){
+      app.activeSliderBlind.attr('class', 'slider-blind');
     }
-    activeSliderBlind = $(this);
-    activeSliderBlind.attr('class', 'slider-blind active');
-    var activeWeek = activeSliderBlind.data('week');
+    app.activeSliderBlind = $(this);
+    app.activeSliderBlind.attr('class', 'slider-blind active');
+
+    app.activeWeek = app.activeSliderBlind.data('week');
+    app.hansardIds = [];
     _.each(app.data, function(termData, i){
       var countData = {
-        week: formatWeek(activeWeek),
+        week: formatWeek(app.activeWeek),
         counts: []
       };
       _.each(termData.data, function(datum){
-        if (datum.week === activeWeek && datum.freq > 0){
-          countData.counts.push({party: findParty(datum.party), count: datum.freq});
+        var party;
+        if (datum.week === app.activeWeek && datum.freq > 0){
+          party = findParty(datum.party);
+          if (party){
+            countData.counts.push({party: party, count: datum.freq});
+            app.hansardIds.push(datum.ids);
+          }
         }
       });
       app.charts[i].updateLegend(countData);
     });
+
+    if (app.loadTimer) clearTimeout(app.loadTimer);
+    $('#snippets').html('<p>Loading...</p>');
+    app.loadTimer = setTimeout(loadSnippets, 1000);
+
+  });
+}
+
+function loadSnippets(){
+  var ids = app.hansardIds.join(',');
+  if (!ids) return;
+  var endpoint = url + '/api/hansards';
+  $.ajax(endpoint, {
+    data : {ids: ids},
+    type : 'POST',
+    dataType: 'json',
+    success: function(json){
+      var html = '';
+      _.each(json, function(hansard){
+        html += '<div id="speech">';
+        html += '<h2>On ' + moment(hansard.date).format('DD/MM/YY HH:MM') + ' ' + hansard.speaker + ' said: </h2>';
+        var speech = hansard.html;
+        var partyData = _.detect(parties, function(party){ return party.name === hansard.party; });
+        speech = speech.replace(/<a.*?>(.*?)<\/a>/gim, '$1');
+        _.each(app.terms, function(term){
+          speech = speech.replace(RegExp('^|[^a-zA-Z](' + term + ')[^a-zA-Z]|$', 'gmi'), '<span style="color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + '">$1</span>');
+        });
+        var highlightedParas = _.select(speech.split('</p>'), function(p){ return p.match(/class="highlight/m); });
+        _.each(highlightedParas, function(p){
+          html += '<blockquote>' + p + '</p></blockquote>';
+        });
+        html += '</div>';
+      });
+      $('#snippets').html(html);
+    }
   });
 }
 
