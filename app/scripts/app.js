@@ -4,15 +4,15 @@ var url = "http://politalk-api.theglobalmail.org";
 
 // TODO: style svg paths with css
 var parties = [
-  {abbrev: 'DEM', name: 'Australian Democrats', colour: '#fd8d3c'},
-  {abbrev: 'GRN', name: 'Australian Greens', colour: '#31a354'},
-  {abbrev: 'ALP', name: 'Australian Labor Party', colour: '#d62728'},
-  {abbrev: 'Country Lib', name: 'Country Liberal Party', colour: '#9ecae1'},
-  {abbrev: 'Democratic Lab', name: 'Democratic Labor Party', colour: '#ff9896'},
-  {abbrev: 'Family First', name: 'Family First Party', colour: '#fdd0a2'},
-  {abbrev: 'IND', name: 'Independent', colour: '#d9d9d9'},
-  {abbrev: 'LIB', name: 'Liberal Party', colour: '#3182bd'},
-  {abbrev: 'NAT', name: 'National Party', colour: '#bcbddc'}
+  {abbrev: 'DEM', name: 'Australian Democrats', colour: '#f3bf07'},
+  {abbrev: 'GRN', name: 'Australian Greens', colour: '#33b26a'},
+  {abbrev: 'ALP', name: 'Australian Labor Party', colour: '#e23c3f'},
+  {abbrev: 'Country Lib', name: 'Country Liberal Party', colour: '#87b8da'},
+  {abbrev: 'Democratic Lab', name: 'Democratic Labor Party', colour: '#f09d9f'},
+  {abbrev: 'Family First', name: 'Family First Party', colour: '#ff835e'},
+  {abbrev: 'IND', name: 'Independent', colour: '#b9b9b9'},
+  {abbrev: 'LIB', name: 'Liberal Party', colour: '#1072b6'},
+  {abbrev: 'NAT', name: 'National Party', colour: '#bd744d'}
 ];
 
 var partyColours = d3.scale.ordinal()
