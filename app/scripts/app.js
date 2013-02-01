@@ -333,7 +333,7 @@ function renderSlider(svg, options){
       app.hansardIds = hansardIds;
       $('#snippets').html('<p>Loading...</p>');
       if (app.loadTimer) clearTimeout(app.loadTimer);
-      app.loadTimer = setTimeout(loadSnippets, 1000);
+      app.loadTimer = setTimeout(loadSnippets, 2000);
     }
   });
 }
