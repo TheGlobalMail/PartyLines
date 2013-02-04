@@ -6,9 +6,9 @@
 
   var app = window.app = {
 
-    url: "http://politalk-api.theglobalmail.org",
+    url: "http://partylines-api.theglobalmail.org",
     //url: "http://localhost:8080",
-    //url: "http://10.211.55.2:8080",
+    //url: "http://10.8.1.81:8080",
 
     parties: [
       {abbrev: 'DEM', name: 'Australian Democrats', colour: '#f3bf07'},
@@ -47,15 +47,15 @@
       }
     });
 
-    // TODO bulk load this perhaps?
-    $.getJSON(app.url + '/api/weeks', function(data){
+    // TODO bulk load? Make the graph loading fulling async
+    $.getJSON(app.url + '/api/weeks?callback=?', function(data){
       app.weeks = data;
       app.weeksIndex = _.object(data, _.range(data.length));
 
       $('#chart-container').append('<strong id="charts-loading" style="margin:0 auto">Loading charts</strong>');
 
       async.map(_.zip(app.terms, app.complete), function(termInfo, done){
-        $.getJSON(app.url + '/api/wordchoices/term/' + termInfo[0], {c: termInfo[1]}, function(data){
+        $.getJSON(app.url + '/api/wordchoices/term/' + termInfo[0] + '?callback=?', {c: termInfo[1]}, function(data){
           done(null, data);
         });
       }, function(err, results){
