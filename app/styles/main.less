@@ -253,6 +253,7 @@ html {
 #snippet-container{
   clear:left;
   position: relative;
+  min-height: 100px;
   background: url(/images/snippets-bg.png) repeat transparent;
   margin-top: 50px;
   padding: 30px 0 40px;
@@ -324,6 +325,44 @@ html {
     }
 
   }
+}
+
+#footer {
+    #gradient.vertical-three-colors(#222,#333,4%,#343539);
+    color: #a4a4a5;
+    padding: 20px 0 0;
+    text-shadow: 0 -1px 1px #111;
+
+    a {
+        color: white;
+    }
+
+    .credit {
+        margin-top: 10px;
+        float: right;
+        font-size: 80%;
+        padding: 0 0 20px 20px;
+
+        p {
+          float: left;
+          width: 270px;
+          .font-size(12);
+        }
+
+        a {
+            display: block;
+            .font-size(22);
+            font-weight: 400;
+            line-height: .9;
+            padding-bottom: 4px;
+
+            &.tgm {
+                text-indent: -9000px;
+                background: transparent url(/images/footer-logo.png) 0 0 no-repeat;
+                margin-bottom: 20px;
+            }
+        }
+    }
 }
 
 /* end prototype styles */
