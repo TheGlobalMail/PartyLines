@@ -237,7 +237,9 @@
         }
       }
       app.activeSliderBlind = $(this);
-      app.activeSliderBlind.attr('class', 'slider-blind active');
+      if (!app.activeSliderBlind.attr('class').match(/selected/)){
+        app.activeSliderBlind.attr('class', 'slider-blind active');
+      }
 
       app.activeWeek = app.activeSliderBlind.data('week');
       _.each(app.data, function(termData, i){
