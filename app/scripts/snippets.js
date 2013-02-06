@@ -10,7 +10,7 @@
       var html = '';
       _.each(json, function(hansard){
         html += '<div id="speech">';
-        html += '<h2>' + '<span>' + hansard.speaker + '</span>' + moment(hansard.date).format(' HH:MM DD/MM/YY') + '</h2>';
+        html += '<h2>' + '<span class="speaker">' + hansard.speaker + '</span>' + '<span class="party">' + hansard.party + '</span>' + moment(hansard.date).format(' HH:MM DD/MM/YY') + '</h2>';
 
         // Highlight the keywords by wrapping in span with highlight class
         var speech = hansard.html;
@@ -24,7 +24,7 @@
           if (term){
             speech = speech.replace(
               RegExp('(^|[^a-zA-Z])(' + term + ')([^a-zA-Z]|$)', 'gmi'),
-              '<span style="color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + '">$2</span>'
+              '<span style="background-color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + ' ">$2</span>'
             );
           }
         });

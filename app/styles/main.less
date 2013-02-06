@@ -334,6 +334,7 @@ html {
 
   #snippets {
     h2 {
+      color: @grayLight;
       font-size: 12px;
       font-weight: normal;
       font-style: italic;
@@ -342,12 +343,21 @@ html {
       width: 160px;
       float: left;
       clear: both;
-      margin-top: 4px;
-      span {
+      margin-top: 2px;
+      span.speaker {
         display: block;
+        color: @grayDark;
         font-weight: bold;
         font-style: normal;
         font-size: 14px;
+      }
+      span.party {
+        display: block;
+        color: @grayDark;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 12px;
+        margin-bottom: 5px;
       }
     }
     #speech {
@@ -389,11 +399,16 @@ html {
         line-height: 1.5;
 
         .highlight{
-          display: inline;
+          display: inline-block;
+          color: white;
+          padding: 2px 8px;
           font-size: 14px;
           font-weight: bold;
           font-style: italic;
           margin: 0 4px;
+          .border-radius(2px);
+          .box-shadow(0 1px 1px rgba(0,0,0,0.2));
+          text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
         }
       }
 
