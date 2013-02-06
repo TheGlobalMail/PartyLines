@@ -10,6 +10,8 @@
     //url: "http://localhost:8080",
     url: "http://10.8.1.81:8080",
 
+    filterParty: getURLParameter('p'),
+
     parties: [
       {abbrev: 'DEM', name: 'Australian Democrats', colour: '#f3bf07'},
       {abbrev: 'GRN', name: 'Australian Greens', colour: '#33b26a'},
@@ -118,7 +120,12 @@
   function prepareSeries(data){
     var series = [];
     var party = {};
+    var filterParty = app.filterParty && app.parties[app.filterParty];
     _.each(data, function(datum){
+
+      // Allow users to filter out parties
+      if (datum.party !== filterParty.name) return;
+
       if (datum.party !== party.name){
         if (party.name) series.push(party);
         party = {name: datum.party, data: []};
