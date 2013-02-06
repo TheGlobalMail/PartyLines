@@ -6,9 +6,9 @@
 
   var app = window.app = {
 
-    url: "http://partylines-api.theglobalmail.org",
+    //url: "http://partylines-api.theglobalmail.org",
     //url: "http://localhost:8080",
-    //url: "http://10.8.1.81:8080",
+    url: "http://10.8.1.81:8080",
 
     parties: [
       {abbrev: 'DEM', name: 'Australian Democrats', colour: '#f3bf07'},
