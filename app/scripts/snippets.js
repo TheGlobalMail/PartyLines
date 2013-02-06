@@ -10,7 +10,7 @@
       var html = '';
       _.each(json, function(hansard){
         html += '<div id="speech">';
-        html += '<h2>On ' + moment(hansard.date).format('DD/MM/YY HH:MM') + ' ' + hansard.speaker + ' said: </h2>';
+        html += '<h2>' + '<span>' + hansard.speaker + '</span>' + moment(hansard.date).format(' HH:MM DD/MM/YY') + '</h2>';
 
         // Highlight the keywords by wrapping in span with highlight class
         var speech = hansard.html;
