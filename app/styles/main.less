@@ -303,6 +303,9 @@ html {
       margin: 0;
       padding: 0;
       border: none;
+      line-height: 1.4;
+      font-size: 14px;
+      font-weight: normal;
       -webkit-margin-before: 0;
       -webkit-margin-after: 0;
       -webkit-margin-start: 0;
@@ -311,11 +314,23 @@ html {
         display: none;
       }
 
-      p {
-        line-height: 1.4;
-        font-size: 14px;
-        font-weight: normal;
+      dd {
+        margin-left: 0;
         margin-bottom: 10px;
+        font-style: italic;
+      }
+
+      dt {
+        display: inline;
+        float: left;
+        margin-right: 4px;
+        min-width: 25px;
+      }
+
+      p {
+        margin-bottom: 10px;
+        font-weight: normal;
+        line-height: 1.5;
 
         .highlight{
           display: inline;
