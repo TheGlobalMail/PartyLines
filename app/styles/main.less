@@ -452,8 +452,18 @@ html {
       -webkit-margin-after: 0;
       -webkit-margin-start: 0;
       -webkit-margin-end: 0;
-      .highlight {
-        display: none;
+
+      .highlight{
+        display: inline-block;
+        color: white;
+        padding: 2px 8px;
+        font-size: 14px;
+        font-weight: bold;
+        font-style: italic;
+        margin: 0 4px;
+        .border-radius(2px);
+        .box-shadow(0 1px 1px rgba(0,0,0,0.2));
+        text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
       }
 
       dd {
@@ -473,19 +483,6 @@ html {
         margin-bottom: 10px;
         font-weight: normal;
         line-height: 1.5;
-
-        .highlight{
-          display: inline-block;
-          color: white;
-          padding: 2px 8px;
-          font-size: 14px;
-          font-weight: bold;
-          font-style: italic;
-          margin: 0 4px;
-          .border-radius(2px);
-          .box-shadow(0 1px 1px rgba(0,0,0,0.2));
-          text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
-        }
       }
 
 
