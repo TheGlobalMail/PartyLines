@@ -2,6 +2,7 @@
   'use strict';
 
   app.loadData = function(presetName) {
+    this.terms = this.presets[presetName];
     // TODO bulk load? Make the graph loading fulling async
     $.getJSON(app.url + '/api/weeks?callback=?')
       .done(function(data) {
@@ -9,7 +10,7 @@
         app.weeks = data;
         app.weeksIndex = _.object(data, _.range(data.length));
 
-        var promises = _.map(app.terms[presetName], function(term) {
+        var promises = _.map(app.terms, function(term) {
           return $.getJSON(app.url + '/api/wordchoices/term/' + term + '?callback=?', { c: true });
         });
 
@@ -41,13 +42,12 @@
 
     var svg = d3.select(app.$ui.chart[0]).append("svg")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", individualChartHeight * app.terms[presetName].length);
+      .attr("height", individualChartHeight * app.terms.length);
 
     // set up axis
-    _.each(_.values(app.terms[presetName]), function(term, i) {
+    _.each(app.terms, function(term, i) {
       options.index = i;
 
-      console.log(term, app.data[i]);
       if (app.data[i].message) {
         app.$ui.chart.append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
       } else if (!app.data[i].data.length) {

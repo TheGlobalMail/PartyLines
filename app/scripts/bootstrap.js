@@ -16,9 +16,9 @@
       { abbrev: 'NAT', name: 'National Party', colour: '#bd744d' }
     ],
 
-    terms: {
-      'immigraysh':  ['illegals', 'asylum', 'boat', 'knickerbocker'],
-      'economy':     ['budget', 'spending', 'surplus', 'money'],
+    presets: {
+      'immigraysh':  ['illegals', 'asylum', 'boat'],
+      'economy':     ['federal budget', 'spending', 'surplus'],
       'swear-words': ['shit', 'bugger', 'fuck', 'crap'],
       'ramblings':   ['sauce bottle', 'porn', 'toilet', 'kitten']
     },
