@@ -137,6 +137,46 @@ html {
 
 }
 
+#present-keywords {
+  margin: 0;
+  border: 1px solid #e5e5e5;
+  list-style:none;
+  list-style-position: inside;
+  .font-size(14);
+  font-weight: bold;
+  text-transform: uppercase;
+  .border-radius(8px);
+
+    li {
+      padding: 12px 14px;
+      border-bottom: 1px solid #e5e5e5;
+      &:hover{
+        background-color: @grayLighter;
+        cursor: pointer;
+      }
+      &:last-child {
+        border-bottom: none;
+      }
+      a {
+        color: @grayLight;
+        &:hover{
+          text-decoration: none;
+        }
+      }
+      &.active {
+        background: url(/images/preset-arrow.png) no-repeat 95% center transparent;
+
+        &:hover{
+        background-color: white;
+        cursor: default;
+        }
+        a {
+        color: @grayDarker;
+        }
+     }
+    }
+}
+
 #chart-container {
   width: auto;
   background: rgba(255,255,255,0.5);
