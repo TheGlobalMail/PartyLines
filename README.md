@@ -1,12 +1,29 @@
 # Party Lines
 
-## Install
+**Needs our special blend of yeoman**
 
-1. Clone repo (duh!)
-2. With Yeoman install form Git master, run `yeoman install`
-3. Change into `app/components/tgm-bootstrap` and run `bower install`
-4. Switch back up to the root dir
-5. `npm install`
+### Setup
+
+*Make sure your cobbweb yeoman is up to date!*
+
+1. `./isntall.sh`
+2. `npm install`
+3. `yeoman server`
+4. Should have a server up n running on port 3501
+
+### Deploy (tbc)
+
+1. `git branch -D deploy` # Force delete any existing deploy branch
+2. `git checkout -b deploy`
+3. `yeoman build`
+4. `rm -rf dist/components/`
+5. `git add dist/`
+6. `git commit -m "Build" dist/`
+7. `./deploy.js production RACKSPACE_API_KEY`
+8. `git push heroku deploy:master --force`
+9. `git checkout master`
+10. `git branch -D deploy`
+
 
 ## TODO
 
