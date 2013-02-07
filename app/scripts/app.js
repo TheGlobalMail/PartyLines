@@ -1,79 +1,36 @@
-(function() {
+(function(app) {
+  'use strict';
 
-  $(function(){
-    app.loadData();
-  });
+  app.loadData = function(presetName) {
+    // TODO bulk load? Make the graph loading fulling async
+    $.getJSON(app.url + '/api/weeks?callback=?')
+      .done(function(data) {
+        app.vent.trigger('loading', 'start');
+        app.weeks = data;
+        app.weeksIndex = _.object(data, _.range(data.length));
 
-  var app = window.app = {
+        var promises = _.map(app.terms[presetName], function(term) {
+          return $.getJSON(app.url + '/api/wordchoices/term/' + term + '?callback=?', { c: true });
+        });
 
-    url: "http://partylines-api.theglobalmail.org",
-    //url: "http://localhost:8080",
-    //url: "http://10.8.1.81:8080",
-
-    filterParty: getURLParameter('p'),
-
-    parties: [
-      {abbrev: 'DEM', name: 'Australian Democrats', colour: '#f3bf07'},
-      {abbrev: 'GRN', name: 'Australian Greens', colour: '#33b26a'},
-      {abbrev: 'ALP', name: 'Australian Labor Party', colour: '#e23c3f'},
-      {abbrev: 'Country Lib', name: 'Country Liberal Party', colour: '#87b8da'},
-      {abbrev: 'Democratic Lab', name: 'Democratic Labor Party', colour: '#f09d9f'},
-      {abbrev: 'Family First', name: 'Family First Party', colour: '#ff835e'},
-      {abbrev: 'IND', name: 'Independent', colour: '#b9b9b9'},
-      {abbrev: 'LIB', name: 'Liberal Party', colour: '#1072b6'},
-      {abbrev: 'NAT', name: 'National Party', colour: '#bd744d'}
-    ],
-
-    terms: [],
-    data: [],
-    activeSliderBlind: null,
-    selectedSliderBlind: null,
-    loadTimer: null,
-    activeWeek: null
+        $.when.apply($, promises).done(function() {
+          app.vent.trigger('loading', 'done');
+          app.data = _.map(arguments, function(arg) { return arg[0]; });
+          renderCharts(presetName);
+        });
+      });
   };
 
-
-  app.loadData = function(){
-
-    // Check the query string for up to four terms to do party lines for
-    app.terms = [];
-    app.complete = [];
-    _.each(_.range(4), function(index){
-      var n = index + 1;
-      var keyword = getURLParameter('q' + n);
-      var complete = getURLParameter('c' + n);
-      if (keyword && keyword.match(/\w/)){
-        app.terms.push(keyword);
-        $('input[name="q'+ app.terms.length +'"]').val(keyword);
-        app.complete.push(complete);
-        $('input[name="c'+ app.complete.length +'"]').prop('checked', !!complete);
-      }
-    });
-
-    // TODO bulk load? Make the graph loading fulling async
-    $.getJSON(app.url + '/api/weeks?callback=?', function(data){
-      app.weeks = data;
-      app.weeksIndex = _.object(data, _.range(data.length));
-
-      $('#chart-container').append('<strong id="charts-loading" style="margin:0 auto">Loading charts</strong>');
-
-      async.map(_.zip(app.terms, app.complete), function(termInfo, done){
-        $.getJSON(app.url + '/api/wordchoices/term/' + termInfo[0] + '?callback=?', {c: termInfo[1]}, function(data){
-          done(null, data);
-        });
-      }, function(err, results){
-        $('#charts-loading').remove();
-        app.data = results;
-        renderCharts();
-      });
-    });
-  }
-
-  function renderCharts(){
-    var margin = {top: 20, right: 10, bottom: 0, left: 30};
-    var width = 900 - margin.left - margin.right;
+  function renderCharts(presetName) {
+    var margin = {
+      top: 20,
+      right: 10,
+      bottom: 0,
+      left: 30
+    };
     var individualChartHeight = 140;
-    var height = individualChartHeight - margin.top - margin.bottom;
+    var width   = 900 - margin.left - margin.right;
+    var height  = individualChartHeight - margin.top - margin.bottom;
     var options = {
       margin: margin,
       width: width,
@@ -82,30 +39,25 @@
 
     app.charts = [];
 
-    var svg = d3.select("#chart-container").append("svg")
+    var svg = d3.select(app.$ui.chart[0]).append("svg")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", individualChartHeight * app.terms.length);
+      .attr("height", individualChartHeight * app.terms[presetName].length);
 
     // set up axis
-
-    _.each(app.terms, function(term, i){
+    _.each(_.values(app.terms[presetName]), function(term, i) {
       options.index = i;
-      if (app.data[i].message){
-        $('#chart-container').append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br />");
-      }else if (!app.data[i].data.length){
-        $('#chart-container').append('<p class="error">No mentions of <strong>' + term + "</strong> found. Try a different term or search openaustralia.org for inspiration.</p><br />");
-      }else{
+
+      console.log(term, app.data[i]);
+      if (app.data[i].message) {
+        app.$ui.chart.append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
+      } else if (!app.data[i].data.length) {
+        app.$ui.chart.append('<p class="error">No mentions of <strong>' + term + "</strong> found. Try a different term or search openaustralia.org for inspiration.</p><br>");
+      } else {
         renderChart(svg, options, term, app.data[i].data);
       }
     });
 
     renderSlider(svg, options);
-  }
-
-  function getURLParameter(name){
-    return decodeURIComponent(
-      (RegExp(name + '=' + '([^&$#]+)').exec(location.search)||['',''])[1]
-    ).replace(/\+/g, ' ');
   }
 
   function renderChart(svg, extraOptions, term, termData){
@@ -133,7 +85,6 @@
       }
       var weeksIndex = app.weeksIndex[datum.week];
       party.data.push({x: weeksIndex, y: datum.freq});
-      lastWeekIndex = weeksIndex;
     });
 
     if (party.name) series.push(party);
@@ -272,4 +223,4 @@
     return _.detect(app.parties, function(p){ return p.name === party });
   }
 
-}());
+}(window.app));
