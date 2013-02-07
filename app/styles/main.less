@@ -217,10 +217,10 @@ html {
     }
   }
   svg {
-  font-family: @sansFontFamily;
-  font-size: 10px;
-  font-weight: 400;
-  shape-rendering: crispEdges;
+    font-family: @sansFontFamily;
+    font-size: 10px;
+    font-weight: 400;
+    shape-rendering: crispEdges;
   }
 
 
@@ -256,7 +256,6 @@ html {
   g.axis path, g.axis line {
     fill: none;
     stroke: #ccc;
-    shape-rendering: crispEdges;
   }
 
   g.x.axis line {
@@ -283,7 +282,6 @@ html {
   .brush .extent {
     stroke: #f09f8c;
     fill-opacity: .125;
-    shape-rendering: crispEdges;
   }
 
   g.context rect.background{
@@ -307,8 +305,8 @@ html {
   }
   .selected{
     .opacity(100) !important;
-    fill: rgba(0,0,0,0.05);
-    stroke: rgba(0,0,0,0.5);
+    fill: none;
+    stroke: rgba(0,0,0,0.3);
   }
 }
 
