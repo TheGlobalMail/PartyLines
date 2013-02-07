@@ -23,5 +23,4 @@
 
   });
 
-
 }(app, _, Backbone.$, Backbone));

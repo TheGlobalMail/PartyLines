@@ -1,14 +1,14 @@
-(function(){
+(function(app) {
 
   var Snippets = window.Snippets = {};
 
-  Snippets.loadSnippets = function(){
+  Snippets.loadSnippets = function() {
     var ids = app.hansardIds.slice(0,60).join(',');
     if (!ids) return;
     var endpoint = app.url + '/api/hansards?callback=?';
-    $.getJSON(endpoint, {ids: ids}, function(json){
+    $.getJSON(endpoint, {ids: ids}, function(json) {
       var html = '';
-      _.each(json, function(hansard){
+      _.each(json, function(hansard) {
         html += '<div id="speech">';
         html += '<h2>' + '<div class="photo">' + '</div>' + '<span class="speaker">' + hansard.first_name + ' ' + hansard.last_name + '</span>' + '<span class="party">' + hansard.party + '</span>' + moment(hansard.date).format(' HH:MM DD/MM/YY') + '</h2>';
 
@@ -40,4 +40,4 @@
     });
   };
 
-}());
+}(app));
