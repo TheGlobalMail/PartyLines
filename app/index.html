@@ -115,10 +115,24 @@
   <script src="components/d3/d3.js"></script>
   <script src="components/lodash/lodash.js"></script>
   <script src="components/moment/moment.js"></script>
-  <script src="components/async/dist/async.min.js"></script>
+  <script src="components/async/lib/async.js"></script>
   <script src="scripts/chart.js"></script>
   <script src="scripts/snippets.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild -->
+
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27879276-9']);
+  // _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
   </body>
 </html>
