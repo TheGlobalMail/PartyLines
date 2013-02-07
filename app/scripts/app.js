@@ -148,7 +148,7 @@
       })
       .attr("height", fullHeight);
 
-    $('rect.slider-blind').click(function(e){
+    $('rect.slider-blind').on('click', function(e){
       var hansardIds = [];
       if (app.selectedSliderBlind){
         app.selectedSliderBlind.attr('class', 'slider-blind');
@@ -177,9 +177,8 @@
         if (app.loadTimer) clearTimeout(app.loadTimer);
         app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
       }
-    });
-
-    $('rect.slider-blind').mouseover(function(e){
+    })
+    .on('mouseover', function(e){
       if (app.activeSliderBlind){
         if (app.activeSliderBlind.attr('class').match(/selected/)){
           app.activeSliderBlind.attr('class', 'slider-blind selected');
@@ -193,11 +192,12 @@
       }
 
       app.activeWeek = app.activeSliderBlind.data('week');
-      _.each(app.data, function(termData, i){
+      _.each(app.data, function(termData, i) {
         var countData = {
           week: formatWeek(app.activeWeek),
           counts: []
         };
+
         _.each(termData.data, function(datum){
           var party;
           if (datum.week === app.activeWeek && datum.freq > 0){
@@ -207,9 +207,10 @@
             }
           }
         });
-        app.charts[i].updateLegend(countData);
+        if (i in app.charts) {
+          app.charts[i].updateLegend(countData);
+        }
       });
-
     });
     $('rect.slider-blind:first').trigger('click');
   }
