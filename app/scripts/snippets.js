@@ -9,7 +9,7 @@
     $.getJSON(endpoint, {ids: ids}, function(json) {
       var html = '';
       _.each(json, function(hansard) {
-        html += '<div id="speech">';
+        html += '<div class="speech">';
         html += '<h2>' + '<div class="photo">' + '</div>' + '<span class="speaker">' + hansard.first_name + ' ' + hansard.last_name + '</span>' + '<span class="party">' + hansard.party + '</span>' + moment(hansard.date).format(' HH:MM DD/MM/YY') + '</h2>';
 
         // Highlight the keywords by wrapping in span with highlight class
