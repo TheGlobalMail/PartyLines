@@ -19,6 +19,7 @@
 
     searchPreset: function(name) {
       app.loadData(name);
+      app.vent.trigger('preset', name);
     }
 
   });
