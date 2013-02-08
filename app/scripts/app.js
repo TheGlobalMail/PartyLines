@@ -32,10 +32,15 @@
     var individualChartHeight = 200;
     var width   = 900 - margin.left - margin.right;
     var height  = individualChartHeight - margin.top - margin.bottom;
+    var max    = _.max(_.map(app.data, function(d){
+      var series = prepareSeries(d.data);
+      return findMax(series);
+    }));
     var options = {
       margin: margin,
       width: width,
-      height: height
+      height: height,
+      max: max
     };
 
     app.charts = [];
@@ -62,14 +67,12 @@
 
   function renderChart(svg, extraOptions, term, termData) {
     var series = prepareSeries(termData);
-    var max    = findMax(series);
     var id     = idFromTerm(term);
 
     var options = _.extend({
       id: id,
       svg: svg,
       series: series,
-      max: max,
       term: term
     }, extraOptions);
 
