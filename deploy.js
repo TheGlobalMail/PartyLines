@@ -12,6 +12,8 @@ apiKey = process.argv[3];
 
 if (env === 'production'){
   container = 'partylines';
+}else if (env === 'staging'){
+  container = 'staging-partylines';
 }else{
   console.error('unknown environment: ' + env + '. Should be staging or production');
   process.exit(1);
