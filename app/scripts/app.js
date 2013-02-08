@@ -29,7 +29,7 @@
       bottom: 0,
       left: 30
     };
-    var individualChartHeight = 140;
+    var individualChartHeight = 200;
     var width   = 900 - margin.left - margin.right;
     var height  = individualChartHeight - margin.top - margin.bottom;
     var options = {
@@ -60,82 +60,105 @@
     renderSlider(svg, options);
   }
 
-  function renderChart(svg, extraOptions, term, termData){
+  function renderChart(svg, extraOptions, term, termData) {
     var series = prepareSeries(termData);
-    var max = findMax(series);
-    var id = idFromTerm(term);
-    var options = {id: id, svg: svg, series: series, max: max, term: term};
-    options = _.extend(options, extraOptions);
-    var chart = new Chart(options);
-    app.charts.push(chart);
+    var max    = findMax(series);
+    var id     = idFromTerm(term);
+
+    var options = _.extend({
+      id: id,
+      svg: svg,
+      series: series,
+      max: max,
+      term: term
+    }, extraOptions);
+
+    app.charts.push(new Chart(options));
   }
 
   function prepareSeries(data){
     var series = [];
     var party = {};
     var filterParty = app.filterParty && app.parties[app.filterParty];
-    _.each(data, function(datum){
 
+    _.each(data, function(datum) {
       // Allow users to filter out parties
       if (filterParty && datum.party !== filterParty.name) return;
 
-      if (datum.party !== party.name){
-        if (party.name) series.push(party);
-        party = {name: datum.party, data: []};
+      if (datum.party !== party.name) {
+        if (party.name) {
+          series.push(party);
+        }
+
+        party = { name: datum.party, data: [] };
       }
+
       var weeksIndex = app.weeksIndex[datum.week];
-      party.data.push({x: weeksIndex, y: datum.freq});
+      party.data.push({ x: weeksIndex, y: datum.freq });
     });
 
-    if (party.name) series.push(party);
-    _.each(series, function(partyData){
+    if (party.name) {
+      series.push(party);
+    }
+
+    _.each(series, function(partyData) {
       var filledSeries = [];
       var xPoints = _.pluck(partyData.data, 'x');
-      _.each(app.weeks, function(week){
+
+      _.each(app.weeks, function(week) {
         var weekIndex = app.weeksIndex[week];
         var matchingIndex = xPoints.indexOf(weekIndex);
-        if (matchingIndex === -1){
-          filledSeries.push({x: weekIndex, y: 0});
-        }else{
+
+        if (matchingIndex === -1) {
+          filledSeries.push({ x: weekIndex, y: 0 });
+        } else {
           filledSeries.push(partyData.data[matchingIndex]);
         }
       });
+
       partyData.data = filledSeries;
     });
+
     return series;
   }
 
-  function findMax(series){
+  function findMax(series) {
     var stackedYValues = [];
-    _.each(series, function(party){
-      _.each(party.data, function(datum, i){
-        if (stackedYValues.length < i + 1){
+
+    _.each(series, function(party) {
+      _.each(party.data, function(datum, i) {
+        if (stackedYValues.length < i + 1) {
           stackedYValues.push(datum.y);
-        }else{
+        } else {
           stackedYValues[i] += datum.y;
         }
       });
     });
+
     return _.max(stackedYValues);
   }
 
-  function idFromTerm(term){
+  function idFromTerm(term) {
     return term.toLowerCase().replace(/^\s/g, '_');
   }
 
 
-  function renderSlider(svg, options){
+  function renderSlider(svg, options) {
     var fullHeight = app.data.length * (options.height) + (app.data.length - 1) * (options.margin.top + options.margin.bottom) - options.margin.bottom;
-    var data = _.map(app.weeks, function(){ return fullHeight; });
+    var data = _.map(app.weeks, function() { return fullHeight; });
+
     var xScale = d3.scale.ordinal()
       .rangeBands([0, options.width])
       .domain(app.weeks);
+
     var yScale = d3.scale.linear()
       .range([fullHeight, 0])
       .domain([0, fullHeight]);
+
     var sliderContainer = svg.append("g")
       .attr('id','slider-container')
       .attr("transform", "translate(" + options.margin.left + ",0)");
+
     sliderContainer.selectAll("rect")
       .data(data)
       .enter().append("rect")
@@ -148,57 +171,67 @@
       })
       .attr("height", fullHeight);
 
-    $('rect.slider-blind').on('click', function(e){
+    $('rect.slider-blind').on('click', function() {
       var hansardIds = [];
       if (app.selectedSliderBlind){
         app.selectedSliderBlind.attr('class', 'slider-blind');
       }
+
       app.selectedSliderBlind = $(this);
       app.selectedSliderBlind.attr('class', 'slider-blind selected');
       app.selectedWeek = app.selectedSliderBlind.data('week');
-      _.each(app.data, function(termData, i){
+
+      _.each(app.data, function(termData, i) {
         var countData = {
           week: formatWeek(app.selectedWeek),
           counts: []
         };
+
         _.each(termData.data, function(datum){
           var party;
-          if (datum.week === app.selectedWeek && datum.freq > 0){
+          if (datum.week === app.selectedWeek && datum.freq > 0) {
             party = findParty(datum.party);
-            if (party){
+            if (party) {
               hansardIds.push(datum.ids);
             }
           }
         });
       });
-      if (hansardIds.length){
+
+      if (hansardIds.length) {
         app.hansardIds = hansardIds;
         $('#snippets').html('<p>Loading...</p>');
-        if (app.loadTimer) clearTimeout(app.loadTimer);
+
+        if (app.loadTimer) {
+          clearTimeout(app.loadTimer);
+        }
+
         app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
       }
     })
-    .on('mouseover', function(e){
-      if (app.activeSliderBlind){
-        if (app.activeSliderBlind.attr('class').match(/selected/)){
+    .on('mouseover', function(){
+      if (app.activeSliderBlind) {
+        if (app.activeSliderBlind.attr('class').match(/selected/)) {
           app.activeSliderBlind.attr('class', 'slider-blind selected');
-        }else{
+        } else {
           app.activeSliderBlind.attr('class', 'slider-blind');
         }
       }
       app.activeSliderBlind = $(this);
-      if (!app.activeSliderBlind.attr('class').match(/selected/)){
+
+      if (!app.activeSliderBlind.attr('class').match(/selected/)) {
         app.activeSliderBlind.attr('class', 'slider-blind active');
       }
 
       app.activeWeek = app.activeSliderBlind.data('week');
+
       _.each(app.data, function(termData, i) {
         var countData = {
           week: formatWeek(app.activeWeek),
           counts: []
         };
 
-        _.each(termData.data, function(datum){
+        _.each(termData.data, function(datum) {
           var party;
           if (datum.week === app.activeWeek && datum.freq > 0){
             party = findParty(datum.party);
@@ -207,11 +240,13 @@
             }
           }
         });
+
         if (i in app.charts) {
           app.charts[i].updateLegend(countData);
         }
       });
     });
+
     $('rect.slider-blind:first').trigger('click');
   }
 
