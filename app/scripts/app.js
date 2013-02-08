@@ -33,7 +33,7 @@
       top: 15,
       superTop: 40,
       topXAxisMargin: 20,
-      right: 30,
+      right: 40,
       bottom: 0,
       left: 30
     };
