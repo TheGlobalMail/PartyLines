@@ -138,44 +138,35 @@ html {
   margin: 0;
   border: 1px solid #e5e5e5;
   list-style: none;
-  list-style-position: inside;
   .font-size(14);
   font-weight: bold;
   text-transform: uppercase;
   .border-radius(8px);
 
-  li {
+  li a {
+    display: block;
     padding: 12px 14px;
     border-bottom: 1px solid #e5e5e5;
+    color: #d7d7d7;
 
     &:hover {
       background-color: @grayLighter;
       cursor: pointer;
+      text-decoration: none;
     }
 
     &:last-child {
       border-bottom: none;
     }
+  }
 
-    a {
-      color: #d7d7d7;
+  li.active a {
+    background: url(/images/preset-arrow.png) no-repeat 95% center transparent;
+    color: @grayDarker;
 
-      &:hover {
-        text-decoration: none;
-      }
-    }
-
-    &.active {
-      background: url(/images/preset-arrow.png) no-repeat 95% center transparent;
-
-      &:hover {
-        background-color: white;
-        cursor: default;
-      }
-
-      a {
-        color: @grayDarker;
-      }
+    &:hover {
+      background-color: white;
+      cursor: default;
     }
   }
 }
@@ -333,17 +324,16 @@ html {
 
 #snippet-link {
   position: fixed;
-  margin: 0 auto;
+  padding: 10px;
+  margin: 0 auto 0 -120px;
+  width: 220px;
   bottom: 0;
   left: 50%;
-  margin-left:-120px;
   z-index: 90;
-  width: 220px;
-  font-size: 12px;
+  .font-size(12);
   font-weight: bold;
   text-transform: uppercase;
   text-align: center;
-  padding: 10px;
   background: url(/images/arrow-down.png) 18px 14px no-repeat white;
   border: 1px solid #ccc;
   border-bottom: none;
@@ -428,7 +418,7 @@ html {
         color: @grayDark;
         font-weight: bold;
         font-style: normal;
-        font-size: 12px;
+        .font-size(12);
       }
 
       .party {
@@ -436,7 +426,7 @@ html {
         color: @grayDark;
         font-weight: normal;
         font-style: normal;
-        font-size: 11px;
+        .font-size(12);
         margin-bottom: 5px;
       }
     }
@@ -456,7 +446,7 @@ html {
       font-size: 14px;
       font-weight: normal;
 
-      .highlight{
+      .highlight {
         display: inline-block;
         color: white;
         padding: 2px 8px;
