@@ -22,7 +22,7 @@
       .domain(app.weeks);
 
     this.yScale = d3.scale.linear()
-      .range([this.options.height - 40, 0])
+      .range([this.options.height - 30, 0])
       .domain([0, this.options.max]);
 
     this.xAxisTop = d3.svg.axis().scale(this.xScale).orient("bottom");
@@ -45,7 +45,7 @@
     this.yAxis = d3.svg.axis().scale(this.yScale).orient("left").ticks(5);
     this.chartContainer.append("g")
       .attr("class", "y axis")
-      .attr('transform', 'translate(0, 40)')
+      .attr('transform', 'translate(-2, 30)')
       .call(this.yAxis);
   };
 
@@ -64,7 +64,7 @@
     this.party = this.chartContainer.selectAll(".party-" + this.id)
       .data(this.parties)
       .enter().append("g")
-      .attr('transform', 'translate(0, 40)')
+      .attr('transform', 'translate(0, 30)')
       .attr("class", "party-" + this.id);
 
     var partyColours = d3.scale.ordinal()
@@ -88,12 +88,12 @@
   Chart.prototype.renderLegend = function(){
     this.legendDate = this.chartContainer.append("text")
       .attr("class","legend-date")
-      .attr("transform", "translate(" + (this.options.width - 640) + ", 14)")
+      .attr("transform", "translate(" + (this.options.width - 580) + ", 12)")
       .text('');
 
     this.legendCounts = this.chartContainer.append("text")
       .attr("class","legend-counts")
-      .attr("transform", "translate(" + (this.options.width - 640) + ", 25)")
+      .attr("transform", "translate(" + (this.options.width - 580) + ", 24)")
       .text('');
 
     this.legendCountsText = [];

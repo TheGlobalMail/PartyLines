@@ -4,14 +4,14 @@
   app.loadData = function(presetName) {
     this.terms = this.presets[presetName];
     // TODO bulk load? Make the graph loading fulling async
-    $.getJSON(app.url + '/api/weeks?callback=?')
+    $.getJSON(app.url + '/api/weeks')
       .done(function(data) {
         app.vent.trigger('loading', 'start');
         app.weeks = data;
         app.weeksIndex = _.object(data, _.range(data.length));
 
         var promises = _.map(app.terms, function(term) {
-          return $.getJSON(app.url + '/api/wordchoices/term/' + term + '?callback=?', { c: true });
+          return $.getJSON(app.url + '/api/wordchoices/term/' + term, { c: true });
         });
 
         $.when.apply($, promises).done(function() {
@@ -38,6 +38,13 @@
       height: height
     };
 
+    _.each(app.data, function(datum){
+      datum.series = prepareSeries(datum.data);
+      datum.max = findMax(datum.series);
+    });
+
+    options.max = _.max(_.pluck(app.data, 'max'));
+
     app.charts = [];
 
     var svg = d3.select(app.$ui.chart[0]).append("svg")
@@ -62,14 +69,12 @@
 
   function renderChart(svg, extraOptions, term, termData) {
     var series = prepareSeries(termData);
-    var max    = findMax(series);
     var id     = idFromTerm(term);
 
     var options = _.extend({
       id: id,
       svg: svg,
       series: series,
-      max: max,
       term: term
     }, extraOptions);
 
@@ -246,8 +251,6 @@
         }
       });
     });
-
-    $('rect.slider-blind:first').trigger('click');
   }
 
   function formatWeek(activeWeek){
