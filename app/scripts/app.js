@@ -1,11 +1,16 @@
 (function(app) {
   'use strict';
 
+  var weeksLoader;
+
   app.loadData = function(presetName) {
     this.terms = this.presets[presetName];
     // TODO bulk load? Make the graph loading fulling async
-    $.getJSON(app.url + '/api/weeks')
-      .done(function(data) {
+    if (!weeksLoader) {
+      weeksLoader = $.getJSON(app.url + '/api/weeks');
+    }
+
+    weeksLoader.done(function(data) {
         app.vent.trigger('loading', 'start');
         app.weeks = data;
         app.weeksIndex = _.object(data, _.range(data.length));
