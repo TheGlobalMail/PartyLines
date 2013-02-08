@@ -20,10 +20,18 @@
 
         speech = speech.replace(/<a.*?>(.*?)<\/a>/gim, '$1');
 
-        _.each(app.terms, function(term){
+        _.each(app.terms, function(term, index){
           if (term){
+            var searchTerm = term;
+            var tokens = app.data[index].tokens;
+            if (tokens){
+              searchTerm = _.map(tokens.split(' '), function(token){
+                return token + '[a-z]*';
+              }).join(' ');
+            }
+            var regex = '(^|[^a-zA-Z])(' + searchTerm + ')([^a-zA-Z]|$)';
             speech = speech.replace(
-              RegExp('(^|[^a-zA-Z])(' + term + ')([^a-zA-Z]|$)', 'gmi'),
+              RegExp(regex, 'gmi'),
               '<span style="background-color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + ' ">$2</span>'
             );
           }
