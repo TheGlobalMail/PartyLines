@@ -16,6 +16,7 @@
         // Highlight the keywords by wrapping in span with highlight class
         $html.find('.quotes-container').append(Snippets.buildQuotes(hansard));
         container.append($html);
+        app.vent.trigger('snippetsLoaded');
       });
     });
   };
@@ -60,5 +61,13 @@
 
     return html;
   };
+
+  app.vent.once('snippetsLoaded', function() {
+    var $container = $('#snippet-container');
+    var $link      = $('#snippet-link');
+
+    $container.show();
+    $link.slideDown();
+  });
 
 }(app));
