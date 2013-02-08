@@ -251,8 +251,6 @@
         }
       });
     });
-
-    $('rect.slider-blind:first').trigger('click');
   }
 
   function formatWeek(activeWeek){
