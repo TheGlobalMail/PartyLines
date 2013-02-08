@@ -5,6 +5,7 @@
 
   app.loadData = function(presetName) {
     this.terms = this.presets[presetName];
+
     // TODO bulk load? Make the graph loading fulling async
     if (!weeksLoader) {
       weeksLoader = $.getJSON(app.url + '/api/weeks');
@@ -59,11 +60,14 @@
     // set up axis
     _.each(app.terms, function(term, i) {
       options.index = i;
+      var data = app.data[i];
 
-      if (app.data[i].message) {
-        app.$ui.chart.append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
-      } else if (!app.data[i].data.length) {
-        app.$ui.chart.append('<p class="error">No mentions of <strong>' + term + "</strong> found. Try a different term or search openaustralia.org for inspiration.</p><br>");
+      if (data.message) {
+        return app.$ui.chart.append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
+      }
+
+      if (!data.data.length) {
+        return app.$ui.chart.append('<p class="error">No mentions of <strong>' + term + "</strong> found. Try a different term or search openaustralia.org for inspiration.</p><br>");
       } else {
         renderChart(svg, options, term, app.data[i].data);
       }

@@ -4,7 +4,7 @@
   var $items = $("#preset-keywords li");
 
   app.vent.on('preset', function(name) {
-    name = name.replace(' ', '-');
+    name = name.replace(/ /g, '-');
     _.each($items, function(item) {
       var $item = $(item);
 

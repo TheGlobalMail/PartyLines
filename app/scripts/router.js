@@ -18,7 +18,7 @@
     },
 
     searchPreset: function(name) {
-      name = name.replace('-', ' ');
+      name = name.replace(/-/g, ' ');
       app.loadData(name);
       app.vent.trigger('preset', name);
     }

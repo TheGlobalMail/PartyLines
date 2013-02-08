@@ -61,10 +61,7 @@
             <h4>Coming soon:</h4>
             <p>Perform your own word searches. <a href="http://powerhouse.theglobalmail.org/" target="_blank" >Check the Powerhouse blog for updates on the next release.</a></p>
           </div>
-
         </div>
-
-
 
         <div class="span9">
           <div id="chart-container"></div>
@@ -73,7 +70,7 @@
     </div>
 
     <div id="snippet-link">
-      <a href="#snippet-container">View who said what and when</a>
+      <a href="#snippet-container" data-bypass>View who said what and when</a>
     </div>
 
     <div id="snippet-container">
@@ -84,6 +81,18 @@
       </div>
     </div>
   </div>
+
+  <script type="text/underscore-template-x" id="snippets-template">
+    <div class="speech">
+      <h2>
+        <div class="photo" style="background-image: url(http://talkingheads-assets.theglobalmail.org/images/members/<%= person_id %>_full.jpg)"></div>
+        <span class="speaker"><%= first_name %> <%= last_name %></span>
+        <span class="party"><%= party %></span>
+        <time><%= time %></time>
+      </h2>
+      <div class="quotes-container"></div>
+    </div>
+  </script>
 
   <!-- build:js /scripts/partylines.js -->
   <script src="/components/jquery/jquery.js"></script>
