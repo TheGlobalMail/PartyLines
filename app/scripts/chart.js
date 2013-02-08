@@ -45,7 +45,7 @@
     this.yAxis = d3.svg.axis().scale(this.yScale).orient("left").ticks(5);
     this.chartContainer.append("g")
       .attr("class", "y axis")
-      .attr('transform', 'translate(0, 36)')
+      .attr('transform', 'translate(-2, 36)')
       .call(this.yAxis);
   };
 

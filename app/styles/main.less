@@ -169,7 +169,7 @@ html {
     color: @grayDarker;
 
     &:hover {
-      background-color: white;
+      background-color: transparent;
       cursor: default;
     }
   }
@@ -271,6 +271,10 @@ html {
     stroke:none;
   }
 
+  g.y.axis line {
+    stroke:@grayLight;
+  }
+
   .legend-date, .legend-counts {
     fill: rgba(0,0,0,0.8);
     text-transform: uppercase;
@@ -307,7 +311,8 @@ html {
 
   .selected {
     .opacity(40);
-    fill: rgba(0,0,0,0.5);
+    fill: rgba(0,0,0,0.4);
+    stroke: @grayDark;
   }
 }
 
