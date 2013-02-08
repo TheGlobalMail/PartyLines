@@ -269,7 +269,7 @@ html {
     stroke: #ccc;
   }
 
-  g.axis line, g.y.axis path {
+  g.axis line{
     stroke:none;
   }
 
@@ -297,7 +297,16 @@ html {
     visibility: visible !important;
   }
 
-  .x text { display: none; }
+  .left-y {
+    text,.tick { display: none; }
+  }
+
+  .x.axis text{ display: none }
+
+  .x.axis.top text.year{
+    display: block;
+  }
+
 
   #week {
     width: 400px;

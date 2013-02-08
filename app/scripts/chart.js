@@ -8,7 +8,7 @@
     this.id = this.options.id;
     this.chartContainer = this.svg.append("g")
       .attr('class','chart-' + this.options.index)
-      .attr("transform", "translate(" + this.options.margin.left + "," + (this.options.height + 20) * this.options.index + ")");
+      .attr("transform", "translate(" + this.options.margin.left + "," + (this.options.margin.superTop + (this.options.height + this.options.margin.top) * this.options.index) + ")");
 
     this.renderAxes();
     this.renderArea();
@@ -25,27 +25,41 @@
       .range([this.options.height - 30, 0])
       .domain([0, this.options.max]);
 
-    this.xAxisTop = d3.svg.axis().scale(this.xScale).orient("bottom");
-    this.xAxisBottom = d3.svg.axis().scale(this.xScale).orient("top");
+    this.xAxisTop = d3.svg.axis().scale(this.xScale).orient("top").tickSize(0);
+    this.xAxisBottom = d3.svg.axis().scale(this.xScale).orient("bottom").tickSize(0);
 
     if (this.options.index === 0) {
       this.chartContainer.append("g")
         .attr("class", "x axis top")
-        .attr("transform", "translate(0,0)")
+        .attr("transform", "translate(0, -" + this.options.margin.topXAxisMargin + ")")
         .call(this.xAxisTop);
+      var lastYear = null;
+      $('.x.top text').each(function(index){
+        var year = $(this).text().slice(0,4);
+        if (lastYear !== year){
+          $(this).text(year);
+          $(this).attr('class', 'year');
+          lastYear = year;
+        }
+      });
     }
 
-    if (this.options.index === (app.terms.length - 1)) {
-      this.chartContainer.append("g")
-        .attr("class", "x axis bottom")
-        .attr("transform", "translate(0," + (this.options.height) + ")")
-        .call(this.xAxisBottom);
-    }
+    this.chartContainer.append("g")
+      .attr("class", "x axis bottom")
+      .attr("transform", "translate(0," + (this.options.height) + ")")
+      .call(this.xAxisBottom);
 
-    this.yAxis = d3.svg.axis().scale(this.yScale).orient("left").ticks(5);
+    this.leftYAxis = d3.svg.axis().scale(this.yScale).orient('left').tickSize(0);
+
+    this.chartContainer.append("g")
+      .attr("class", "left-y y axis")
+      .attr('transform', 'translate(0,30)')
+      .call(this.leftYAxis);
+
+    this.yAxis = d3.svg.axis().scale(this.yScale).orient("right").ticks(5);
     this.chartContainer.append("g")
       .attr("class", "y axis")
-      .attr('transform', 'translate(-2, 30)')
+      .attr('transform', 'translate('  + (this.options.width) + ',30)')
       .call(this.yAxis);
   };
 

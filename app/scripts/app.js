@@ -30,8 +30,10 @@
 
   function renderCharts(presetName) {
     var margin = {
-      top: 20,
-      right: 10,
+      top: 15,
+      superTop: 40,
+      topXAxisMargin: 20,
+      right: 30,
       bottom: 0,
       left: 30
     };
@@ -55,7 +57,7 @@
 
     var svg = d3.select(app.$ui.chart[0]).append("svg")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", individualChartHeight * app.terms.length);
+      .attr("height", individualChartHeight * app.terms.length + 80);
 
     // set up axis
     _.each(app.terms, function(term, i) {
@@ -158,7 +160,7 @@
 
 
   function renderSlider(svg, options) {
-    var fullHeight = app.data.length * (options.height) + (app.data.length - 1) * (options.margin.top + options.margin.bottom) - options.margin.bottom;
+    var fullHeight = app.data.length * (options.height + options.margin.top) + (options.margin.topXAxisMargin - options.margin.top);
     var data = _.map(app.weeks, function() { return fullHeight; });
 
     var xScale = d3.scale.ordinal()
@@ -171,7 +173,7 @@
 
     var sliderContainer = svg.append("g")
       .attr('id','slider-container')
-      .attr("transform", "translate(" + options.margin.left + ",0)");
+      .attr("transform", "translate(" + options.margin.left + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")");
 
     sliderContainer.selectAll("rect")
       .data(data)
