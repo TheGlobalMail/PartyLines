@@ -17,10 +17,10 @@
     ],
 
     presets: {
-      'immigraysh':  ['illegals', 'refugee', 'boat people', 'asylum seekers'],
-      'economy':     ['pacific solution', 'boat people', 'border security', 'stop the boats'],
+      'immigraysh':  ['Refugee', 'Asylum Seeker', 'Boat People', 'Illegals'],
+      'economy':     ['Border security', 'Boat People', 'Stop the boats', 'Pacific Solution'],
       'swear-words': ['carbon tax', 'carbon price'],
-      'ramblings':   ['exclusive brethren', 'swine flu', 'children are sacred']
+      'ramblings':   ['Swine flu', 'Little children are sacred', 'Binge drinking', 'Exclusive brethren']
     },
 
     data: [],
