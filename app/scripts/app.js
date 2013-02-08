@@ -38,6 +38,13 @@
       height: height
     };
 
+    _.each(app.data, function(datum){
+      datum.series = prepareSeries(datum.data);
+      datum.max = findMax(datum.series);
+    });
+
+    options.max = _.max(_.pluck(app.data, 'max'));
+
     app.charts = [];
 
     var svg = d3.select(app.$ui.chart[0]).append("svg")
@@ -62,14 +69,12 @@
 
   function renderChart(svg, extraOptions, term, termData) {
     var series = prepareSeries(termData);
-    var max    = findMax(series);
     var id     = idFromTerm(term);
 
     var options = _.extend({
       id: id,
       svg: svg,
       series: series,
-      max: max,
       term: term
     }, extraOptions);
 
