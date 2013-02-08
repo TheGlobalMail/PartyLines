@@ -11,7 +11,7 @@
       { abbrev: 'Country Lib', name: 'Country Liberal Party', colour: '#87b8da' },
       { abbrev: 'Democratic Lab', name: 'Democratic Labor Party', colour: '#f09d9f' },
       { abbrev: 'Family First', name: 'Family First Party', colour: '#ff835e' },
-      { abbrev: 'IND', name: 'Independent', colour: '#b9b9b9' },
+      { abbrev: 'IND', name: 'Independent', colour: '#aaa' },
       { abbrev: 'LIB', name: 'Liberal Party', colour: '#1072b6' },
       { abbrev: 'NAT', name: 'National Party', colour: '#bd744d' }
     ],
