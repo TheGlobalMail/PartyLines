@@ -5,7 +5,7 @@
   Snippets.loadSnippets = function() {
     var ids = _.uniq(app.hansardIds.join(',').split(',')).slice(0,50).join(',');
     if (!ids) return;
-    var endpoint = app.url + '/api/hansards?callback=?';
+    var endpoint = app.url + '/api/hansards';
     $.getJSON(endpoint, {ids: ids}, function(json) {
       var html = '';
       _.each(json, function(hansard) {

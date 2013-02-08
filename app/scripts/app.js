@@ -4,14 +4,14 @@
   app.loadData = function(presetName) {
     this.terms = this.presets[presetName];
     // TODO bulk load? Make the graph loading fulling async
-    $.getJSON(app.url + '/api/weeks?callback=?')
+    $.getJSON(app.url + '/api/weeks')
       .done(function(data) {
         app.vent.trigger('loading', 'start');
         app.weeks = data;
         app.weeksIndex = _.object(data, _.range(data.length));
 
         var promises = _.map(app.terms, function(term) {
-          return $.getJSON(app.url + '/api/wordchoices/term/' + term + '?callback=?', { c: true });
+          return $.getJSON(app.url + '/api/wordchoices/term/' + term, { c: true });
         });
 
         $.when.apply($, promises).done(function() {
