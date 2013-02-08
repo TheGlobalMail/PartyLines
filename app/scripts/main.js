@@ -1,7 +1,7 @@
 (function(app, $, Backbone) {
   'use strict';
 
-  new app.Router({ defaultPreset: 'immigraysh' });
+  new app.Router({ defaultPreset: 'Framing-Carbon' });
   Backbone.history.start({ pushState: true });
 
   // All navigation that is relative should be passed through the navigate

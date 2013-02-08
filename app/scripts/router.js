@@ -18,6 +18,7 @@
     },
 
     searchPreset: function(name) {
+      name = name.replace('-', ' ');
       app.loadData(name);
       app.vent.trigger('preset', name);
     }
