@@ -17,10 +17,10 @@
     ],
 
     presets: {
-      'immigraysh':  ['illegals', 'asylum', 'boat'],
-      'economy':     ['federal budget', 'spending', 'surplus'],
-      'swear-words': ['shit', 'bugger', 'fuck', 'crap'],
-      'ramblings':   ['sauce bottle', 'porn', 'toilet', 'kitten']
+      'immigraysh':  ['illegals', 'refugee', 'boat people', 'asylum seekers'],
+      'economy':     ['pacific solution', 'boat people', 'border security', 'stop the boats'],
+      'swear-words': ['carbon tax', 'carbon price'],
+      'ramblings':   ['exclusive brethren', 'swine flu', 'children are sacred']
     },
 
     data: [],
