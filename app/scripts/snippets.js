@@ -71,7 +71,7 @@
     var openauId = match[2];
     var html = '<div class="openau-link">';
     html += '<a target="_BLANK" href="http://www.openaustralia.org/' + house + '/?id=';
-    html += openauId +  '" title="View speech at OpenAustralia">View speech at OpenAustralia</a>';
+    html += openauId +  '" title="View full speech at OpenAustralia">View in full</a>';
     html += '</div>';
     return html;
   };
