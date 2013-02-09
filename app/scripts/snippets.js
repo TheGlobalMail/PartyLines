@@ -56,9 +56,23 @@
     var highlightedParas = _.select(speech.split('</p>'), function(p) { return p.match(/class="highlight/m); });
 
     _.each(highlightedParas, function(p) {
-      html += '<blockquote>' + p + '</p></blockquote>';
+      html += '<blockquote>' + p;
+      html += '</p></blockquote>';
     });
 
+    html += this.buildOpenAuLink(hansard);
+
+    return html;
+  };
+
+  Snippets.buildOpenAuLink = function(hansard){
+    var match = hansard.id.match(/([^-]*)-(.*)/);
+    var house = match[1] === 'house' ? 'debates' : 'senate';
+    var openauId = match[2];
+    var html = '<div class="openau-link">';
+    html += '<a target="_BLANK" href="http://www.openaustralia.org/' + house + '/?id=';
+    html += openauId +  '" title="View speech at OpenAustralia">View speech at OpenAustralia</a>';
+    html += '</div>';
     return html;
   };
 
