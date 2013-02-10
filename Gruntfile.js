@@ -116,6 +116,11 @@ module.exports = function( grunt ) {
       img: ''
     },
 
+    deploy: {
+      cdnUrl: 'http://partylines-assets.theglobalmail.org/'
+    },
+
+
     // usemin handler should point to the file containing
     // the usemin blocks to be parsed
     'usemin-handler': {
