@@ -191,7 +191,7 @@
       })
       .attr("height", fullHeight);
 
-    var dateLegendContainer = d3.select('#chart-container svg').append('g').attr('class', 'date-legend-container');
+    var dateLegendContainer = d3.select('#chart-container svg').insert('g', ':first-child').attr('class', 'date-legend-container');
     var dateLegendBackground = dateLegendContainer.append('rect');
 
     var dateLegendText = dateLegendContainer.append('text')
