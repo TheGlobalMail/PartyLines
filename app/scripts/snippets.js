@@ -1,12 +1,15 @@
 (function(app) {
   'use strict';
 
-  var Snippets = window.Snippets = {};
+  var Snippets = window.Snippets = {
+    maxSnippets: 50
+  };
   var _render = _.template(document.getElementById('snippets-template').innerHTML);
   var container = $('#snippets');
 
+
   Snippets.loadSnippets = function() {
-    var ids = _.uniq(app.hansardIds.join(',').split(',')).slice(0,50).join(',');
+    var ids = _.uniq(app.hansardIds.join(',').split(',')).slice(0,Snippets.maxSnippets).join(',');
     if (!ids) return;
     var endpoint = app.url + '/api/hansards';
     container.empty();
@@ -16,8 +19,11 @@
         // Highlight the keywords by wrapping in span with highlight class
         $html.find('.quotes-container').append(Snippets.buildQuotes(hansard));
         container.append($html);
-        app.vent.trigger('snippetsLoaded');
       });
+      if (json.length === Snippets.maxSnippets){
+        $('#openau-further-search').html(Snippets.buildOpenAuFurtherSearch());
+      }
+      app.vent.trigger('snippetsLoaded');
     });
   };
 
@@ -75,6 +81,24 @@
     html += '</div>';
     return html;
   };
+
+  Snippets.buildOpenAuFurtherSearch = function() {
+    var html = '<div class="openau-further-search-text">';
+    html += '<div class="more-results-text">There are more results ';
+    html += '(we only show the first ' + Snippets.maxSnippets + ')';
+    html += '</div>';
+    html += '<div class="more-search-text">';
+    html += 'Do more complete searches at OpenAustralia';
+    html += '</div>';
+    html += '<ul class="further-search-terms">';
+    _.each(app.terms, function(term){
+      html += '<li><a target="_BLANK" href="http://www.openaustralia.org/search/?s=%22';
+      html += encodeURIComponent(term) + '%22">&quot;' + _.escape(term) + '&quot;</a></li>';
+    });
+    html += '</ul>';
+    html += '</div>';
+    return html;
+  }
 
   app.vent.once('snippetsLoaded', function() {
     var $container = $('#snippet-container');
