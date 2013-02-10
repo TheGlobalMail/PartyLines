@@ -289,7 +289,7 @@
       });
 
 
-      dateLegendContainer.attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 50) + ', 274)');
+      dateLegendContainer.attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 46) + ', 274)');
       dateLegendText.text(formatWeek(app.activeWeek));
 
       var dateLegendSize = dateLegendText.node().getBBox();
