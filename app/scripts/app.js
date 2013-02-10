@@ -59,23 +59,27 @@
       .attr("width", width + margin.left + margin.right)
       .attr("height", individualChartHeight * app.terms.length + 80);
 
+    var chartsContainer = svg.append('g').attr('class', 'charts');
+    var textContainer  = svg.append('g').attr('class', 'text-overlay');
+    options.textContainer = textContainer;
+
     // set up axis
     _.each(app.terms, function(term, i) {
       options.index = i;
       var data = app.data[i];
 
       if (data.message) {
-        return app.$ui.chart.append('<p class="error"><strong>' + app.data[i].message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
+        return app.$ui.chart.append('<p class="error"><strong>' + data.message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
       }
 
       if (!data.data.length) {
         return app.$ui.chart.append('<p class="error">No mentions of <strong>' + term + "</strong> found. Try a different term or search openaustralia.org for inspiration.</p><br>");
-      } else {
-        renderChart(svg, options, term, app.data[i].data);
       }
+
+      renderChart(chartsContainer, options, term, data.data);
     });
 
-    renderSlider(svg, options);
+    renderSlider(chartsContainer, options);
   }
 
   function renderChart(svg, extraOptions, term, termData) {

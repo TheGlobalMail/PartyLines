@@ -6,14 +6,25 @@
     this.svg = this.options.svg;
     this.series = this.options.series;
     this.id = this.options.id;
+    this.textContainer = options.textContainer;
+    this.x = this.options.margin.left;
+    this.y = this.options.margin.superTop + (this.options.height + this.options.margin.top) * this.options.index;
     this.chartContainer = this.svg.append("g")
       .attr('class','chart-' + this.options.index)
-      .attr("transform", "translate(" + this.options.margin.left + "," + (this.options.margin.superTop + (this.options.height + this.options.margin.top) * this.options.index) + ")");
+      .call(this.position(0, 0));
 
     this.renderAxes();
     this.renderArea();
     this.renderTitle();
     this.renderLegend();
+  };
+
+  Chart.prototype.position = function(x, y) {
+    x += this.x;
+    y += this.y;
+    return function(selection) {
+      selection.attr('transform', 'translate(' + x + ',' + y + ')');
+    }
   };
 
   Chart.prototype.renderAxes = function() {
@@ -93,28 +104,33 @@
   };
 
   Chart.prototype.renderTitle = function() {
-    this.chartContainer.append("text")
+    this.textContainer.append("text")
       .attr("class","graph-title")
-      .attr("transform", "translate(15,25)")
+      .call(this.position(15,25))
       .text(this.options.term);
   };
 
-  Chart.prototype.renderLegend = function(){
-    this.legendDate = this.chartContainer.append("text")
-      .attr("class","legend-date")
-      .attr("transform", "translate(" + (this.options.width - 580) + ", 12)")
-      .text('');
+  Chart.prototype.renderLegend = function() {
+    if (this.options.index === 0) {
+      this.legendDate = this.textContainer.append("text")
+        .attr("class","legend-date")
+        .call(this.position(this.options.width - 580, 12))
+        .text('');
+    }
 
-    this.legendCounts = this.chartContainer.append("text")
+    this.legendCounts = this.textContainer.append("text")
       .attr("class","legend-counts")
-      .attr("transform", "translate(" + (this.options.width - 580) + ", 24)")
+      .call(this.position(this.options.width - 580, 24))
       .text('');
 
     this.legendCountsText = [];
   };
 
   Chart.prototype.updateLegend = function(data){
-    this.legendDate.text(data.week);
+    if (this.options.index === 0) {
+      this.legendDate.text(data.week);
+    }
+
     _.invoke(this.legendCountsText, 'remove');
 
     _.each(data.counts, function(count, i){
