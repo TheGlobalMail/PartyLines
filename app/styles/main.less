@@ -257,9 +257,15 @@ html {
     fill: rgba(127,201,127,0.5);
   }
 
-  g.axis text {
+  g.y.axis text {
+    fill: @grayLight;
+    font-size: 9px;
+    font-style: italic;
+  }
+
+  g.x.axis text {
     fill: @grayDark;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: bold;
     font-style: italic;
   }
@@ -275,6 +281,10 @@ html {
 
   g.y.axis line {
     stroke:@grayLight;
+  }
+
+  g.y.axis path {
+    stroke:none;
   }
 
   .legend-date, .legend-counts {
@@ -391,8 +401,12 @@ html {
   h3 {
     font-size: 22px;
     margin-bottom: 20px;
-    font-weight: normal;
+    font-weight: 400;
     text-align: center;
+    &.more-search-text {
+      font-style: italic;
+      margin-top: -15px;
+    }
   }
 
   .arrow {
@@ -419,14 +433,48 @@ html {
     }
   }
 
+  a.button {
+        padding: 8px 18px;
+        font-size: 12px;
+        font-weight: bold;
+        text-decoration: none;
+        color: @grayDarker;
+        background-color: rgba(0,0,0,0.1);
+        .border-radius(6px);
+        &:hover {
+          color: white;
+          background-color: @grayDarker;
+        }
+      }
+  a.sub {
+      display: inline-block;
+      padding-top: 10px;
+      background: none;
+      font-size: 11px;
+      font-weight: normal;
+      color: @grayLight;
+  }
+
   #openau-further-search {
+    text-align: center;
     margin-bottom: 20px;
     border-top: 1px solid #c3c3c3;
     padding: 10px 0 0 20px;
     min-height: 90px;
-    float: left;
     clear: both;
+    ul {
+      margin: 0 auto;
+    }
+    li {
+      display: inline-block;
+      list-style: none;
+      margin: 10px;
+      a.button {
+        font-size: 14px;
+      };
+    }
   }
+
 
   #snippets {
     h2 {
@@ -479,11 +527,12 @@ html {
       border-top: 1px solid #c3c3c3;
       padding: 10px 0 0 20px;
       min-height: 90px;
+      position: relative;
     }
 
     blockquote {
       margin: 0;
-      padding: 0 100px 0 200px;
+      padding: 0 200px 0 200px;
       border: none;
       line-height: 1.4;
       font-size: 14px;
@@ -520,6 +569,13 @@ html {
         font-weight: normal;
         line-height: 1.5;
       }
+    }
+    .openau-link {
+      position: absolute;
+      top: 45%;
+      right: 20px;
+      text-align: center;
+
     }
   }
 }

@@ -76,23 +76,25 @@
     var house = match[1] === 'house' ? 'debates' : 'senate';
     var openauId = match[2];
     var html = '<div class="openau-link">';
-    html += '<a target="_BLANK" href="http://www.openaustralia.org/' + house + '/?id=';
+    html += '<a class="button" target="_BLANK" href="http://www.openaustralia.org/' + house + '/?id=';
     html += openauId +  '" title="View full speech at OpenAustralia">View in full</a>';
+    html += '<br />';
+    html += '<a class="sub" target="_BLANK" href="http://www.openaustralia.org/" >@openaustralia.org</span>'
     html += '</div>';
     return html;
   };
 
   Snippets.buildOpenAuFurtherSearch = function() {
     var html = '<div class="openau-further-search-text">';
-    html += '<div class="more-results-text">There are more results ';
+    html += '<h3 class="more-results-text">There are more results ';
     html += '(we only show the first ' + Snippets.maxSnippets + ')';
-    html += '</div>';
-    html += '<div class="more-search-text">';
+    html += '</h3>';
+    html += '<h3 class="more-search-text">';
     html += 'Do more complete searches at OpenAustralia';
-    html += '</div>';
-    html += '<ul class="further-search-terms">';
+    html += '</h3>';
+    html += '<ul class="further-search-terms container">';
     _.each(app.terms, function(term){
-      html += '<li><a target="_BLANK" href="http://www.openaustralia.org/search/?s=%22';
+      html += '<li><a class="button" target="_BLANK" href="http://www.openaustralia.org/search/?s=%22';
       html += encodeURIComponent(term) + '%22">&quot;' + _.escape(term) + '&quot;</a></li>';
     });
     html += '</ul>';
