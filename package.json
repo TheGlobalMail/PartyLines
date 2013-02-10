@@ -1,11 +1,15 @@
 {
   "author": "The Global Mail",
-  "name": "MurrayDarlingPrimer",
-  "version": "0.0.1",
+  "name": "partylines",
+  "version": "0.0.0",
   "dependencies": {
-    "grunt-recess": "*",
-    "grunt": "*",
-    "cloudfiles-mirror": "*"
+    "grunt-recess": "0.3.0",
+    "express": "~3.1.0",
+    "cluster": "~0.7.7",
+    "cloudfiles-mirror": "~0.1.7"
   },
-  "devDependencies": {}
+  "engines": {
+    "node": "0.8.x",
+    "npm":  "1.1.x"
+  }
 }
