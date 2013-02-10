@@ -96,7 +96,7 @@
     app.charts.push(new Chart(options));
   }
 
-  function prepareSeries(data){
+  function prepareSeries(data) {
     var series = [];
     var party = {};
     var filterParty = app.filterParty && app.parties[app.filterParty];
@@ -191,6 +191,28 @@
       })
       .attr("height", fullHeight);
 
+    var dateLegendContainer = d3.select('#chart-container svg').append('g').attr('class', 'date-legend-container');
+    var dateLegendBackground = dateLegendContainer.append('rect');
+
+    var dateLegendText = dateLegendContainer.append('text')
+      .attr('class', 'legend-date')
+      .attr('transform', 'translate(10, 17)')
+      .style('fill', '#FFFFFF')
+      .style('font-weight', 'bold');
+
+    dateLegendContainer.append('text')
+      .text('Click to select')
+      .attr('transform', 'translate(10, 30)')
+      .style('fill', '#FFFFFF');
+
+    var dateLegendArrow = dateLegendContainer.append('path')
+      .attr('d', 'M0 5 L10 0 L10 10z')
+      .attr('transform', 'translate(-10, 16)')
+      .style({
+        'fill': '#000000',
+        'opacity': 0.7
+      });
+
     $('rect.slider-blind').on('click', function() {
       var hansardIds = [];
       if (app.selectedSliderBlind){
@@ -229,7 +251,7 @@
         app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
       }
     })
-    .on('mouseover', function(){
+    .on('mouseover', function() {
       if (app.activeSliderBlind) {
         if (app.activeSliderBlind.attr('class').match(/selected/)) {
           app.activeSliderBlind.attr('class', 'slider-blind selected');
@@ -265,6 +287,19 @@
           app.charts[i].updateLegend(countData);
         }
       });
+
+
+      dateLegendContainer.attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 50) + ', 274)');
+      dateLegendText.text(formatWeek(app.activeWeek));
+
+      var dateLegendSize = dateLegendText.node().getBBox();
+
+      dateLegendBackground.attr({
+        transform: 'translate(0, 0)',
+        width: dateLegendSize.width + 20,
+        height: dateLegendSize.height + 10 + 14
+      })
+      .style('opacity', 0.7);
     });
   }
 

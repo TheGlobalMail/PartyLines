@@ -111,13 +111,6 @@
   };
 
   Chart.prototype.renderLegend = function() {
-    if (this.options.index === 0) {
-      this.legendDate = this.textContainer.append("text")
-        .attr("class","legend-date")
-        .call(this.position(this.options.width - 580, 12))
-        .text('');
-    }
-
     this.legendCounts = this.textContainer.append("text")
       .attr("class","legend-counts")
       .call(this.position(this.options.width - 580, 24))
@@ -126,11 +119,7 @@
     this.legendCountsText = [];
   };
 
-  Chart.prototype.updateLegend = function(data){
-    if (this.options.index === 0) {
-      this.legendDate.text(data.week);
-    }
-
+  Chart.prototype.updateLegend = function(data) {
     _.invoke(this.legendCountsText, 'remove');
 
     _.each(data.counts, function(count, i){
