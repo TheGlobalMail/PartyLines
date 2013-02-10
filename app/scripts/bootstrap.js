@@ -19,9 +19,9 @@
     presets: {
       'Framing Carbon':     ['Carbon Tax', 'Carbon Price'],
       'Defining Marriage':  ['Marriage Equality', 'Same Sex Marriage', 'Gay Marriage'],
-      'Aussie For Refugee': ['Border Security', 'Boat People', 'Stop The Boats', 'Pacific Solutions'],
+      'Aussie For Refugee': ['Border Security', 'Boat People', 'Stop The Boats', 'Pacific Solution'],
       'Immigration':        ['Refugee', 'Asylum Seeker', 'Boat People', 'Illegals'],
-      'Remember When':      ['Exclusive Brethren', 'Little Children Are Scared', 'Binge Drinking', 'Swine Flu']
+      'Remember When':      ['Exclusive Brethren', 'Little Children Are Sacred', 'Binge Drinking', 'Swine Flu']
     },
 
     data: [],

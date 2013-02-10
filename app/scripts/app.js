@@ -201,9 +201,10 @@
       .style('font-weight', 'bold');
 
     dateLegendContainer.append('text')
-      .text('Click to select')
+      .text('Click to view details')
       .attr('transform', 'translate(10, 30)')
-      .style('fill', '#FFFFFF');
+      .style('fill', '#ccc')
+      .style('font-style', 'italic');
 
     var dateLegendArrow = dateLegendContainer.append('path')
       .attr('d', 'M0 5 L10 0 L10 10z')
@@ -296,7 +297,7 @@
 
       dateLegendBackground.attr({
         transform: 'translate(0, 0)',
-        width: dateLegendSize.width + 20,
+        width: dateLegendSize.width + 42,
         height: dateLegendSize.height + 10 + 14
       })
       .style('opacity', 0.7);
