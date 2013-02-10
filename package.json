@@ -3,9 +3,9 @@
   "name": "MurrayDarlingPrimer",
   "version": "0.0.1",
   "dependencies": {
-    "grunt-recess": "~0.2.0",
-    "grunt": "~0.3.17",
-    "cloudfiles-mirror": "~0.1.7"
+    "grunt-recess": "*",
+    "grunt": "*",
+    "cloudfiles-mirror": "*"
   },
   "devDependencies": {}
 }
