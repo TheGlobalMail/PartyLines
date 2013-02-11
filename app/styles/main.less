@@ -67,10 +67,13 @@ html {
   min-width: 940px;
   width: 90%;
 
-  &.app {
+  .charts-row {
+    position: relative;
+    top: -25px;
     background: url(/images/header-fade.png) center top no-repeat transparent;
-    margin-top: -25px;
-    margin-bottom: 25px;
+  }
+
+  &.app {
     z-index: 5;
     min-height: 606px;
 
@@ -225,6 +228,20 @@ html {
   p {
     margin-bottom: 0;
   }
+}
+
+#charts-loading {
+  display: block;
+  padding-top: 200px;
+  width: 800px;
+  height: 220px;
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 14px;
+  color: @grayLight;
+  text-shadow:0 1px 0 white;
+  background: url(/images/spinner.gif) no-repeat  center transparent;
 }
 
 #chart-container {
@@ -499,8 +516,7 @@ html {
     text-align: center;
     margin-bottom: 20px;
     border-top: 1px solid #c3c3c3;
-    padding: 10px 0 0 20px;
-    min-height: 90px;
+    padding: 10px 0 20px 20px;
     clear: both;
 
     ul {
