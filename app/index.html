@@ -108,7 +108,7 @@
         <div class="photo" style="background-image: url(http://talkingheads-assets.theglobalmail.org/images/members/<%= person_id %>_full.jpg)"></div>
         <span class="speaker"><%= first_name %> <%= last_name %></span>
         <span class="party"><%= party %></span>
-        <time><%= time %></time>
+        <time><%= moment(time).format('DD/MM/YYYY') %></time>
       </h2>
       <div class="quotes-container"></div>
     </div>

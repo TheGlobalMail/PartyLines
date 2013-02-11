@@ -192,74 +192,45 @@
       .attr('data-week', function(d, i){
         return app.weeks[i];
       })
-      .attr("height", fullHeight);
-
-    var dateLegendContainer = d3.select('#chart-container svg')
-      .insert('g', ':first-child')
-      .attr('class', 'date-legend-container')
-      .style('display', 'none');
-
-    var dateLegendBackground = dateLegendContainer.append('rect');
-
-    var dateLegendText = dateLegendContainer.append('text')
-      .attr('class', 'legend-date')
-      .attr('transform', 'translate(10, 18)')
-      .style('fill', '#FFFFFF')
-      .style('font-weight', 'bold')
-      .style('font-size', '12px');
-
-    dateLegendContainer.append('text')
-      .text('Click to view details')
-      .attr('transform', 'translate(10, 31)')
-      .style('fill', '#ccc')
-      .style('font-style', 'italic');
-
-    var dateLegendArrow = dateLegendContainer.append('path')
-      .attr('d', 'M0 5 L5 0 L5 10z')
-      .attr('transform', 'translate(-5, 16)')
-      .style({
-        'fill': '#000000',
-        'opacity': 0.7
-      });
-
-    $('rect.slider-blind').on('click', function() {
-      var hansardIds = [];
-      if (app.selectedSliderBlind){
-        app.selectedSliderBlind.attr('class', 'slider-blind');
-      }
-
-      app.selectedSliderBlind = $(this);
-      app.selectedSliderBlind.attr('class', 'slider-blind selected');
-      app.selectedWeek = app.selectedSliderBlind.data('week');
-
-      _.each(app.data, function(termData, i) {
-        var countData = {
-          week: formatWeek(app.selectedWeek),
-          counts: []
-        };
-
-        _.each(termData.data, function(datum){
-          var party;
-          if (datum.week === app.selectedWeek && datum.freq > 0) {
-            party = findParty(datum.party);
-            if (party) {
-              hansardIds.push(datum.ids);
-            }
-          }
-        });
-      });
-
-      if (hansardIds.length) {
-        app.hansardIds = hansardIds;
-        $('#snippets').html('<p>Loading...</p>');
-
-        if (app.loadTimer) {
-          clearTimeout(app.loadTimer);
+      .attr("height", fullHeight)
+      .on('click', function() {
+        var hansardIds = [];
+        if (app.selectedSliderBlind){
+          app.selectedSliderBlind.attr('class', 'slider-blind');
         }
 
-        app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
-      }
-    })
+        app.selectedSliderBlind = $(this);
+        app.selectedSliderBlind.attr('class', 'slider-blind selected');
+        app.selectedWeek = app.selectedSliderBlind.data('week');
+
+        _.each(app.data, function(termData, i) {
+          var countData = {
+            week: formatWeek(app.selectedWeek),
+            counts: []
+          };
+
+          _.each(termData.data, function(datum){
+            var party;
+            if (datum.week === app.selectedWeek && datum.freq > 0) {
+              party = findParty(datum.party);
+              if (party) {
+                hansardIds.push(datum.ids);
+              }
+            }
+          });
+        });
+
+        if (hansardIds.length) {
+          app.hansardIds = hansardIds;
+          $('#snippets').html('<p>Loading...</p>');
+
+          if (app.loadTimer) {
+            clearTimeout(app.loadTimer);
+          }
+
+          app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
+        }
+      })
     .on('mouseover', function() {
       if (app.activeSliderBlind) {
         if (app.activeSliderBlind.attr('class').match(/selected/)) {
@@ -299,7 +270,7 @@
       });
 
       dateLegendContainer
-        .attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 41) + ', 274)')
+        .attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 41) + ', ' + d3.mouse(this)[1] + ')')
         .style('display', 'inline');
 
       dateLegendText.text(formatWeek(app.activeWeek));
@@ -313,6 +284,35 @@
       })
       .style('opacity', 0.7);
     });
+
+    var dateLegendContainer = options.textContainer
+      .append('g')
+      .attr('class', 'date-legend-container')
+      .style('display', 'none');
+
+    var dateLegendBackground = dateLegendContainer.append('rect');
+
+    var dateLegendText = dateLegendContainer.append('text')
+      .attr('class', 'legend-date')
+      .attr('transform', 'translate(10, 18)')
+      .style('fill', '#FFFFFF')
+      .style('font-weight', 'bold')
+      .style('font-size', '12px');
+
+    dateLegendContainer.append('text')
+      .text('Click to view details')
+      .attr('transform', 'translate(10, 31)')
+      .style('fill', '#ccc')
+      .style('font-style', 'italic');
+
+    var dateLegendArrow = dateLegendContainer.append('path')
+      .attr('d', 'M0 5 L5 0 L5 10z')
+      .attr('transform', 'translate(-5, 16)')
+      .style({
+        'fill': '#000000',
+        'opacity': 0.7
+      });
+
   }
 
   function formatWeek(activeWeek){
