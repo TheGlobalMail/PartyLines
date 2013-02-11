@@ -14,6 +14,8 @@
     weeksLoader.done(function(data) {
         app.vent.trigger('loading', 'start');
         app.weeks = data;
+        // XXX hack to make step after render properly :(
+        app.weeks.push(_.last(app.weeks) + "FILLERWEEK");
         app.weeksIndex = _.object(data, _.range(data.length));
 
         var promises = _.map(app.terms, function(term) {
@@ -183,7 +185,8 @@
       .attr("transform", "translate(" + options.margin.left + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")");
 
     sliderContainer.selectAll("rect")
-      .data(data)
+      // XXX hack to make step after render properly :(
+      .data(data.slice(0,-1))
       .enter().append("rect")
       .attr("x", function(d, i){ return xScale(i); })
       .attr("y", 0)
