@@ -196,13 +196,14 @@
 
     var dateLegendText = dateLegendContainer.append('text')
       .attr('class', 'legend-date')
-      .attr('transform', 'translate(10, 17)')
+      .attr('transform', 'translate(10, 18)')
       .style('fill', '#FFFFFF')
-      .style('font-weight', 'bold');
+      .style('font-weight', 'bold')
+      .style('font-size', '12px');
 
     dateLegendContainer.append('text')
       .text('Click to view details')
-      .attr('transform', 'translate(10, 30)')
+      .attr('transform', 'translate(10, 31)')
       .style('fill', '#ccc')
       .style('font-style', 'italic');
 
