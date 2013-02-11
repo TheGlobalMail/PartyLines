@@ -79,7 +79,7 @@
     html += '<a class="button" target="_BLANK" href="http://www.openaustralia.org/' + house + '/?id=';
     html += openauId +  '" title="View full speech at OpenAustralia">View in full</a>';
     html += '<br />';
-    html += '<a class="sub" target="_BLANK" href="http://www.openaustralia.org/" >@openaustralia.org</span>'
+    html += '<span class="sub">@openaustralia.org</span>'
     html += '</div>';
     return html;
   };
