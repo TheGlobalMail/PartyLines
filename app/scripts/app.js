@@ -207,8 +207,8 @@
       .style('font-style', 'italic');
 
     var dateLegendArrow = dateLegendContainer.append('path')
-      .attr('d', 'M0 5 L10 0 L10 10z')
-      .attr('transform', 'translate(-10, 16)')
+      .attr('d', 'M0 5 L5 0 L5 10z')
+      .attr('transform', 'translate(-5, 16)')
       .style({
         'fill': '#000000',
         'opacity': 0.7
@@ -290,7 +290,7 @@
       });
 
 
-      dateLegendContainer.attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 46) + ', 274)');
+      dateLegendContainer.attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 41) + ', 274)');
       dateLegendText.text(formatWeek(app.activeWeek));
 
       var dateLegendSize = dateLegendText.node().getBBox();

@@ -125,7 +125,7 @@
     _.each(data.counts, function(count, i){
       this.legendCountsText.push(this.legendCounts.append("tspan").style("fill", count.party.colour).text("▇ "));
       this.legendCountsText.push(this.legendCounts.append("tspan").text(count.party.abbrev));
-      this.legendCountsText.push(this.legendCounts.append("tspan").text(': ' + count.count + '  '));
+      this.legendCountsText.push(this.legendCounts.append("tspan").text(': ' + count.count + '  ' ));
     }, this);
   };
 
