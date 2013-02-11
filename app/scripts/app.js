@@ -2,11 +2,11 @@
   'use strict';
 
   var weeksLoader;
+  var hackedWeekAdded = false;
 
   app.loadData = function(presetName) {
     this.terms = this.presets[presetName];
 
-    // TODO bulk load? Make the graph loading fulling async
     if (!weeksLoader) {
       weeksLoader = $.getJSON(app.url + '/api/weeks');
     }
@@ -15,7 +15,10 @@
         app.vent.trigger('loading', 'start');
         app.weeks = data;
         // XXX hack to make step after render properly :(
-        app.weeks.push(_.last(app.weeks) + "FILLERWEEK");
+        if (!hackedWeekAdded){
+          app.weeks.push(_.last(app.weeks) + " ");
+          hackedWeekAdded = true;
+        }
         app.weeksIndex = _.object(data, _.range(data.length));
 
         var promises = _.map(app.terms, function(term) {
