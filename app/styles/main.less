@@ -321,12 +321,11 @@ html {
     text,.tick { display: none; }
   }
 
-  .x.axis text{ display: none }
+  .x.axis text { display: none }
 
-  .x.axis.top text.year{
+  .x.axis.top text.year {
     display: block;
   }
-
 
   #week {
     width: 400px;
@@ -378,10 +377,8 @@ html {
   text-transform: uppercase;
   text-align: center;
   background: url(/images/arrow-down-white.png) 18px 14px no-repeat @grayDarker;
-  // border: 1px solid white;
   border-bottom: none;
   .border-top-radius(6px);
-  // .box-shadow(0 -1px 5px rgba(0,0,0,0.1));
 
   &:hover {
     background-color: @blue;
@@ -390,7 +387,6 @@ html {
   a {
     color: white;
   }
-
 
   a:hover {
     text-decoration: none;
@@ -413,6 +409,7 @@ html {
     margin-bottom: 20px;
     font-weight: 400;
     text-align: center;
+
     &.more-search-text {
       font-style: italic;
       margin-top: -15px;
@@ -444,25 +441,27 @@ html {
   }
 
   a.button {
-        padding: 8px 18px;
-        font-size: 12px;
-        font-weight: bold;
-        text-decoration: none;
-        color: @grayDarker;
-        background-color: rgba(0,0,0,0.1);
-        .border-radius(6px);
-        &:hover {
-          color: white;
-          background-color: @grayDarker;
-        }
-      }
+    padding: 8px 18px;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    color: @grayDarker;
+    background-color: rgba(0,0,0,0.1);
+    .border-radius(6px);
+
+    &:hover {
+      color: white;
+      background-color: @grayDarker;
+    }
+  }
+
   .sub {
-      display: inline-block;
-      padding-top: 10px;
-      background: none;
-      font-size: 11px;
-      font-weight: normal;
-      color: @grayLight;
+    display: inline-block;
+    padding-top: 10px;
+    background: none;
+    font-size: 11px;
+    font-weight: normal;
+    color: @grayLight;
   }
 
   #openau-further-search {
@@ -472,136 +471,137 @@ html {
     padding: 10px 0 0 20px;
     min-height: 90px;
     clear: both;
+
     ul {
       margin: 0 auto;
     }
+
     li {
       display: inline-block;
       list-style: none;
       margin: 10px;
+
       a.button {
         font-size: 14px;
-      };
+      }
+    }
+  }
+}
+
+#snippets {
+  h2 {
+    position: relative;
+    color: @grayLight;
+    font-size: 11px;
+    font-weight: normal;
+    font-style: italic;
+    line-height: 1.2;
+    text-align: right;
+    width: 160px;
+    float: left;
+    clear: both;
+    margin-top: 2px;
+
+    .photo {
+      position: absolute;
+      right: 0;
+      background: none rgba(0,0,0,0.1) no-repeat center center;
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      background-size: 110%;
+      .border-radius(40px);
+      .box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.4));
+    }
+
+    .speaker {
+      margin-top: 44px;
+      display: block;
+      color: @grayDark;
+      font-weight: bold;
+      font-style: normal;
+      .font-size(12);
+    }
+
+    .party {
+      display: block;
+      color: @grayDark;
+      font-weight: normal;
+      font-style: normal;
+      .font-size(12);
+      margin-bottom: 5px;
     }
   }
 
+  .speech {
+    margin-bottom: 20px;
+    border-top: 1px solid #c3c3c3;
+    padding: 10px 0 0 20px;
+    min-height: 90px;
+    position: relative;
+  }
 
-  #snippets {
-    h2 {
-      position: relative;
-      color: @grayLight;
-      font-size: 11px;
-      font-weight: normal;
-      font-style: italic;
-      line-height: 1.2;
-      text-align: right;
-      width: 160px;
-      float: left;
-      clear: both;
-      margin-top: 2px;
+  blockquote {
+    margin: 0;
+    padding: 0 160px 0 200px;
+    border: none;
+    line-height: 1.4;
+    font-size: 14px;
+    font-weight: normal;
 
-      .photo {
-        position: absolute;
-        right: 0;
-        background: none no-repeat center center;
-        background-color: rgba(0,0,0,0.1);
-        width: 40px;
-        height: 40px;
-        overflow: hidden;
-        background-size: 110%;
-        .border-radius(40px);
-        .box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.4));
-      }
-
-      .speaker {
-        margin-top: 44px;
-        display: block;
-        color: @grayDark;
-        font-weight: bold;
-        font-style: normal;
-        .font-size(12);
-      }
-
-      .party {
-        display: block;
-        color: @grayDark;
-        font-weight: normal;
-        font-style: normal;
-        .font-size(12);
-        margin-bottom: 5px;
-      }
-    }
-
-    .speech {
-      margin-bottom: 20px;
-      border-top: 1px solid #c3c3c3;
-      padding: 10px 0 0 20px;
-      min-height: 90px;
-      position: relative;
-    }
-
-    blockquote {
-      margin: 0;
-      padding: 0 160px 0 200px;
-      border: none;
-      line-height: 1.4;
+    .highlight {
+      display: inline-block;
+      color: white;
+      padding: 2px 8px;
       font-size: 14px;
+      font-weight: bold;
+      font-style: italic;
+      margin: 0 4px;
+      .border-radius(2px);
+      .box-shadow(0 1px 1px rgba(0,0,0,0.2));
+      text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+    }
+
+    dd {
+      margin-left: 0;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    dt {
+      display: inline;
+      float: left;
+      margin-right: 4px;
+      min-width: 25px;
+    }
+
+    p {
+      margin-bottom: 10px;
       font-weight: normal;
-
-      .highlight {
-        display: inline-block;
-        color: white;
-        padding: 2px 8px;
-        font-size: 14px;
-        font-weight: bold;
-        font-style: italic;
-        margin: 0 4px;
-        .border-radius(2px);
-        .box-shadow(0 1px 1px rgba(0,0,0,0.2));
-        text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
-      }
-
-      dd {
-        margin-left: 0;
-        margin-bottom: 10px;
-        font-style: italic;
-      }
-
-      dt {
-        display: inline;
-        float: left;
-        margin-right: 4px;
-        min-width: 25px;
-      }
-
-      p {
-        margin-bottom: 10px;
-        font-weight: normal;
-        line-height: 1.5;
-      }
+      line-height: 1.5;
     }
-    .openau-link {
-      position: absolute;
-      top: 45%;
-      right: 20px;
-      text-align: center;
+  }
 
-    }
+  .openau-link {
+    position: absolute;
+    top: 45%;
+    right: 20px;
+    text-align: center;
   }
 }
 
 #viz {
-    @green: #1aab45;
-    @blue: #0b6eb8;
-    @orange: #fd8939;
-    @yellow: #f3bf07;
+  @green: #1aab45;
+  @blue: #0b6eb8;
+  @orange: #fd8939;
+  @yellow: #f3bf07;
 
-    .fill-green  { fill: @green; }
-    .fill-blue   { fill: @blue; }
-    .fill-orange { fill: @orange; }
-    .fill-yellow { fill: @yellow; }
+  .fill-green  { fill: @green; }
+  .fill-blue   { fill: @blue; }
+  .fill-orange { fill: @orange; }
+  .fill-yellow { fill: @yellow; }
 }
 
 .invisible {
-    .opacity(0);
+  .opacity(0);
 }
