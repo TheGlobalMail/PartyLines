@@ -116,7 +116,6 @@
     this.legendCounts = this.textContainer.append("text")
       .attr("class","legend-counts")
       .call(this.position(12, 25))
-      // .attr('pointer-events', 'none')
       .text('');
 
     this.legendCountsText = [];
