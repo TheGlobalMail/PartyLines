@@ -5,6 +5,9 @@
   var $tweetButtonTemplate = $('.twitter-share-button-template');
   var widgetJs = $.getScript("//platform.twitter.com/widgets.js");
 
+  var $likeContainer = $('.share-button.facebook');
+  var $likeButtonTemplate = $('.fb-like');
+
   function createTweetButton(url) {
     var $button = $tweetButtonTemplate.clone();
     $button.removeAttr('style');
@@ -14,11 +17,22 @@
     return $button;
   }
 
+  function createLikeButton(url) {
+    var $button = $likeButtonTemplate.clone();
+    $button.attr('data-url', url);
+    return $button;
+  }
+
   app.vent.on('route', function() {
     $tweetContainer.empty().append(createTweetButton(location.toString()));
+    $likeContainer.empty().append(createLikeButton(location.toString()));
 
     widgetJs.done(function() {
       twttr.widgets.load($tweetContainer[0]);
     });
+
+    if (typeof FB !== 'undefined') {
+      FB.XFBML.parse($likeContainer[0]);
+    }
   });
 }(app, $, window.location));
