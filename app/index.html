@@ -19,17 +19,22 @@
     <link rel="stylesheet" href="/styles/old-ie.css" media="all">
     <![endif]-->
     <script src="/scripts/lib/modernizr.js"></script>
-  </head>
-  <body>
+</head>
+<body>
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 
   <header class="navbar" role="banner">
     <div class="tgm-strip">
       <a href="http:///www.theglobalmail.org" class="tgm">The Global Mail - Back to homepage</a>
 
       <div class="till-hoger">
-        <!-- <div class="icons" role="navigation">
-          <a class="about" href="#about-modal" data-target="#about-modal" data-toggle="modal" data-bypass>About this tool</a>
-        </div> -->
         <div class="credit">
           <p>Based on data from <a href="http://www.openaustralia.org" target="_blank">www.openaustralia.org</a></p>
         </div>
@@ -38,8 +43,23 @@
   </header>
 
   <div id="main" role="main">
-    <div id="logo" class="container">
-      <h1 class="hide-text">Party Lines</h1>
+    <div class="container">
+      <div class="row">
+        <div id="logo" class="span6">
+          <h1 class="hide-text">Party Lines</h1>
+        </div>
+
+        <div class="share-buttons span4 pull-right">
+          <div class="share-button twitter">
+            <a href="https://twitter.com/share" class="twitter-share-button" data-text="Party Lines - blah blah blah" data-via="TheGlobalMail" data-hashtags="auspol">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+          </div>
+
+          <div class="share-button facebook">
+            <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="container app">
@@ -59,7 +79,7 @@
 
           <div id="coming-soon">
             <h4>Coming soon:</h4>
-            <p>Perform your own word searches. <a href="http://powerhouse.theglobalmail.org/" target="_blank" >Check the Powerhouse blog for updates on the next release.</a></p>
+            <p>Perform your own word searches. <a href="http://powerhouse.theglobalmail.org/" target="_blank">Check the Powerhouse blog for updates on the next release.</a></p>
           </div>
         </div>
 
