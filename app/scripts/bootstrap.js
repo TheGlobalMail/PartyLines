@@ -17,11 +17,11 @@
     ],
 
     presets: {
-      'Framing Carbon':     ['Carbon Tax', 'Carbon Price'],
-      'Defining Marriage':  ['Marriage Equality', 'Same Sex Marriage', 'Gay Marriage'],
-      'Aussie For Refugee': ['Border Security', 'Boat People', 'Stop The Boats', 'Pacific Solution'],
-      'Immigration':        ['Refugee', 'Asylum Seeker', 'Boat People', 'Illegals'],
-      'Remember When':      ['Exclusive Brethren', 'Little Children Are Sacred', 'Binge Drinking', 'Swine Flu']
+      'Framing Carbon':     ['Carbon Tax', 'Carbon Price', 'Price On Pollution'],
+      'Defining Marriage':  ['Civil Union','Same Sex Marriage', 'Gay Marriage','Marriage Equality'],
+      'Immigration': ['Border Security', 'Boat People', 'Stop The Boats', 'Pacific Solution'],
+      'Aussie For Refugee':        ['Refugee', 'Asylum Seeker', 'Boat People', 'Illegals'],
+      'Remember When':      ['Exclusive Brethren', 'Breastfeeding', 'Binge Drinking', 'Live Exports']
     },
 
     data: [],
