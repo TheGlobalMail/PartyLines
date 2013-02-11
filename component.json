@@ -11,6 +11,7 @@
     "d3": "~3.0.5",
     "moment": "~1.7.2",
     "async": "~0.1.22",
-    "jquery.scrollTo": "~1.4.4"
+    "jquery.scrollTo": "~1.4.4",
+    "backbone.analytics": "git://github.com/kendagriff/backbone.analytics.git"
   }
 }
