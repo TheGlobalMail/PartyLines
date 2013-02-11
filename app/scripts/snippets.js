@@ -11,7 +11,9 @@
 
   snippetsLink.on('click', function(e){
     e.preventDefault();
-    $.scrollTo('#snippet-container', 'slow');
+    $.scrollTo('#snippet-container', 'slow', function(){
+      snippetsLink.hide();
+    });
   });
 
   Snippets.requestSnippets = function(){
@@ -28,11 +30,12 @@
     furtherSearch.empty();
 
     $.getJSON(endpoint, { ids: ids }, function(json) {
+      container.empty();
       _.each(json, function(hansard) {
         var $html = Snippets.render(hansard);
         // Highlight the keywords by wrapping in span with highlight class
         $html.find('.quotes-container').append(Snippets.buildQuotes(hansard));
-        container.html($html);
+        container.append($html);
       });
 
       if (json.length === Snippets.maxSnippets) {
@@ -125,7 +128,7 @@
     return html.join('');
   }
 
-  app.vent.once('snippetsRequested', function() {
+  app.vent.on('snippetsRequested', function() {
     outerContainer.show();
     snippetsLink.slideDown();
   });
