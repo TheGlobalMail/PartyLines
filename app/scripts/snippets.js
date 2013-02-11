@@ -9,13 +9,22 @@
   var furtherSearch  = $('#openau-further-search');
   var snippetsLink   = $('#snippet-link');
 
+  snippetsLink.on('click', function(e){
+    e.preventDefault();
+    $.scrollTo('#snippet-container', 'slow');
+  });
+
+  Snippets.requestSnippets = function(){
+    app.vent.trigger('snippetsRequested');
+  };
+
   Snippets.loadSnippets = function() {
     // hansardIds is an array of CSV strings
     var ids = _.uniq(app.hansardIds.join(',').split(','))
                 .slice(0, Snippets.maxSnippets).join(',');
     if (!ids) return;
     var endpoint = app.url + '/api/hansards';
-    container.empty();
+    container.html('<div id="loading"><p>Loading...</p></div>');
     furtherSearch.empty();
 
     $.getJSON(endpoint, { ids: ids }, function(json) {
@@ -23,7 +32,7 @@
         var $html = Snippets.render(hansard);
         // Highlight the keywords by wrapping in span with highlight class
         $html.find('.quotes-container').append(Snippets.buildQuotes(hansard));
-        container.append($html);
+        container.html($html);
       });
 
       if (json.length === Snippets.maxSnippets) {
@@ -35,8 +44,8 @@
   };
 
   Snippets.render = function(data) {
-    var html = _render(data);
-    return $(html);
+    var $html = $(_render(data));
+    return $html;
   };
 
   Snippets.buildQuotes = function(hansard) {
@@ -116,7 +125,7 @@
     return html.join('');
   }
 
-  app.vent.once('snippetsLoaded', function() {
+  app.vent.once('snippetsRequested', function() {
     outerContainer.show();
     snippetsLink.slideDown();
   });

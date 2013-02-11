@@ -222,12 +222,12 @@
 
         if (hansardIds.length) {
           app.hansardIds = hansardIds;
-          $('#snippets').html('<p>Loading...</p>');
 
           if (app.loadTimer) {
             clearTimeout(app.loadTimer);
           }
 
+          Snippets.requestSnippets();
           app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
         }
       })
