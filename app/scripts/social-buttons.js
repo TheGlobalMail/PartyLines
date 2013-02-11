@@ -7,6 +7,9 @@
   app.vent.on('route', function() {
     $tweetButton.attr('data-url', location.toString());
     $tweetContainer.empty().append($tweetButton);
-    twttr.widgets.load($tweetContainer[0]);
+
+    if (twttr && twttr.widgets && twttr.widgets.load) {
+      twttr.widgets.load($tweetContainer[0]);
+    }
   });
 }(app, $, window.location));
