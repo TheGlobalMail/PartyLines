@@ -189,13 +189,15 @@ html {
     a {
       display: block;
       padding: 12px 14px;
-
-      color: #d7d7d7;
+      .opacity(50);
 
       &:hover {
-        background-color: @grayLighter;
+        // background-color: @grayLighter;
+        color: #0b6eb8;
         cursor: pointer;
         text-decoration: none;
+        // background: url(/images/preset-arrow.png) no-repeat 95% center transparent;
+        .opacity(100);
       }
 
 
@@ -205,6 +207,7 @@ html {
   li.active a {
     background: url(/images/preset-arrow.png) no-repeat 95% center transparent;
     color: @grayDarker;
+    .opacity(100);
 
     &:hover {
       background-color: transparent;
