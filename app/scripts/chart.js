@@ -106,14 +106,14 @@
   Chart.prototype.renderTitle = function() {
     this.textContainer.append("text")
       .attr("class","graph-title")
-      .call(this.position(10,20))
+      .call(this.position(10,10))
       .text(this.options.term);
   };
 
   Chart.prototype.renderLegend = function() {
     this.legendCounts = this.textContainer.append("text")
       .attr("class","legend-counts")
-      .call(this.position(this.options.width - 540, 19))
+      .call(this.position(12, 28))
       .text('');
 
     this.legendCountsText = [];
