@@ -24,7 +24,7 @@
                 .slice(0, Snippets.maxSnippets).join(',');
     if (!ids) return;
     var endpoint = app.url + '/api/hansards';
-    container.html('<div id="loading"><p>Loading...</p></div>');
+    container.html('<div id="loading"><p>Loading Hansard transcripts...</p></div>');
     furtherSearch.empty();
 
     $.getJSON(endpoint, { ids: ids }, function(json) {
