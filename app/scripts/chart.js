@@ -44,7 +44,9 @@
         .attr("class", "x axis top")
         .attr("transform", "translate(0, -" + this.options.margin.topXAxisMargin + ")")
         .call(this.xAxisTop);
+
       var lastYear = null;
+
       $('.x.top text').each(function(index){
         var year = $(this).text().slice(0,4);
         if (lastYear !== year){
@@ -106,14 +108,15 @@
   Chart.prototype.renderTitle = function() {
     this.textContainer.append("text")
       .attr("class","graph-title")
-      .call(this.position(10,20))
+      .call(this.position(10,8))
       .text(this.options.term);
   };
 
   Chart.prototype.renderLegend = function() {
     this.legendCounts = this.textContainer.append("text")
       .attr("class","legend-counts")
-      .call(this.position(this.options.width - 540, 19))
+      .call(this.position(12, 25))
+      // .attr('pointer-events', 'none')
       .text('');
 
     this.legendCountsText = [];
@@ -125,7 +128,7 @@
     _.each(data.counts, function(count, i){
       this.legendCountsText.push(this.legendCounts.append("tspan").style("fill", count.party.colour).text("▇ "));
       this.legendCountsText.push(this.legendCounts.append("tspan").text(count.party.abbrev));
-      this.legendCountsText.push(this.legendCounts.append("tspan").text(': ' + count.count + '  '));
+      this.legendCountsText.push(this.legendCounts.append("tspan").text(': ' + count.count + '  ' ));
     }, this);
   };
 

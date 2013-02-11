@@ -200,19 +200,20 @@
 
     var dateLegendText = dateLegendContainer.append('text')
       .attr('class', 'legend-date')
-      .attr('transform', 'translate(10, 17)')
+      .attr('transform', 'translate(10, 18)')
       .style('fill', '#FFFFFF')
-      .style('font-weight', 'bold');
+      .style('font-weight', 'bold')
+      .style('font-size', '12px');
 
     dateLegendContainer.append('text')
       .text('Click to view details')
-      .attr('transform', 'translate(10, 30)')
+      .attr('transform', 'translate(10, 31)')
       .style('fill', '#ccc')
       .style('font-style', 'italic');
 
     var dateLegendArrow = dateLegendContainer.append('path')
-      .attr('d', 'M0 5 L10 0 L10 10z')
-      .attr('transform', 'translate(-10, 16)')
+      .attr('d', 'M0 5 L5 0 L5 10z')
+      .attr('transform', 'translate(-5, 16)')
       .style({
         'fill': '#000000',
         'opacity': 0.7
@@ -295,7 +296,7 @@
       });
 
       dateLegendContainer
-        .attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 46) + ', 274)')
+        .attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 41) + ', 274)')
         .style('display', 'inline');
 
       dateLegendText.text(formatWeek(app.activeWeek));

@@ -3,8 +3,11 @@
 
   var Snippets = window.Snippets = { maxSnippets: 50 };
   var _render = _.template(document.getElementById('snippets-template').innerHTML);
-  var container = $('#snippets');
+
+  var container      = $('#snippets');
   var outerContainer = $('#snippet-container');
+  var furtherSearch  = $('#openau-further-search');
+  var snippetsLink   = $('#snippet-link');
 
   Snippets.loadSnippets = function() {
     // hansardIds is an array of CSV strings
@@ -13,6 +16,7 @@
     if (!ids) return;
     var endpoint = app.url + '/api/hansards';
     container.empty();
+    furtherSearch.empty();
 
     $.getJSON(endpoint, { ids: ids }, function(json) {
       _.each(json, function(hansard) {
@@ -22,8 +26,8 @@
         container.append($html);
       });
 
-      if (json.length === Snippets.maxSnippets){
-        $('#openau-further-search').html(Snippets.buildOpenAuFurtherSearch());
+      if (json.length === Snippets.maxSnippets) {
+        furtherSearch.append(Snippets.buildOpenAuFurtherSearch());
       }
 
       app.vent.trigger('snippetsLoaded');
@@ -88,29 +92,41 @@
   };
 
   Snippets.buildOpenAuFurtherSearch = function() {
-    var html = '<div class="openau-further-search-text">';
-    html += '<h3 class="more-results-text">There are more results ';
-    html += '(we only show the first ' + Snippets.maxSnippets + ')';
-    html += '</h3>';
-    html += '<h3 class="more-search-text">';
-    html += 'Do more complete searches at OpenAustralia';
-    html += '</h3>';
-    html += '<ul class="further-search-terms container">';
-    _.each(app.terms, function(term){
-      html += '<li><a class="button" target="_BLANK" href="http://www.openaustralia.org/search/?s=%22';
-      html += encodeURIComponent(term) + '%22">&quot;' + _.escape(term) + '&quot;</a></li>';
-    });
-    html += '</ul>';
-    html += '</div>';
-    return html;
+    var html = [
+      '<div class="openau-further-search-text">',
+        '<h3 class="more-results-text">There are more results ',
+          '(we only show the first ' + Snippets.maxSnippets + ')',
+        '</h3>',
+        '<h3 class="more-search-text">',
+          'Do more complete searches at OpenAustralia',
+        '</h3>',
+        '<ul class="further-search-terms container">'
+    ];
+
+      _.each(app.terms, function(term) {
+        html.push('<li><a class="button" target="_BLANK" href="http://www.openaustralia.org/search/?s=%22');
+        html.push(encodeURIComponent(term) + '%22">&quot;' + _.escape(term) + '&quot;</a></li>');
+      });
+
+    html.concat([
+        '</ul>',
+      '</div>'
+    ]);
+
+    return html.join('');
   }
 
   app.vent.once('snippetsLoaded', function() {
-    var $container = $('#snippet-container');
-    var $link      = $('#snippet-link');
+    outerContainer.show();
+    snippetsLink.slideDown();
+  });
 
-    $container.show();
-    $link.slideDown();
+  // hide snippets whenever new charts start loading
+  app.vent.on('loading', function(state) {
+    if (state === 'start') {
+      outerContainer.hide();
+      snippetsLink.hide();
+    }
   });
 
 }(app));
