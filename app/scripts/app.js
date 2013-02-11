@@ -191,7 +191,11 @@
       })
       .attr("height", fullHeight);
 
-    var dateLegendContainer = d3.select('#chart-container svg').insert('g', ':first-child').attr('class', 'date-legend-container');
+    var dateLegendContainer = d3.select('#chart-container svg')
+      .insert('g', ':first-child')
+      .attr('class', 'date-legend-container')
+      .style('display', 'none');
+
     var dateLegendBackground = dateLegendContainer.append('rect');
 
     var dateLegendText = dateLegendContainer.append('text')
@@ -260,6 +264,7 @@
           app.activeSliderBlind.attr('class', 'slider-blind');
         }
       }
+
       app.activeSliderBlind = $(this);
 
       if (!app.activeSliderBlind.attr('class').match(/selected/)) {
@@ -278,7 +283,7 @@
           var party;
           if (datum.week === app.activeWeek && datum.freq > 0){
             party = findParty(datum.party);
-            if (party){
+            if (party) {
               countData.counts.push({party: party, count: datum.freq});
             }
           }
@@ -289,8 +294,10 @@
         }
       });
 
+      dateLegendContainer
+        .attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 46) + ', 274)')
+        .style('display', 'inline');
 
-      dateLegendContainer.attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 46) + ', 274)');
       dateLegendText.text(formatWeek(app.activeWeek));
 
       var dateLegendSize = dateLegendText.node().getBBox();

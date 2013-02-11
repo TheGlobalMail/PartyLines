@@ -1,18 +1,19 @@
 (function(app) {
   'use strict';
 
-  var Snippets = window.Snippets = {
-    maxSnippets: 50
-  };
+  var Snippets = window.Snippets = { maxSnippets: 50 };
   var _render = _.template(document.getElementById('snippets-template').innerHTML);
   var container = $('#snippets');
-
+  var outerContainer = $('#snippet-container');
 
   Snippets.loadSnippets = function() {
-    var ids = _.uniq(app.hansardIds.join(',').split(',')).slice(0,Snippets.maxSnippets).join(',');
+    // hansardIds is an array of CSV strings
+    var ids = _.uniq(app.hansardIds.join(',').split(','))
+                .slice(0, Snippets.maxSnippets).join(',');
     if (!ids) return;
     var endpoint = app.url + '/api/hansards';
     container.empty();
+
     $.getJSON(endpoint, { ids: ids }, function(json) {
       _.each(json, function(hansard) {
         var $html = Snippets.render(hansard);
@@ -20,9 +21,11 @@
         $html.find('.quotes-container').append(Snippets.buildQuotes(hansard));
         container.append($html);
       });
+
       if (json.length === Snippets.maxSnippets){
         $('#openau-further-search').html(Snippets.buildOpenAuFurtherSearch());
       }
+
       app.vent.trigger('snippetsLoaded');
     });
   };
