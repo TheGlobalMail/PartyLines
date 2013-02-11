@@ -1,7 +1,10 @@
 (function(app, $, Backbone) {
   'use strict';
 
-  new app.Router({ defaultPreset: 'Framing-Carbon' });
+  var router = new app.Router({ defaultPreset: 'Framing-Carbon' });
+  router.on('route', function() {
+    app.vent.trigger('route');
+  });
   Backbone.history.start({ pushState: true });
 
   // All navigation that is relative should be passed through the navigate
