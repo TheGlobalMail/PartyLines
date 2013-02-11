@@ -60,7 +60,10 @@
       .attr("height", individualChartHeight * app.terms.length + 80);
 
     var chartsContainer = svg.append('g').attr('class', 'charts');
-    var textContainer  = svg.append('g').attr('class', 'text-overlay');
+    var textContainer  = svg.append('g')
+      .attr('class', 'text-overlay')
+      .attr('pointer-events', 'none');
+
     options.textContainer = textContainer;
 
     // set up axis
