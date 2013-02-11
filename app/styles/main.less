@@ -118,10 +118,11 @@ html {
   text-align: right;
   margin-top: 40px;
   margin-left: 5px;
+  float: left;
 
   &.twitter {
     width: 80px;
-    top: 4px;
+    top: -1px;
     position: relative;
   }
 }
@@ -634,6 +635,52 @@ html {
     top: 45%;
     right: 20px;
     text-align: center;
+  }
+}
+
+html.lt-ie9 {
+  background: #f2f2f2 url(/images/no-fun-faux.png) no-repeat top center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  .navbar {
+    display: none;
+  }
+}
+
+#no-fun {
+  text-align: center;
+  position: absolute;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  margin-top: -70px;
+  margin-left: -300px;
+  overflow: visible;
+
+  h2 {
+    .font-size(20);
+    font-weight: 900;
+  }
+
+  p {
+    margin: 15px auto;
+    .font-size(20);
+
+    a {
+      text-decoration: underline;
+    }
+  }
+
+  .btn-large {
+    border: 1px solid @blue;
+    background: transparent;
+    color: @blue;
+    .font-size(16);
+    font-weight: bold;
   }
 }
 

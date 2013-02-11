@@ -15,9 +15,7 @@
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 
     <link rel="stylesheet" href="/styles/main.css">
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="/styles/old-ie.css" media="all">
-    <![endif]-->
+
     <script src="/scripts/lib/modernizr.js"></script>
 
     <meta property="og:title" content="Party Lines - Parliament By Numbers">
@@ -105,6 +103,21 @@
       </div>
     </div>
   </div>
+
+  <!--[if lt IE 9]>
+  <div id="no-fun">
+    <h2>The feature does not work in your current browser.</h2>
+    <p>If you are able, <a href="http://browsehappy.com/">download a more recent browser</a> to view this feature, and have a better web experience in general.</p>
+
+    <a href="http://www.theglobalmail.org/" class="btn btn-large">Return to The Global Mail</a>
+  </div>
+
+  <style>
+    #main { display: none; }
+
+    .navbar .tgm-strip .tgm { background-image: url(/images/tgm-strip-logo-sml.png); }
+  </style>
+  <![endif]-->
 
   <script type="text/underscore-template-x" id="snippets-template">
     <div class="speech">
