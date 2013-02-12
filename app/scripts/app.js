@@ -77,7 +77,7 @@
 
     var svg = d3.select(app.$ui.chart[0]).append("svg")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", individualChartHeight * app.terms.length + 80);
+      .attr("height", individualChartHeight * app.terms.length + margin.superTop);
 
     var chartsContainer = svg.append('g').attr('class', 'charts');
     var textContainer  = svg.append('g')
