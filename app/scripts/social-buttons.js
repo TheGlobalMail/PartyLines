@@ -28,7 +28,7 @@
     $likeContainer.empty().append(createLikeButton(location.toString()));
 
     widgetJs.done(function() {
-      if (typeof twttr !== 'undefined') {
+      if (typeof twttr !== 'undefined' && 'widgets' in twttr) {
         twttr.widgets.load($tweetContainer[0]);
       }
     });
