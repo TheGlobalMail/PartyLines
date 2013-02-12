@@ -4,8 +4,21 @@
   var weeksLoader;
   var hackedWeekAdded = false;
 
+  app.usingRelativeScale = false;
+
+  // TODO move into view
+  $('#relative-scale').click(function(e){
+    app.usingRelativeScale = $('#relative-scale').is(':checked');
+    app.reloadData();
+  });
+
   app.loadData = function(presetName) {
-    this.terms = this.presets[presetName];
+    this.presetName = presetName;
+    this.reloadData();
+  };
+
+  app.reloadData = function() {
+    this.terms = this.presets[this.presetName];
 
     if (!weeksLoader) {
       weeksLoader = $.getJSON(app.url + '/api/weeks');
@@ -28,12 +41,12 @@
         $.when.apply($, promises).done(function() {
           app.vent.trigger('loading', 'done');
           app.data = _.map(arguments, function(arg) { return arg[0]; });
-          renderCharts(presetName);
+          renderCharts();
         });
       });
   };
 
-  function renderCharts(presetName) {
+  function renderCharts() {
     var margin = {
       top: 15,
       superTop: 40,
@@ -56,13 +69,15 @@
       datum.max = findMax(datum.series);
     });
 
-    options.max = _.max(_.pluck(app.data, 'max'));
+    if (!app.usingRelativeScale){
+      options.max = _.max(_.pluck(app.data, 'max'));
+    }
 
     app.charts = [];
 
     var svg = d3.select(app.$ui.chart[0]).append("svg")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", individualChartHeight * app.terms.length + 80);
+      .attr("height", individualChartHeight * app.terms.length + margin.superTop);
 
     var chartsContainer = svg.append('g').attr('class', 'charts');
     var textContainer  = svg.append('g')
@@ -75,6 +90,10 @@
     _.each(app.terms, function(term, i) {
       options.index = i;
       var data = app.data[i];
+
+      if (app.usingRelativeScale){
+        options.max = data.max;
+      }
 
       if (data.message) {
         return app.$ui.chart.append('<p class="error"><strong>' + data.message + "</strong>. Please try again and let us know if this message doesn't make sense.</p><br>");
