@@ -37,5 +37,7 @@
     }
   };
 
+  app.config = _.clone(app);
+
   window.app = app;
 }(window, _));

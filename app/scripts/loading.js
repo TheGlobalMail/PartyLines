@@ -14,9 +14,6 @@
     }
   };
 
-  app.vent.on('loading', function(state) {
-    if (state in states) {
-      states[state]();
-    }
-  });
+  app.vent.on('terms:loading', states.start);
+  app.vent.on('terms:loaded', states.done);
 }(app, $));

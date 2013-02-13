@@ -5,6 +5,7 @@
   var hackedWeekAdded = false;
 
   app.usingRelativeScale = false;
+  app.api = new Api();
 
   // TODO move into view
   $('#relative-scale').click(function(e){
@@ -12,38 +13,26 @@
     app.reloadData();
   });
 
+  // load weeks
+  app.api.weeksLoaded().done(function(weeksData) {
+    app.weeks = weeksData;
+    app.weeks.push(_.last(app.weeks) + " ");
+    app.weeksIndex = _.object(weeksData, _.range(weeksData.length));
+  });
+
   app.loadData = function(presetName) {
-    this.presetName = presetName;
-    this.reloadData();
-  };
+    app.terms = app.presets[presetName];
+    app.vent.trigger('terms:loading');
 
-  app.reloadData = function() {
-    this.terms = this.presets[this.presetName];
+    var terms = _.map(app.terms, function(term) {
+      return { term: term, exactMatch: true };
+    });
 
-    if (!weeksLoader) {
-      weeksLoader = $.getJSON(app.url + '/api/weeks');
-    }
-
-    weeksLoader.done(function(data) {
-        app.vent.trigger('loading', 'start');
-        app.weeks = data;
-        // XXX hack to make step after render properly :(
-        if (!hackedWeekAdded){
-          app.weeks.push(_.last(app.weeks) + " ");
-          hackedWeekAdded = true;
-        }
-        app.weeksIndex = _.object(data, _.range(data.length));
-
-        var promises = _.map(app.terms, function(term) {
-          return $.getJSON(app.url + '/api/wordchoices/term/' + term, { c: true });
-        });
-
-        $.when.apply($, promises).done(function() {
-          app.vent.trigger('loading', 'done');
-          app.data = _.map(arguments, function(arg) { return arg[0]; });
-          renderCharts();
-        });
-      });
+    app.api.whenWeeksAndTermsLoaded(terms).done(function(data) {
+      app.data = data;
+      app.vent.trigger('terms:loaded');
+      renderCharts();
+    });
   };
 
   function renderCharts() {
@@ -55,9 +44,11 @@
       bottom: 0,
       left: 30
     };
+
     var individualChartHeight = 200;
     var width   = 900 - margin.left - margin.right;
     var height  = individualChartHeight - margin.top - margin.bottom;
+
     var options = {
       margin: margin,
       width: width,
