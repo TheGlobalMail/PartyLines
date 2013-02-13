@@ -66,7 +66,9 @@
 
         if (tokens) {
           searchTerm = _.map(tokens.split(' '), function(token){
-            return token + '[a-z]*';
+            // TODO when non-exact matching is enabled, add
+            // return token + (exactMatch ? '' : '[a-z]*');
+            return token;
           }).join(' ');
         }
 
