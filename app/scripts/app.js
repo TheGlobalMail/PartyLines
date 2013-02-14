@@ -22,6 +22,10 @@
 
   app.loadData = function(presetName) {
     app.terms = app.presets[presetName];
+    app.reloadData();
+  };
+
+  app.reloadData = function() {
     app.vent.trigger('terms:loading');
 
     var terms = _.map(app.terms, function(term) {
