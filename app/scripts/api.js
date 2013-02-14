@@ -1,6 +1,9 @@
 (function(app) {
   'use strict';
 
+  // Welcome to Deferred City
+  // TODO Can we use Backbone.Collection here?
+
   var Api = function() {
     this._termsLoaded = {};
   };

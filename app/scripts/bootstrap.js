@@ -31,10 +31,13 @@
     activeWeek: null,
 
     vent: _.extend({}, Backbone.Events),
+    reqres: new Backbone.Wreqr.RequestResponse(),
 
     $ui: {
       chart: $('#chart-container')
-    }
+    },
+
+    Views: {}
   };
 
   app.config = _.clone(app);
