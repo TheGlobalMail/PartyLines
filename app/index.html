@@ -69,7 +69,7 @@
       </div>
 
       <div class="row charts-row">
-        <div class="span3">
+        <aside class="span3">
           <h2>
             Words matter. Explore how major parties use different words to shape key issues in Parliament.<a href="http://powerhouse.theglobalmail.org/party-lines-and-talking-heads-how-the-interactive-features-work/" target="_blank">About this tool</a>
           </h2>
@@ -94,7 +94,7 @@
             <h4>Coming soon:</h4>
             <p>Perform your own word searches. <a href="http://powerhouse.theglobalmail.org/" target="_blank">Check the Powerhouse blog for updates on the next release.</a></p>
           </div>
-        </div>
+        </aside>
 
         <div class="span9">
           <div id="chart-container"></div>
@@ -113,6 +113,45 @@
         <div id="snippets" class="container"></div>
         <div id="openau-further-search" class="container"></div>
       </div>
+    </div>
+  </div>
+
+  <div class="modal hide fade" id="custom-search-modal" role="dialog" aria-label="Create a custom phrase search" tabindex="-1">
+    <div class="modal-header">
+      <button class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Compare word usage in parliament <a href="#" data-bypass>since 2006</a></h3>
+    </div>
+
+    <div class="modal-body">
+      <div class="search-left">
+        <p>To keep searches as quick as possible there are some rules:</p>
+
+        <dl>
+          <dt>A maximum query of 3 words</dt>
+          <dd>
+            So a search for <q>&lsquo;fair shake of the sauce bottle&rsquo;</q>
+            will only give results for <q>&lsquo;fair shake of&rsquo;</q>. Soz.
+          </dd>
+
+          <dt>Phrases can't start with a single character</dt>
+          <dd>Use the q tag to quote, remember ya bloody curlies!!!</dd>
+        </dl>
+      </div>
+
+      <div class="search-right">
+        <form action="/search">
+          <input type="text" name="phrases[]" class="control">
+          <input type="text" name="phrases[]" class="control">
+          <input type="text" name="phrases[]" class="control">
+          <input type="text" name="phrases[]" class="control">
+
+          <input type="submit" value="View Results" class="control">
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <p class="small">Questions, problems, suggestions? <a href="#" data-bypass>Email us</a></p>
     </div>
   </div>
 
@@ -165,6 +204,8 @@
   <script src="/components/backbone.analytics/backbone.analytics.js"></script>
   <script src="/components/backbone.wreqr/lib/backbone.wreqr.js"></script>
   <script src="/components/moment/moment.js"></script>
+  <script src="/components/bootstrap/js/bootstrap-transition.js"></script>
+  <script src="/components/bootstrap/js/bootstrap-modal.js"></script>
   <script src="/components/async/lib/async.js"></script>
   <script src="/scripts/bootstrap.js"></script>
   <script src="/scripts/loading.js"></script>
@@ -175,6 +216,8 @@
   <script src="/scripts/views/RelativeScaleControlView.js"></script>
   <script src="/scripts/views/ChartContainerView.js"></script>
   <script src="/scripts/views/ChartSliderView.js"></script>
+  <script src="/scripts/views/CreateYourOwnButtonView.js"></script>
+  <script src="/scripts/views/CreateYourOwnModal.js"></script>
   <script src="/scripts/app.js"></script>
   <script src="/scripts/router.js"></script>
   <script src="/scripts/social-buttons.js"></script>
