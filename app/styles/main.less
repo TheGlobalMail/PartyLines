@@ -5,6 +5,21 @@ html {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
+// Form placeholder styles
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    font-style: italic;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    font-style: italic;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-style: italic;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    font-style: italic;
+}
+
 .navbar {
   margin: 0;
 
@@ -668,6 +683,78 @@ button.create-your-own {
     top: 45%;
     right: 20px;
     text-align: center;
+  }
+}
+
+.modal {
+  padding: 30px;
+  .font-size(12);
+  width: 590px;
+  margin-left: -325px;
+  h3 {
+    .font-size(22);
+  }
+  p {
+    .font-size(14);
+  }
+  dd {
+    margin-left: 0;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .close {
+    .font-size(40);
+    margin-top: -20px;
+    margin-right: -20px;
+  }
+  .search-left {
+    width: 45%;
+    float: left;
+    border-right: 1px solid @grayLighter;
+    margin-right: 20px;
+    padding-right: 20px;
+  }
+  .search-right {
+    margin-top: 4px;
+  }
+  .modal-header {
+    margin-bottom: 10px;
+  }
+  .modal-footer {
+    background-color: transparent;
+    text-align: center;
+    padding:15px 0 0;
+    margin-top: 20px;
+
+    p {
+      margin: 0;
+      .font-size(12);
+    }
+    a {
+      font-style: italic;
+    }
+  }
+  input {
+    width: 245px;
+    // font-style: italic;
+    .font-size(14);
+    padding: 8px;
+  }
+  input[type="submit"] {
+    width: 264px;
+    margin-top: 10px;
+    border: none;
+    background-color: @blue;
+    .border-radius(4px);
+    padding: 6px 0;
+    font-style: normal;
+    .font-size(12);
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    &:hover {
+      background-color: #074370;
+    }
   }
 }
 
