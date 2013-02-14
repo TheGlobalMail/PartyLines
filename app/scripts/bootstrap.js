@@ -30,6 +30,8 @@
     loadTimer: null,
     activeWeek: null,
 
+    allowCustomSearches: true,
+
     vent: _.extend({}, Backbone.Events),
     reqres: new Backbone.Wreqr.RequestResponse(),
 
