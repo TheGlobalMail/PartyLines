@@ -8,13 +8,15 @@
   var CreateYourOwnModal = Backbone.View.extend({
 
     events: {
-      'submit form': 'onSubmit'
+      'submit form': 'onSubmit',
+      'shown': 'onShown'
     },
 
     initialize: function() {
-      _.bindAll(this, 'onSubmit');
+      _.bindAll(this, 'onSubmit', 'onShown', 'updateTerms');
       this.$form = this.$('form');
-      this.listenTo(app.vent, 'search:prompt', this.show);
+      this.listenTo(app.vent, 'search:prompt', this.show, this);
+      this.listenTo(app.vent, 'search:loaded', this.updateTerms, this);
     },
 
     show: function() {
@@ -27,12 +29,35 @@
 
     onSubmit: function(e) {
       e.preventDefault();
-      console.log(this.getFormData());
+      app.commands.execute('search:terms', this.getPhrases());
+      this.hide();
       return false;
     },
 
-    getFormData: function() {
-      return this.$form.serializeArray();
+    onShown: function() {
+      this.$form.find('input:first').focus();
+    },
+
+    getPhrases: function() {
+      var data = this.$form.serializeArray();
+      return _.chain(data)
+        .filter(function(d) {
+          return d.name === "phrases[]" && d.value.length;
+        })
+        .map(function(d) {
+          return d.value
+            .replace(/\s+/g, '+')
+            .replace('[^a-zA-Z0-9\-\+', '');
+        })
+        .value();
+    },
+
+    updateTerms: function(terms) {
+      var $inputs = this.$form.find('input:text');
+
+      _.each(terms, function(term, i) {
+        $inputs.eq(i).val(term);
+      });
     }
 
   });
