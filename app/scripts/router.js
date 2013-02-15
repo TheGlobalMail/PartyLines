@@ -32,8 +32,9 @@
     },
 
     setSearchTerms: function(terms) {
-      this.navigate(['search'].concat(terms).slice(0, 5).join('/'));
-      this._loadTerms(terms);
+      terms = terms.slice(0, 4).join('/')
+      this.navigate('search/' + terms);
+      this.searchCustom(terms);
     },
 
     _loadTerms: function(terms) {
