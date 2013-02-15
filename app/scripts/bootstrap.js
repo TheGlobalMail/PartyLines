@@ -34,6 +34,7 @@
 
     vent: _.extend({}, Backbone.Events),
     reqres: new Backbone.Wreqr.RequestResponse(),
+    commands: new Backbone.Wreqr.Commands(),
 
     $ui: {
       chart: $('#chart-container')

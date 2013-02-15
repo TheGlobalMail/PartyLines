@@ -31,7 +31,7 @@
 
     app.api.whenWeeksAndTermsLoaded(terms).done(function(data) {
       app.data = data;
-      app.vent.trigger('terms:loaded');
+      app.vent.trigger('terms:loaded', app.terms);
       chartContainerView.render(app.terms, data, app.weeks);
     });
   };
