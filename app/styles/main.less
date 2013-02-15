@@ -313,11 +313,18 @@ button.create-your-own {
   background: rgba(255,255,255,0.5);
   padding: 40px 0 0 0;
   float: left;
+  position: relative;
 
   .graph-title {
     font-size: 18px;
     font-weight: bold;
     color: @grayDarker;
+  }
+
+  .error-container {
+    position: absolute;
+    margin-top: 45px;
+    width: 100%;
   }
 
   p.error {

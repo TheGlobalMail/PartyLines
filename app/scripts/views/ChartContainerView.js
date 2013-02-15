@@ -77,15 +77,21 @@
         options.max = _.chain(app.data).pluck('max').max().value();
       }
 
+      options.top = options.margin.superTop + (options.height + options.margin.top) * options.index;
+
       if (data.message) {
-        return console.log('Render: Something broke ' + data.message);
+        var error = new app.Views.ErrorMessageView(data.message, options.top);
+        this.$el.append(error.render());
+        return;
       }
 
       if (!data.data.length) {
-        return console.log("Render: No mentions of '%s' sorry, try something else.");
+        var notFound = new app.Views.TermNotFoundView(term, options.top);
+        this.$el.append(notFound.render());
+        return;
       }
 
-      this.charts.push(new Chart(options));
+      this.charts[index] = new Chart(options);
     }
 
   });
