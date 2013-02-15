@@ -32,7 +32,7 @@
     },
 
     setSearchTerms: function(terms) {
-      this.navigate(['search'].concat(terms).join('/').slide(0, 4));
+      this.navigate(['search'].concat(terms).join('/').slice(0, 4));
       this._loadTerms(terms);
     },
 
