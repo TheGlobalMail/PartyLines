@@ -20,7 +20,7 @@
 
     render: function() {
       return this.$el.prop('href', '/searchprompt')
-        .text('Create Your Own');
+        .text('Create your own searches');
     }
 
   });
