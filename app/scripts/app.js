@@ -1,9 +1,6 @@
 (function(app) {
   'use strict';
 
-  var weeksLoader;
-  var hackedWeekAdded = false;
-
   app.api = new Api();
 
   // TODO move into view
