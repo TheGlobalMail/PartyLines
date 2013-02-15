@@ -16,7 +16,7 @@
     this.term = term;
     this.$el = $('<div/>').addClass('error-container');
     this.$el.css('top', top + 'px');
-    this.template = _.template('<p class="error">No mentions of <strong><%= term %></strong> found. Try a different term or search openaustralia.org for inspiration.</p>')
+    this.template = _.template('<p class="error">No mentions of <strong><%= term %></strong> found. <br />Try a different term or search <a href"http://www.openaustralia.org/" target="_blank">openaustralia.org</a> for inspiration.</p>')
   };
 
   TermNotFoundView.prototype.render = function() {
