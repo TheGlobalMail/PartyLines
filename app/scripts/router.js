@@ -5,11 +5,13 @@
 
     routes: {
       '': 'index',
-      'preset/:name': 'searchPreset'
+      'preset/:name': 'searchPreset',
+      'search/(*terms)': 'searchCustom'
     },
 
     initialize: function(options) {
       this.options = options;
+      app.commands.addHandler('search:terms', this.setSearchTerms, this);
     },
 
     index: function() {
@@ -21,6 +23,24 @@
       name = name.replace(/-/g, ' ');
       app.loadData(name);
       app.vent.trigger('preset', name);
+    },
+
+    searchCustom: function(terms) {
+      terms = terms.replace(/\+/g, ' ').split('/');
+      terms = _.filter(terms, function(t) { return t; });
+      this._loadTerms(terms.slice(0, 4));
+    },
+
+    setSearchTerms: function(terms) {
+      terms = terms.slice(0, 4).join('/')
+      this.navigate('search/' + terms);
+      this.searchCustom(terms);
+    },
+
+    _loadTerms: function(terms) {
+      app.terms = terms;
+      app.reloadData();
+      app.vent.trigger('search:loaded', terms);
     }
 
   });
