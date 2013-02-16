@@ -26,23 +26,60 @@
     },
 
     searchCustom: function(terms) {
-      terms = terms.replace(/\+/g, ' ').split('/');
-      terms = _.filter(terms, function(t) { return t; });
-      this._loadTerms(terms.slice(0, 4));
+      this._loadTerms(termParser.parse(terms));
     },
 
     setSearchTerms: function(terms) {
-      terms = terms.slice(0, 4).join('/')
-      this.navigate('search/' + terms);
-      this.searchCustom(terms);
+      this.navigate('search/' + termParser.compile(terms));
+      this._loadTerms(terms);
     },
 
     _loadTerms: function(terms) {
-      app.terms = terms;
-      app.reloadData();
-      app.vent.trigger('search:loaded', terms);
+      app.searchTerms(terms);
+      app.vent.trigger('search:searched', terms);
     }
 
   });
+
+
+  var termParser = {
+
+    compile: function(terms) {
+      return _.map(terms, function(search) {
+        var bit = search.term.replace(/\s+/g, '+')
+                            .replace(/[^a-zA-Z0-9\-\+]+/g, '');
+
+        if (search.exactMatch) {
+          bit += ':exact';
+        }
+
+        return bit;
+      }).slice(0, 4).join('/');
+    },
+
+    parse: function(uri) {
+      var bits = uri.replace(/\++/g, ' ').split('/');
+
+      return _.chain(bits)
+        .map(function(bit) {
+          var search = { term: bit, exactMatch: false };
+          var match = bit.match(/^(.+):exact$/);
+
+          if (match !== null) {
+            search = { term: match[1], exactMatch: true };
+          }
+
+          search.term = search.term.replace(/[^a-zA-Z0-9\-\ ]+/g, '');
+
+          return search;
+        })
+        .filter(function(search) {
+          // filter out empty searches
+          return search.term;
+        })
+        .value().slice(0, 4);
+    }
+
+  };
 
 }(app, _, Backbone.$, Backbone));

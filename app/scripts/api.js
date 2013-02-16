@@ -20,7 +20,7 @@
     var key = JSON.stringify({ term: term, exactMatch: exactMatch });
 
     if (!_.has(this._termsLoaded, key)) {
-      this._termsLoaded[key] = $.getJSON(app.config.url + '/api/wordchoices/term/' + term, { c: true });
+      this._termsLoaded[key] = $.getJSON(app.config.url + '/api/wordchoices/term/' + term, { c: exactMatch });
     }
 
     return this._termsLoaded[key];

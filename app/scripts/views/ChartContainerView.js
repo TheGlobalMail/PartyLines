@@ -29,6 +29,8 @@
     render: function(terms, data, weeks) {
       dataProcessor.process(data, weeks);
 
+      this.$el.empty(); // clear existing
+
       this.svg = d3.select(this.el).append('svg')
         .attr({
           width:  this.styling.width + this.styling.margin.left + this.styling.margin.right,

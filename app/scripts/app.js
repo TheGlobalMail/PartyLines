@@ -19,21 +19,29 @@
 
   app.loadData = function(presetName) {
     app.terms = app.presets[presetName];
-    app.reloadData();
-  };
-
-  app.reloadData = function() {
-    app.vent.trigger('terms:loading');
-
+    
     var terms = _.map(app.terms, function(term) {
       return { term: term, exactMatch: true };
     });
 
-    app.api.whenWeeksAndTermsLoaded(terms).done(function(data) {
+    app.searchTerms(terms);
+  };
+
+  app.searchTerms = function(terms) {
+    app.vent.trigger('terms:loading');
+
+    app.searches = terms;
+    app.terms    = _.pluck(terms, 'term');
+
+    app.reloadData();
+  };
+
+  app.reloadData = function() {
+    app.api.whenWeeksAndTermsLoaded(app.searches).done(function(data) {
       app.data = data;
       app.vent.trigger('terms:loaded', app.terms);
       chartContainerView.render(app.terms, data, app.weeks);
     });
-  };
+  }
 
 }(window.app));

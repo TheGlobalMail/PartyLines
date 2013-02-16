@@ -16,7 +16,7 @@
       _.bindAll(this, 'onSubmit', 'onShown', 'updateTerms');
       this.$form = this.$('form');
       this.listenTo(app.vent, 'search:prompt', this.show, this);
-      this.listenTo(app.vent, 'search:loaded', this.updateTerms, this);
+      this.listenTo(app.vent, 'search:searched', this.updateTerms, this);
     },
 
     show: function() {
@@ -29,7 +29,7 @@
 
     onSubmit: function(e) {
       e.preventDefault();
-      app.commands.execute('search:terms', this.getPhrases());
+      app.commands.execute('search:terms', this.getTerms());
       this.hide();
       return false;
     },
@@ -38,25 +38,29 @@
       this.$form.find('input:first').focus();
     },
 
-    getPhrases: function() {
-      var data = this.$form.serializeArray();
-      return _.chain(data)
+    getTerms: function() {
+      var terms = this.$form.serializeArray();
+      var $checkboxes = this.$form.find(':checkbox');
+
+      terms = _.chain(terms)
         .filter(function(d) {
-          return d.name === "phrases[]" && d.value.length;
+          return d.name === "terms[]" && d.value.length;
         })
-        .map(function(d) {
-          return d.value
-            .replace(/\s+/g, '+')
-            .replace('[^a-zA-Z0-9\-\+', '');
-        })
+        .pluck('value')
         .value();
+
+      return _.map(terms, function(term, i) {
+        return { term: term, exactMatch: $checkboxes.eq(i).is(':checked') };
+      });
     },
 
     updateTerms: function(terms) {
-      var $inputs = this.$form.find('input:text');
+      var $inputs   = this.$form.find('input:text'); 
+      var $checkbox = this.$form.find(':checkbox');
 
-      _.each(terms, function(term, i) {
-        $inputs.eq(i).val(term);
+      _.each(terms, function(search, i) {
+        $inputs.eq(i).val(search.term);
+        $checkbox.eq(i).prop('checked', search.exactMatch);
       });
     }
 
