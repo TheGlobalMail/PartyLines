@@ -14,7 +14,7 @@
           top: 15,
           superTop: 40,
           topXAxisMargin: 20,
-          right: 40,
+          right: 100,
           bottom: 0,
           left: 30
         },
@@ -22,7 +22,7 @@
         chartHeight: 200
       };
 
-      this.styling.width  = 900 - this.styling.margin.left - this.styling.margin.right;
+      this.styling.width  = 960 - this.styling.margin.left - this.styling.margin.right;
       this.styling.height = this.styling.chartHeight - this.styling.margin.top - this.styling.margin.bottom;
     },
 
@@ -84,13 +84,11 @@
       if (data.message) {
         var error = new app.Views.ErrorMessageView(data.message, options.top);
         this.$el.append(error.render());
-        return;
       }
 
       if (!data.data.length) {
         var notFound = new app.Views.TermNotFoundView(term, options.top);
         this.$el.append(notFound.render());
-        return;
       }
 
       this.charts[index] = new Chart(options);

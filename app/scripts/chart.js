@@ -11,12 +11,17 @@
     this.y = this.options.margin.superTop + (this.options.height + this.options.margin.top) * this.options.index;
     this.chartContainer = this.svg.append("g")
       .attr('class','chart-' + this.options.index)
-      .call(this.position(0, 0));
+      .call(this.position(1, 1));
 
-    this.renderAxes();
-    this.renderArea();
-    this.renderTitle();
-    this.renderLegend();
+
+    this.renderTopAxis();
+    
+    if (this.series.length) {
+      this.renderAxes();
+      this.renderArea();
+      this.renderTitle();
+      this.renderLegend();
+    }
   };
 
   Chart.prototype.position = function(x, y) {
@@ -27,17 +32,11 @@
     }
   };
 
-  Chart.prototype.renderAxes = function() {
+  Chart.prototype.renderTopAxis = function() {
     this.xScale = d3.scale.ordinal()
       .rangeBands([0, this.options.width])
       .domain(app.weeks);
-
-    this.yScale = d3.scale.linear()
-      .range([this.options.height - 30, 0])
-      .domain([0, this.options.max]);
-
     this.xAxisTop = d3.svg.axis().scale(this.xScale).orient("top").tickSize(0);
-    this.xAxisBottom = d3.svg.axis().scale(this.xScale).orient("bottom").tickSize(0);
 
     if (this.options.index === 0) {
       this.chartContainer.append("g")
@@ -56,6 +55,14 @@
         }
       });
     }
+  };
+
+  Chart.prototype.renderAxes = function() {
+    this.yScale = d3.scale.linear()
+      .range([this.options.height - 30, 0])
+      .domain([0, this.options.max]);
+    
+    this.xAxisBottom = d3.svg.axis().scale(this.xScale).orient("bottom").tickSize(0);
 
     this.chartContainer.append("g")
       .attr("class", "x axis bottom")
