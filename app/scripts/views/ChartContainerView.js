@@ -84,9 +84,7 @@
       if (data.message) {
         var error = new app.Views.ErrorMessageView(data.message, options.top);
         this.$el.append(error.render());
-      }
-
-      if (!data.data.length) {
+      }else if (!data.data.length) {
         var notFound = new app.Views.TermNotFoundView(term, options.top);
         this.$el.append(notFound.render());
       }
