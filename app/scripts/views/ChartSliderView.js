@@ -5,8 +5,7 @@
 
     render: function(svg, options, charts) {
       renderSlider(svg, options, charts);
-    },
-
+    }
 
   });
 
@@ -24,7 +23,7 @@
 
     var sliderContainer = svg.append("g")
       .attr('id','slider-container')
-      .attr("transform", "translate(" + options.margin.left + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")");
+      .attr("transform", "translate(" + (options.margin.left+1) + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")");
 
     sliderContainer.selectAll("rect")
       // XXX hack to make step after render properly :(
