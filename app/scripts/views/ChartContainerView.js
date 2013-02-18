@@ -11,7 +11,7 @@
     _initStyling: function() {
       this.styling = {
         margin: {
-          top: 15,
+          top: 30,
           superTop: 40,
           topXAxisMargin: 20,
           right: 100,
@@ -19,7 +19,7 @@
           left: 30
         },
 
-        chartHeight: 200
+        chartHeight: 215
       };
 
       this.styling.width  = 960 - this.styling.margin.left - this.styling.margin.right;
