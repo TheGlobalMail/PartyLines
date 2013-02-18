@@ -132,17 +132,20 @@
     return html.join('');
   }
 
+  Snippets.showNoData = function() {
+    container.html('<p>No data for this week</p>');
+    Snippets.requestSnippets();
+  };
+
   app.vent.on('snippetsRequested', function() {
     outerContainer.show();
     snippetsLink.slideDown();
   });
 
   // hide snippets whenever new charts start loading
-  app.vent.on('loading', function(state) {
-    if (state === 'start') {
-      outerContainer.hide();
-      snippetsLink.hide();
-    }
+  app.vent.on('terms:loading', function() {
+    outerContainer.hide();
+    snippetsLink.hide();
   });
 
 }(app));

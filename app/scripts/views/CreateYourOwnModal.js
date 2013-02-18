@@ -9,17 +9,25 @@
 
     events: {
       'submit form': 'onSubmit',
-      'shown': 'onShown'
+      'shown': 'onShown',
+      'keydown input': 'doSubmitButtonState',
+      'keyup input': 'doSubmitButtonState'
     },
 
     initialize: function() {
       _.bindAll(this, 'onSubmit', 'onShown', 'updateTerms');
-      this.$form = this.$('form');
+
+      this.$form   = this.$('form');
+      this.$submit = this.$form.find('input:submit');
+      this.$inputs = this.$form.find('input:text');
+      this.$checkboxes = this.$form.find('input:checkbox');
+
       this.listenTo(app.vent, 'search:prompt', this.show, this);
       this.listenTo(app.vent, 'search:searched', this.updateTerms, this);
     },
 
     show: function() {
+      this.doSubmitButtonState();
       this.$el.modal('show');
     },
 
@@ -29,6 +37,11 @@
 
     onSubmit: function(e) {
       e.preventDefault();
+
+      if (this.$submit.is(':disabled')) {
+        return false;
+      }
+
       app.commands.execute('search:terms', this.getTerms());
       this.hide();
       return false;
@@ -40,7 +53,6 @@
 
     getTerms: function() {
       var terms = this.$form.serializeArray();
-      var $checkboxes = this.$form.find(':checkbox');
 
       terms = _.chain(terms)
         .filter(function(d) {
@@ -50,18 +62,21 @@
         .value();
 
       return _.map(terms, function(term, i) {
-        return { term: term, exactMatch: $checkboxes.eq(i).is(':checked') };
-      });
+        return { term: term, exactMatch: this.$checkboxes.eq(i).is(':checked') };
+      }, this);
     },
 
     updateTerms: function(terms) {
-      var $inputs   = this.$form.find('input:text'); 
-      var $checkbox = this.$form.find(':checkbox');
-
       _.each(terms, function(search, i) {
-        $inputs.eq(i).val(search.term);
-        $checkbox.eq(i).prop('checked', search.exactMatch);
-      });
+        this.$inputs.eq(i).val(search.term);
+        this.$checkboxes.eq(i).prop('checked', search.exactMatch);
+      }, this);
+    },
+
+    doSubmitButtonState: function() {
+      // type cast false to null for removing disabled property
+      var formHasValue = !_.some(this.$inputs, 'value') || null;
+      this.$submit.prop('disabled', formHasValue);
     }
 
   });
