@@ -95,6 +95,7 @@
       var $el = $(e.currentTarget);
       this.$inputs.eq($el.data('index')).val('');
       e.preventDefault();
+      this.doSubmitButtonState();
       return false;
     }
 
