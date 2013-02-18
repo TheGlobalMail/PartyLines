@@ -133,7 +133,7 @@
   }
 
   Snippets.showNoData = function() {
-    container.html('<p>No data for this week</p>');
+    container.html('<p class="no-data"><em>We could find no matches for those specific words or phrases in selected time period.</em> Please try a different week in the charts.</p>');
     Snippets.requestSnippets();
   };
 
