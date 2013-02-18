@@ -50,7 +50,7 @@
     },
 
     onShown: function() {
-      this.$form.find('input:first').focus();
+      this.$form.find('input:text:first').focus();
     },
 
     getTerms: function() {
@@ -69,6 +69,11 @@
     },
 
     updateTerms: function(terms) {
+      // clear form
+      this.$inputs.val('');
+      this.$checkboxes.prop('checked', null);
+
+      // set new values
       _.each(terms, function(search, i) {
         this.$inputs.eq(i).val(search.term);
         this.$checkboxes.eq(i).prop('checked', search.exactMatch);
@@ -92,6 +97,7 @@
     },
 
     clearField: function(e) {
+      console.log('clearField', e);
       var $el = $(e.currentTarget);
       this.$inputs.eq($el.data('index')).val('');
       e.preventDefault();
