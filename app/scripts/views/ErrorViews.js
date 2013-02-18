@@ -6,7 +6,7 @@
     this.message = message;
     this.$el = $('<div/>').addClass('error-container');
     this.$el.css('top', top + 'px');
-    this.template = _.template('<p class="error">The phrase <strong><%= term %></strong> <%= message %>. Please try a different search term.</p>')
+    this.template = _.template('<p class="error">The phrase <strong><%= term %></strong> <%= message %>.</p>')
   };
 
   ErrorMessageView.prototype.render = function() {
