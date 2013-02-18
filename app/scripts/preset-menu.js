@@ -14,4 +14,8 @@
       }
     });
   });
+
+  app.vent.on('search:searched', function() {
+    $items.filter('.active').removeClass('active');
+  });
 }(app, $));
