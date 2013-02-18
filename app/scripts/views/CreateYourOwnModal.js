@@ -11,11 +11,13 @@
       'submit form': 'onSubmit',
       'shown': 'onShown',
       'keydown input': 'doSubmitButtonState',
-      'keyup input': 'doSubmitButtonState'
+      'keyup input': 'doSubmitButtonState',
+      'focus input:text': 'selectValue',
+      'click .clear-field': 'clearField'
     },
 
     initialize: function() {
-      _.bindAll(this, 'onSubmit', 'onShown', 'updateTerms');
+      _.bindAll(this, 'onSubmit', 'onShown', 'updateTerms', 'clearField');
 
       this.$form   = this.$('form');
       this.$submit = this.$form.find('input:submit');
@@ -77,6 +79,23 @@
       // type cast false to null for removing disabled property
       var formHasValue = !_.some(this.$inputs, 'value') || null;
       this.$submit.prop('disabled', formHasValue);
+    },
+
+    // will select/highlight the value of the checkbox
+    // in the event if it has a value
+    selectValue: function(e) {
+      var $input = $(e.currentTarget);
+
+      if (e.currentTarget.value) {
+        $input.select();
+      }
+    },
+
+    clearField: function(e) {
+      var $el = $(e.currentTarget);
+      this.$inputs.eq($el.data('index')).val('');
+      e.preventDefault();
+      return false;
     }
 
   });
