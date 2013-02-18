@@ -73,6 +73,8 @@
 
           Snippets.requestSnippets();
           app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
+        } else {
+          Snippets.showNoData();
         }
       })
       .on('mouseover', function() {

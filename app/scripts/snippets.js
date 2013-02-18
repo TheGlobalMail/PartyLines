@@ -132,6 +132,11 @@
     return html.join('');
   }
 
+  Snippets.showNoData = function() {
+    container.html('<p>No data for this week</p>');
+    Snippets.requestSnippets();
+  };
+
   app.vent.on('snippetsRequested', function() {
     outerContainer.show();
     snippetsLink.slideDown();
