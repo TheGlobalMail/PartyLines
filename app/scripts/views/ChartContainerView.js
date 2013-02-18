@@ -82,7 +82,7 @@
       options.top = options.margin.superTop + (options.height + options.margin.top) * options.index;
 
       if (data.message) {
-        var error = new app.Views.ErrorMessageView(data.message, options.top);
+        var error = new app.Views.ErrorMessageView(term, data.message, options.top);
         this.$el.append(error.render());
       }else if (!data.data.length) {
         var notFound = new app.Views.TermNotFoundView(term, options.top);

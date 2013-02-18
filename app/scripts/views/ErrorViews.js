@@ -1,11 +1,12 @@
 (function(app, Backbone) {
   'use strict';
 
-  var ErrorMessageView = function(message, top) {
+  var ErrorMessageView = function(term, message, top) {
+    this.term = term;
     this.message = message;
     this.$el = $('<div/>').addClass('error-container');
     this.$el.css('top', top + 'px');
-    this.template = _.template('<p class="error"><strong><%= message %></strong>. Please try again and let us know if this message doesn\'t make sense.</p>')
+    this.template = _.template('<p class="error">The phrase <strong><%= term %></strong> <%= message %>. Please try again and let us know if this message doesn\'t make sense.</p>')
   };
 
   ErrorMessageView.prototype.render = function() {
