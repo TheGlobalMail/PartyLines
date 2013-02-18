@@ -10,6 +10,7 @@
     events: {
       'submit form': 'onSubmit',
       'shown': 'onShown',
+      'keydown input': 'doSubmitButtonState',
       'keyup input': 'doSubmitButtonState'
     },
 
@@ -26,6 +27,7 @@
     },
 
     show: function() {
+      this.doSubmitButtonState();
       this.$el.modal('show');
     },
 
@@ -47,7 +49,6 @@
 
     onShown: function() {
       this.$form.find('input:first').focus();
-      this.doSubmitButtonState();
     },
 
     getTerms: function() {
@@ -73,9 +74,8 @@
     },
 
     doSubmitButtonState: function() {
-      var formHasValue = !_.some(this.$inputs, 'value');
-
-      formHasValue = formHasValue || null;
+      // type cast false to null for removing disabled property
+      var formHasValue = !_.some(this.$inputs, 'value') || null;
       this.$submit.prop('disabled', formHasValue);
     }
 
