@@ -15,7 +15,7 @@
 
 
     this.renderTopAxis();
-    
+
     if (this.series.length) {
       this.renderAxes();
       this.renderArea();
@@ -61,7 +61,7 @@
     this.yScale = d3.scale.linear()
       .range([this.options.height - 30, 0])
       .domain([0, this.options.max]);
-    
+
     this.xAxisBottom = d3.svg.axis().scale(this.xScale).orient("bottom").tickSize(0);
 
     this.chartContainer.append("g")
@@ -115,14 +115,14 @@
   Chart.prototype.renderTitle = function() {
     this.textContainer.append("text")
       .attr("class","graph-title")
-      .call(this.position(10,8))
+      .call(this.position(10, 13))
       .text(this.options.term);
   };
 
   Chart.prototype.renderLegend = function() {
     this.legendCounts = this.textContainer.append("text")
       .attr("class","legend-counts")
-      .call(this.position(12, 25))
+      .call(this.position(12, 27))
       .text('');
 
     this.legendCountsText = [];
