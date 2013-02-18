@@ -77,7 +77,7 @@
         var regex = '(^|[^a-zA-Z])(' + searchTerm + '|' + searchTerm.replace(/ /, '-') + ')([^a-zA-Z]|$)';
         speech = speech.replace(
           RegExp(regex, 'gmi'),
-          '<span style="background-color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + ' ">$2</span>'
+          '$1 <span style="background-color: ' + (partyData ? partyData.colour : '#333333') + '" class="highlight ' + hansard.party.replace(' ', '-').toLowerCase() + ' ">$2</span> $3'
         );
       }
     });
