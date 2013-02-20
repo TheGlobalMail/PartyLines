@@ -15,7 +15,7 @@
     },
 
     index: function() {
-      this.navigate('preset/' + this.options.defaultPreset);
+      this.navigate('preset/' + this.options.defaultPreset, { replace: true });
       this.searchPreset(this.options.defaultPreset);
     },
 
