@@ -117,7 +117,7 @@ module.exports = function( grunt ) {
     },
 
     deploy: {
-      cdnUrl: 'http://staging-partylines-assets.theglobalmail.org/'
+      cdnUrl: 'http://partylines-assets.theglobalmail.org/'
     },
 
 
