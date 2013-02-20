@@ -47,10 +47,14 @@
       var lastYear = null;
 
       $('.x.top text').each(function(index){
-        var year = $(this).text().slice(0,4);
+        var $text = $(this);
+        var year = $text.text().slice(0,4);
         if (lastYear !== year){
-          $(this).text(year);
-          $(this).attr('class', 'year');
+          $text.text(year)
+                 .attr('class', 'year')
+                 .attr('x', function(x) {
+                   return parseInt(x, 10) + 11;
+                 });
           lastYear = year;
         }
       });
