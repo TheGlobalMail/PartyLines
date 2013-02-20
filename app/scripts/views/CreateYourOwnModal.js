@@ -97,7 +97,6 @@
     },
 
     clearField: function(e) {
-      console.log('clearField', e);
       var $el = $(e.currentTarget);
       this.$inputs.eq($el.data('index')).val('');
       e.preventDefault();

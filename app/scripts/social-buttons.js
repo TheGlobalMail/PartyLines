@@ -18,23 +18,18 @@
   }
 
   function createLikeButton(url) {
-    var $button = $likeButtonTemplate.clone();
-    $button.attr('data-url', url);
-    return $button;
+    return $likeButtonTemplate.clone();
   }
+
+  $likeContainer.empty().append(createLikeButton(location.toString()));
 
   app.vent.on('route', function() {
     $tweetContainer.empty().append(createTweetButton(location.toString()));
-    $likeContainer.empty().append(createLikeButton(location.toString()));
 
     widgetJs.done(function() {
       if (typeof twttr !== 'undefined' && 'widgets' in twttr) {
         twttr.widgets.load($tweetContainer[0]);
       }
     });
-
-    if (typeof FB !== 'undefined') {
-      FB.XFBML.parse($likeContainer[0]);
-    }
   });
 }(app, $, window.location));

@@ -31,6 +31,7 @@
 
     setSearchTerms: function(terms) {
       this.navigate('search/' + termParser.compile(terms));
+      this.trigger('route');
       this._loadTerms(terms);
     },
 
