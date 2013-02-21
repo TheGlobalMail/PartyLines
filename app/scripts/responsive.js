@@ -8,10 +8,6 @@
   function getSize() {
     var h = $window.height(), w = $window.width();
 
-    if (w < 1060) {
-        return 'small';
-    }
-
     if (w < 1260 || h < 805) {
         return 'medium';
     }
