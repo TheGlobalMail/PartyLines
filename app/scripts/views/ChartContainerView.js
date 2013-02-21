@@ -3,9 +3,16 @@
 
   var ChartContainerView = Backbone.View.extend({
 
+    sizes: {
+      'small':  680,
+      'medium': 800,
+      'large':  960
+    },
+
     initialize: function() {
       this._initStyling();
       this.chartSliderView = new app.Views.ChartSliderView();
+      this.listenTo(app.vent, 'viewport:resized', this.onViewportResize);
     },
 
     _initStyling: function() {
@@ -22,19 +29,27 @@
         chartHeight: 215
       };
 
-      this.styling.width  = 960 - this.styling.margin.left - this.styling.margin.right;
+      var viewportSize = app.reqres.request('viewport:size');
+
+      this.styling.width  = this.sizes[viewportSize] - this.styling.margin.left - this.styling.margin.right;
       this.styling.height = this.styling.chartHeight - this.styling.margin.top - this.styling.margin.bottom;
     },
 
     render: function(terms, data, weeks) {
       dataProcessor.process(data, weeks);
+      this.data  = data;
+      this.terms = terms;
+      this.weeks = weeks;
+      this._render();
+    },
 
+    _render: function() {
       this.$el.empty(); // clear existing
 
       this.svg = d3.select(this.el).append('svg')
         .attr({
           width:  this.styling.width + this.styling.margin.left + this.styling.margin.right,
-          height: this.styling.chartHeight * data.length + this.styling.margin.superTop
+          height: this.styling.chartHeight * this.data.length + this.styling.margin.superTop
         });
 
       this.containers = {};
@@ -44,16 +59,16 @@
         .attr('class', 'text-overlay')
         .attr('pointer-events', 'none');
 
-      this.renderCharts(terms, data, weeks);
+      this.renderCharts();
     },
 
     // this method is only here to replicate existing functionality
     // it will be removed once we moved to async chart loading/rendering
-    renderCharts: function(terms, data, weeks) {
+    renderCharts: function() {
       this.charts = [];
 
-      _.each(terms, function(term, index) {
-        this._renderChart(term, index, data[index])
+      _.each(this.terms, function(term, index) {
+        this._renderChart(term, index, this.data[index])
       }, this);
 
       var chartSliderViewsOptions = _.extend({}, this.styling, {
@@ -90,6 +105,11 @@
       }
 
       this.charts[index] = new Chart(options);
+    },
+
+    onViewportResize: function() {
+      this._initStyling();
+      this._render();
     }
 
   });
