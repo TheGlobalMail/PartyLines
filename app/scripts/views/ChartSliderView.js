@@ -1,5 +1,6 @@
 (function(app, Backbone) {
   'use strict';
+  var lastTouchMove = false;
 
   var ChartSliderView = Backbone.View.extend({
 
@@ -23,7 +24,9 @@
 
     var sliderContainer = svg.append("g")
       .attr('id','slider-container')
-      .attr("transform", "translate(" + (options.margin.left+1) + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")");
+      .style('-webkit-user-select', 'none')
+      .attr("transform", "translate(" + (options.margin.left+1) + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")")
+      .attr('height', fullHeight);
 
     sliderContainer.selectAll("rect")
       // XXX hack to make step after render properly :(
@@ -37,15 +40,16 @@
         return app.weeks[i];
       })
       .attr("height", fullHeight)
-      .on('mouseover', function(e) {
+      .on('mousemove', function(e) {
+        if (lastTouchMove) {
+          return false;
+        }
         explore(this, true);
       })
-      .on('touchend', function() {
-        d3.event.preventDefault();
-        explore(this, false);
-        select($(this));
-      })
-      .on('click', function(e) {
+      .on('mousedown', function(e) {
+        if (lastTouchMove) {
+          return false;
+        }
         select($(this));
       });
 
@@ -67,7 +71,8 @@
       .text('Click to view details')
       .attr('transform', 'translate(10, 31)')
       .style('fill', '#ccc')
-      .style('font-style', 'italic');
+      .style('font-style', 'italic')
+      .attr('class', 'date-action-text');
 
     var dateLegendArrow = dateLegendContainer.append('path')
       .attr('d', 'M0 5 L5 0 L5 10z')
@@ -77,7 +82,65 @@
         'opacity': 0.7
       });
 
-    function select(selection){
+    svg.on('touchstart', function() {
+        var e = d3.event;
+
+        if (e.touches.length === 1) {
+          var touch = e.touches[0];
+
+          lastTouchMove = {
+            touch: {
+              pageX: touch.pageX,
+              pageY: touch.pageY
+            }
+          };
+
+          explore(touch.target, true, true, true);
+        }
+      })
+      .on('touchmove', function() {
+        var e = d3.event;
+
+        if (!lastTouchMove || e.changedTouches.length !== 1) {
+          return true;
+        }
+
+        var touch = e.changedTouches[0];
+        var dx = Math.abs(touch.pageX - lastTouchMove.touch.pageX);
+        var dy = Math.abs(touch.pageY - lastTouchMove.touch.pageY);
+        var delta = dx - dy;
+        lastTouchMove.touch = { pageX: touch.pageX, pageY: touch.pageY };
+
+        if (delta < -3) {
+          return true;
+        }
+
+        var target = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (!target || (target && !target.getAttribute('data-week'))) {
+          console.log(target);
+          return;
+        }
+
+        explore(target, true, true, true);
+        lastTouchMove.target = target;
+
+        e.preventDefault();
+        return false;
+      })
+      .on('touchend', function() {
+        var target;
+
+        if ('target' in lastTouchMove) {
+          target = lastTouchMove.target;
+        } else {
+          target = d3.event.target;
+        }
+
+        explore(target, true, -1);
+        select($(target));
+      });
+
+    function select(selection) {
       var hansardIds = [];
       if (app.selectedSliderBlind){
         app.selectedSliderBlind.attr('class', 'slider-blind');
@@ -118,8 +181,8 @@
       }
     }
 
-    function explore(exploredBlind, updateClass){
-      if (updateClass && app.activeSliderBlind) {
+    function explore(exploredBlind, updateClass, touch, hidePartyData) {
+      if (updateClass && app.activeSliderBlind && app.activeSliderBlind.attr('class')) {
         if (app.activeSliderBlind.attr('class').match(/selected/)) {
           app.activeSliderBlind.attr('class', 'slider-blind selected');
         } else {
@@ -135,29 +198,52 @@
 
       app.activeWeek = app.activeSliderBlind.data('week');
 
-      _.each(app.data, function(termData, i) {
-        var countData = {
-          week: formatWeek(app.activeWeek),
-          counts: []
-        };
+      if (!hidePartyData) {
+        _.each(app.data, function(termData, i) {
+          var countData = {
+            week: formatWeek(app.activeWeek),
+            counts: []
+          };
 
-        _.each(termData.data, function(datum) {
-          var party;
-          if (datum.week === app.activeWeek && datum.freq > 0){
-            party = findParty(datum.party);
-            if (party) {
-              countData.counts.push({party: party, count: datum.freq});
+          _.each(termData.data, function(datum) {
+            var party;
+            if (datum.week === app.activeWeek && datum.freq > 0){
+              party = findParty(datum.party);
+              if (party) {
+                countData.counts.push({party: party, count: datum.freq});
+              }
             }
+          });
+
+          if (i in charts) {
+            charts[i].updateLegend(countData);
           }
         });
+      }
 
-        if (i in charts) {
-          charts[i].updateLegend(countData);
+      var y = 0;
+      var x = 0;
+
+      if (touch) {
+        if (touch === -1) { // touchend
+          dateLegendContainer.style('display', 'none');
+          return;
         }
-      });
+        var touches = d3.touches(exploredBlind);
+
+        if (touches.length) {
+          y = touches[0][1];
+        }
+
+        dateLegendContainer.select('.date-action-text').text('Release to view details');
+        x = parseInt(app.activeSliderBlind.attr('x'), 10) + 57
+      } else {
+        y = d3.mouse(exploredBlind)[1];
+        x = parseInt(app.activeSliderBlind.attr('x'), 10) + 41;
+      }
 
       dateLegendContainer
-        .attr('transform', 'translate(' + (parseInt(app.activeSliderBlind.attr('x'), 10) + 41) + ', ' + d3.mouse(exploredBlind)[1] + ')')
+        .attr('transform', 'translate(' + x + ', ' + y + ')')
         .style('display', 'inline');
 
       dateLegendText.text(formatWeek(app.activeWeek));
@@ -171,8 +257,6 @@
       })
       .style('opacity', 0.7);
     }
-
-
   }
 
   function formatWeek(activeWeek){
