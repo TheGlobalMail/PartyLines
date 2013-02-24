@@ -7,6 +7,8 @@ module.exports = function( grunt ) {
   //
   grunt.loadNpmTasks('grunt-recess');
 
+  var deployConfig = grunt.file.readJSON('./.deployrc');
+
   grunt.initConfig({
 
     // Project configuration
@@ -117,7 +119,7 @@ module.exports = function( grunt ) {
     },
 
     deploy: {
-      cdnUrl: 'http://partylines-assets.theglobalmail.org/'
+      cdnUrl: deployConfig.cdnUrl
     },
 
 
