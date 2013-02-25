@@ -64,7 +64,7 @@
       .style('font-size', '10px');
 
     dateLegendContainer.append('text')
-      .text('Click to view details')
+      .text('Select to view details')
       .attr('transform', 'translate(10, 29)')
       .style('fill', '#FFFFFF')
       .style('font-weight', 'bold')
@@ -168,7 +168,7 @@
 
       dateLegendBackground.attr({
         transform: 'translate(0, 0)',
-        width: dateLegendSize.width + 68,
+        width: dateLegendSize.width + 74,
         height: dateLegendSize.height + 10 + 14
       })
       .style('opacity', 0.7);
