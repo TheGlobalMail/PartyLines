@@ -1,5 +1,7 @@
 (function(app, Backbone) {
   'use strict';
+  var touchState = false;
+  var touchDelay = 750;
 
   var ChartSliderView = Backbone.View.extend({
 
@@ -40,9 +42,15 @@
       })
       .attr("height", fullHeight)
       .on('mousemove', function(e) {
+        if (touchState) {
+          return false;
+        }
         explore(this, true);
       })
       .on('mousedown', function(e) {
+        if (touchState) {
+          return false;
+        }
         select($(this));
       });
 
@@ -75,60 +83,71 @@
         'opacity': 0.7
       });
 
-    var lastTouchMove = false;
     svg.on('touchstart', function() {
         var e = d3.event;
 
         if (e.touches.length === 1) {
           var touch = e.touches[0];
 
-          lastTouchMove = {
-            touch: {
-              pageX: touch.pageX,
-              pageY: touch.pageY
-            }
+          touchState = {
+            touch: touch,
+            startedAt: new Date().getTime(),
+            type: 'start',
+            holding: false
           };
 
-          explore(touch.target, true, true, true);
+          touchState.starterTimeout = setTimeout(function() {
+            // start at is set false on touchend, so this only executes while they're still pressing
+            if (touchState.type === 'start') {
+              touchState.holding = true;
+              var target = touchState.target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+              if (!target || (target && !target.getAttribute('data-week'))) {
+                return;
+              }
+
+              explore(touch.target, true, true, true);
+            }
+          }, touchDelay);
         }
       })
       .on('touchmove', function() {
+        var currentTime = new Date().getTime();
         var e = d3.event;
 
-        if (!lastTouchMove || e.changedTouches.length !== 1) {
+        // more than one finger or still waiting to hold longer
+        if (e.changedTouches.length !== 1 || !touchState.holding) {
           return true;
         }
 
-        var touch = e.changedTouches[0];
-        var dx = Math.abs(touch.pageX - lastTouchMove.touch.pageX);
-        var dy = Math.abs(touch.pageY - lastTouchMove.touch.pageY);
-        var delta = dx - dy;
-        lastTouchMove.touch = { pageX: touch.pageX, pageY: touch.pageY };
-
-        if (delta < -3) {
-          return true;
-        }
+        var touch = touchState.touch = e.changedTouches[0];
 
         var target = document.elementFromPoint(touch.clientX, touch.clientY);
         if (!target || (target && !target.getAttribute('data-week'))) {
-          console.log(target);
           return;
         }
 
         explore(target, true, true, true);
-        lastTouchMove.target = target;
+        touchState.target = target;
+        touchState.type   = 'move';
 
         e.preventDefault();
         return false;
       })
       .on('touchend', function() {
         var target;
+        var e = d3.event;
 
-        if ('target' in lastTouchMove) {
-          target = lastTouchMove.target;
-        } else {
-          target = d3.event.target;
+        touchState.type = 'end';
+
+        // more than one finger or still waiting to hold longer
+        if (e.changedTouches.length !== 1 || !touchState.holding) {
+          clearTimeout(touchState.starterTimeout);
+          return true;
         }
+
+        target = touchState.target;
+        touchState.touch = e.changedTouches[0];
 
         explore(target, true, -1);
         select($(target));
@@ -170,14 +189,18 @@
 
         Snippets.requestSnippets();
         app.loadTimer = setTimeout(Snippets.loadSnippets, 500);
-      }else{
+      } else {
         Snippets.showNoData();
       }
     }
 
     function explore(exploredBlind, updateClass, touch, hidePartyData) {
-      if (updateClass && app.activeSliderBlind && app.activeSliderBlind.attr('class')) {
-        if (app.activeSliderBlind.attr('class').match(/selected/)) {
+      if (!app.activeSliderBlind) {
+        app.activeSliderBlind = $(exploredBlind);
+      }
+
+      if (updateClass && app.activeSliderBlind.attr('class')) {
+        if (app.activeSliderBlind.hasClass('selected')) {
           app.activeSliderBlind.attr('class', 'slider-blind selected');
         } else {
           app.activeSliderBlind.attr('class', 'slider-blind');
@@ -186,7 +209,7 @@
 
       app.activeSliderBlind = $(exploredBlind);
 
-      if (updateClass && !app.activeSliderBlind.attr('class').match(/selected/)) {
+      if (updateClass && !app.activeSliderBlind.hasClass('selected')) {
         app.activeSliderBlind.attr('class', 'slider-blind active');
       }
 
@@ -223,7 +246,8 @@
           dateLegendContainer.style('display', 'none');
           return;
         }
-        var touches = d3.touches(exploredBlind);
+
+        var touches = d3.touches(sliderContainer.node(), [touchState.touch]);
 
         if (touches.length) {
           y = touches[0][1];
@@ -232,7 +256,7 @@
         dateLegendContainer.select('.date-action-text').text('Release to view details');
         x = parseInt(app.activeSliderBlind.attr('x'), 10) + 57
       } else {
-        y = d3.mouse(exploredBlind)[1];
+        y = d3.mouse(sliderContainer.node())[1];
         x = parseInt(app.activeSliderBlind.attr('x'), 10) + 41;
       }
 
