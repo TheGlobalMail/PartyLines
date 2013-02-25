@@ -63,17 +63,18 @@
 
     var dateLegendText = dateLegendContainer.append('text')
       .attr('class', 'legend-date')
-      .attr('transform', 'translate(10, 18)')
-      .style('fill', '#FFFFFF')
-      .style('font-weight', 'bold')
-      .style('font-size', '12px');
+      .attr('transform', 'translate(10, 16)')
+      .style('fill', '#ccc')
+      .style('font-weight', 'normal')
+      .style('font-size', '10px');
 
     dateLegendContainer.append('text')
-      .text('Click to view details')
-      .attr('transform', 'translate(10, 31)')
-      .style('fill', '#ccc')
+      .text('Select to view details')
+      .attr('transform', 'translate(10, 29)')
+      .style('fill', '#FFFFFF')
+      .style('font-weight', 'bold')
       .style('font-style', 'italic')
-      .attr('class', 'date-action-text');
+      .style('font-size', '12px');
 
     var dateLegendArrow = dateLegendContainer.append('path')
       .attr('d', 'M0 5 L5 0 L5 10z')
@@ -270,7 +271,7 @@
 
       dateLegendBackground.attr({
         transform: 'translate(0, 0)',
-        width: dateLegendSize.width + 42,
+        width: dateLegendSize.width + 74,
         height: dateLegendSize.height + 10 + 14
       })
       .style('opacity', 0.7);
