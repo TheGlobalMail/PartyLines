@@ -117,9 +117,8 @@ module.exports = function( grunt ) {
     },
 
     deploy: {
-      cdnUrl: 'http://staging-partylines-assets.theglobalmail.org/'
+      cdnUrl: grunt.file.readJSON('./.deployrc').cdnUrl
     },
-
 
     // usemin handler should point to the file containing
     // the usemin blocks to be parsed
@@ -181,10 +180,6 @@ module.exports = function( grunt ) {
     grunt.log.verbose.writeln('Update the HTML with anchors images');
     content = grunt.helper('replace', content, /<a[^\>]+href=['"]([^"']+)["']/gm);
 
-    return content;
-  });
-
-  grunt.registerHelper('usemin:post:css', function(content) {
     return content;
   });
 
