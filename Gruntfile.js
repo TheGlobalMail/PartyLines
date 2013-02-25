@@ -7,8 +7,6 @@ module.exports = function( grunt ) {
   //
   grunt.loadNpmTasks('grunt-recess');
 
-  var deployConfig = grunt.file.readJSON('./.deployrc');
-
   grunt.initConfig({
 
     // Project configuration
@@ -119,9 +117,8 @@ module.exports = function( grunt ) {
     },
 
     deploy: {
-      cdnUrl: deployConfig.cdnUrl
+      cdnUrl: grunt.file.readJSON('./.deployrc').cdnUrl
     },
-
 
     // usemin handler should point to the file containing
     // the usemin blocks to be parsed
@@ -183,10 +180,6 @@ module.exports = function( grunt ) {
     grunt.log.verbose.writeln('Update the HTML with anchors images');
     content = grunt.helper('replace', content, /<a[^\>]+href=['"]([^"']+)["']/gm);
 
-    return content;
-  });
-
-  grunt.registerHelper('usemin:post:css', function(content) {
     return content;
   });
 
