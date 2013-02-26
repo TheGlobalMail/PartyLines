@@ -71,6 +71,7 @@
     dateLegendContainer.append('text')
       .text('Select to view details')
       .attr('transform', 'translate(10, 29)')
+      .attr('class', 'date-action-text')
       .style('fill', '#FFFFFF')
       .style('font-weight', 'bold')
       .style('font-style', 'italic')
