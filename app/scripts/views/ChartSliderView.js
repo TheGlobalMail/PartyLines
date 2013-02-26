@@ -29,6 +29,13 @@
       .attr("transform", "translate(" + (options.margin.left+1) + "," + (options.margin.superTop - options.margin.topXAxisMargin) + ")")
       .attr('height', fullHeight);
 
+    $(sliderContainer.node()).on('mouseleave', function() {
+      if (!app.selectedSliderBlind) {
+        app.vent.trigger('chart:unselected');
+      }
+      deselect();
+    });
+
     sliderContainer.selectAll("rect")
       // XXX hack to make step after render properly :(
       .data(data.slice(0,-1))
@@ -45,6 +52,7 @@
         if (touchState) {
           return false;
         }
+        app.vent.trigger('chart:hover');
         explore(this, true);
       })
       .on('mousedown', function(e) {
@@ -86,76 +94,86 @@
       });
 
     svg.on('touchstart', function() {
-        var e = d3.event;
+      var e = d3.event;
 
-        if (e.touches.length === 1) {
-          var touch = e.touches[0];
+      if (e.touches.length === 1) {
+        var touch = e.touches[0];
 
-          touchState = {
-            touch: touch,
-            startedAt: new Date().getTime(),
-            type: 'start',
-            holding: false
-          };
+        touchState = {
+          touch: touch,
+          startedAt: new Date().getTime(),
+          type: 'start',
+          holding: false
+        };
 
-          touchState.starterTimeout = setTimeout(function() {
-            // start at is set false on touchend, so this only executes while they're still pressing
-            if (touchState.type === 'start') {
-              touchState.holding = true;
-              var target = touchState.target = document.elementFromPoint(touch.clientX, touch.clientY);
+        touchState.starterTimeout = setTimeout(function() {
+          // start at is set false on touchend, so this only executes while they're still pressing
+          if (touchState.type === 'start') {
+            app.vent.trigger('chart:hover');
+            touchState.holding = true;
+            var target = touchState.target = document.elementFromPoint(touch.clientX, touch.clientY);
 
-              if (!target || (target && !target.getAttribute('data-week'))) {
-                return;
-              }
-
-              explore(touch.target, true, true, true);
+            if (!target || (target && !target.getAttribute('data-week'))) {
+              return;
             }
-          }, touchDelay);
-        }
-      })
-      .on('touchmove', function() {
-        var currentTime = new Date().getTime();
-        var e = d3.event;
 
-        // more than one finger or still waiting to hold longer
-        if (e.changedTouches.length !== 1 || !touchState.holding) {
-          return true;
-        }
+            explore(touch.target, true, true, true);
+          }
+        }, touchDelay);
+      }
+    });
 
-        var touch = touchState.touch = e.changedTouches[0];
+    svg.on('touchmove', function() {
+      var currentTime = new Date().getTime();
+      var e = d3.event;
 
-        var target = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (!target || (target && !target.getAttribute('data-week'))) {
-          return;
-        }
+      // more than one finger or still waiting to hold longer
+      if (e.changedTouches.length !== 1 || !touchState.holding) {
+        return true;
+      }
 
-        explore(target, true, true, true);
-        touchState.target = target;
-        touchState.type   = 'move';
+      var touch = touchState.touch = e.changedTouches[0];
 
-        e.preventDefault();
-        return false;
-      })
-      .on('touchend', function() {
-        var target;
-        var e = d3.event;
+      var target = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (!target || (target && !target.getAttribute('data-week'))) {
+        return;
+      }
 
-        touchState.type = 'end';
+      explore(target, true, true, true);
+      touchState.target = target;
+      touchState.type   = 'move';
 
-        // more than one finger or still waiting to hold longer
-        if (e.changedTouches.length !== 1 || !touchState.holding) {
-          clearTimeout(touchState.starterTimeout);
-          return true;
-        }
+      e.preventDefault();
+      return false;
+    });
 
-        target = touchState.target;
-        touchState.touch = e.changedTouches[0];
+    svg.on('touchend', function() {
+      var target;
+      var e = d3.event;
 
-        explore(target, true, -1);
-        select($(target));
-      });
+      touchState.type = 'end';
+
+      if (!app.selectedSliderBlind) {
+        app.vent.trigger('chart:unselected');
+      }
+
+      deselect();
+
+      // more than one finger or still waiting to hold longer
+      if (e.changedTouches.length !== 1 || !touchState.holding) {
+        clearTimeout(touchState.starterTimeout);
+        return true;
+      }
+
+      target = touchState.target;
+      touchState.touch = e.changedTouches[0];
+
+      explore(target, true, -1);
+      select($(target));
+    });
 
     function select(selection) {
+      app.vent.trigger('chart:hover');
       var hansardIds = [];
       if (app.selectedSliderBlind){
         app.selectedSliderBlind.attr('class', 'slider-blind');
@@ -197,12 +215,8 @@
     }
 
     function explore(exploredBlind, updateClass, touch, hidePartyData) {
-      if (!app.activeSliderBlind) {
-        app.activeSliderBlind = $(exploredBlind);
-      }
-
-      if (updateClass && app.activeSliderBlind.attr('class')) {
-        if (app.activeSliderBlind.hasClass('selected')) {
+      if (updateClass && app.activeSliderBlind && app.activeSliderBlind.attr('class')) {
+        if (app.activeSliderBlind.attr('class').match(/selected/)) {
           app.activeSliderBlind.attr('class', 'slider-blind selected');
         } else {
           app.activeSliderBlind.attr('class', 'slider-blind');
@@ -211,7 +225,7 @@
 
       app.activeSliderBlind = $(exploredBlind);
 
-      if (updateClass && !app.activeSliderBlind.hasClass('selected')) {
+      if (updateClass && !app.activeSliderBlind.attr('class').match(/selected/)) {
         app.activeSliderBlind.attr('class', 'slider-blind active');
       }
 
@@ -276,6 +290,16 @@
         height: dateLegendSize.height + 10 + 14
       })
       .style('opacity', 0.7);
+    }
+
+    function deselect() {
+      dateLegendContainer.style('display', 'none');
+
+      if (app.activeSliderBlind) {
+        app.activeSliderBlind.attr('class', function() {
+          return d3.select(this).attr('class').replace('active', '');
+        });
+      }
     }
   }
 
