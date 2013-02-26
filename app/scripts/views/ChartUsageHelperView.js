@@ -4,7 +4,8 @@
   var ChartUsageHelperView = Backbone.View.extend({
 
     events: {
-      'mouseenter': 'hide'
+      'mouseenter': 'hide',
+      'touchstart': 'hide'
     },
 
     mouseMessage: '<strong>Explore the graph:</strong> Select individual weeks and view the words in context below',
@@ -27,10 +28,18 @@
     },
 
     show: function() {
+      if (this.hasTouched) {
+        return false;
+      }
+
       this.$el.fadeIn('fast');
     },
 
-    hide: function() {
+    hide: function(e) {
+      if (e && e.type === 'touchstart') {
+        this.hasTouched = true;
+      }
+
       this.$el.fadeOut('fast');
     }
 

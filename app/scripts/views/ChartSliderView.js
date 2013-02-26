@@ -1,7 +1,7 @@
 (function(app, Backbone) {
   'use strict';
   var touchState = false;
-  var touchDelay = 750;
+  var touchDelay = 120;
 
   var ChartSliderView = Backbone.View.extend({
 
@@ -216,6 +216,7 @@
 
     function explore(exploredBlind, updateClass, touch, hidePartyData) {
       if (updateClass && app.activeSliderBlind && app.activeSliderBlind.attr('class')) {
+        // maybe just do class.replace('active', '')?
         if (app.activeSliderBlind.attr('class').match(/selected/)) {
           app.activeSliderBlind.attr('class', 'slider-blind selected');
         } else {
@@ -256,6 +257,7 @@
 
       var y = 0;
       var x = 0;
+      var extraWidth = 0;
 
       if (touch) {
         if (touch === -1) { // touchend
@@ -271,6 +273,7 @@
 
         dateLegendContainer.select('.date-action-text').text('Release to view details');
         x = parseInt(app.activeSliderBlind.attr('x'), 10) + 57
+        extraWidth = 9;
       } else {
         y = d3.mouse(sliderContainer.node())[1];
         x = parseInt(app.activeSliderBlind.attr('x'), 10) + 41;
@@ -286,7 +289,7 @@
 
       dateLegendBackground.attr({
         transform: 'translate(0, 0)',
-        width: dateLegendSize.width + 74,
+        width: dateLegendSize.width + 74 + extraWidth,
         height: dateLegendSize.height + 10 + 14
       })
       .style('opacity', 0.7);
