@@ -117,7 +117,7 @@ module.exports = function( grunt ) {
     },
 
     deploy: {
-      cdnUrl: grunt.file.readJSON('./.deployrc').cdnUrl
+      cdnUrl: 'http://staging-partylines-assets.theglobalmail.org'
     },
 
     // usemin handler should point to the file containing
